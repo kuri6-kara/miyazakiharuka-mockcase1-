@@ -9,6 +9,16 @@ class Item extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'category_id',
+        'name',
+        'description',
+        'price',
+        'condition',
+        'item_image_path',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
