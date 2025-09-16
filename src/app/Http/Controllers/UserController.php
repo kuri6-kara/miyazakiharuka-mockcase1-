@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    public function edit(Request $request)
+    public function edit()
     {
         $user = Auth::user();
         return view('users.edit', compact('user'));
@@ -18,6 +19,11 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $inputs = $request->validated();
+
+        if ($request->hasFile('profile_image')) {
+            $path = Storage::disk('public')->putFile('profile_images', $request->file('profile_image'));
+            $inputs['profile_image_path'] = $path;
+        }
 
         $user->update([
             'profile_image_path' => $inputs['profile_image_path'] ?? $user->profile_image_path,

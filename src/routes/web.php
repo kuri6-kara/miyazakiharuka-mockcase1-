@@ -1,5 +1,6 @@
 <?php
 
+use Laravel\Fortify\Fortify;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -16,8 +17,14 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+Fortify::routes();
+
+Route::get('/', [ItemController::class, 'index'])->name('item.index');
+Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
+Route::get('/item/search', [ItemController::class, 'search'])->name('item.search');
+
 Route::middleware('auth')->group(function () {
-    Route::get('/', [ItemController::class, 'index'])->name('home');
+    Route::get('/mypage', [UserController::class, 'show'])->name('user.mypage');
     Route::get('/mypage/profile', [UserController::class, 'edit'])->name('profile.edit');
     Route::post('/mypage/profile', [UserController::class, 'update'])->name('profile.update');
 });
