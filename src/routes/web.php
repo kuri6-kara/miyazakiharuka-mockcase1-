@@ -17,7 +17,7 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Fortify::routes();
+// Fortify::routes();
 
 Route::get('/', [ItemController::class, 'index'])->name('item.index');
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
