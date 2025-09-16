@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
@@ -15,5 +17,7 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::middleware('auth', 'verified')->group(function () {
-    Route::get('/', [AuthController::class, 'index']);
+    Route::get('/', [AuthController::class, 'index'])->name('home');
+    Route::get('/mypage/profile', [UserController::class, 'edit'])->name('profile.edit');
+    Route::post('/mypage/profile', [UserController::class, 'update'])->name('profile.update');
 });
