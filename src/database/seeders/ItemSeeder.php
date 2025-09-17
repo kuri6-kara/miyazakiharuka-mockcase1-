@@ -36,7 +36,7 @@ class ItemSeeder extends Seeder
                 'price' => 15000,
                 'brand_name' => 'Rolex',
                 'description' => 'スタイリッシュなデザインのメンズ腕時計',
-                'img_url' => 'https://coach-tech-matter-s3.ap-northeast-1.amazonaws.com/image_url_1',
+                'img_url' => 'image_clock.png',
                 'condition' => '良好',
                 'category_name' => 'メンズ'
             ],
