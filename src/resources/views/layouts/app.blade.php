@@ -30,6 +30,10 @@
                                 <button class="header-nav__button">ログアウト</button>
                             </form>
                         </li>
+                        @else
+                        <li class="header-nav__item">
+                            <a class="header-nav__link" href="/login">ログイン</a>
+                        </li>
                         @endif
                     </ul>
                 </nav>
