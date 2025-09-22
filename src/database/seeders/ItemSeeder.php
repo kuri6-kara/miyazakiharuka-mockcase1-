@@ -36,7 +36,7 @@ class ItemSeeder extends Seeder
                 'price' => 15000,
                 'brand_name' => 'Rolex',
                 'description' => 'スタイリッシュなデザインのメンズ腕時計',
-                'img_url' => 'image_clock.png',
+                'img_url' => 'Armani+Mens+Clock.jpg',
                 'condition' => '良好',
                 'category_name' => 'メンズ'
             ],
