@@ -17,7 +17,8 @@ class CreateLikesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('item_id')->constrained()->cascadeOnDelete();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent()->nullable();
+            $table->timestamp('updated_at')->useCurrent()->nullable();
         });
     }
 
