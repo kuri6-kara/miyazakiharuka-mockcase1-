@@ -124,7 +124,8 @@ class ItemSeeder extends Seeder
         ];
 
         foreach ($items_data as $data) {
-            $contents = file_get_contents($data['item_image_path']);
+            // $contents = file_get_contents(storage_path('app/public/images/' . $data['item_image_path']));
+            $contents = File::get(public_path('image/' . $data['item_image_path']));
             $filename = basename($data['item_image_path']);
             $path = 'item_images/' . $filename;
 

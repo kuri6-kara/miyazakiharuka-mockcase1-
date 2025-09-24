@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Database\Seeders\ItemSeeder;
 use Database\Seeders\CategorySeeder;
+use Database\Seeders\ItemSeeder;
+
 
 class DatabaseSeeder extends Seeder
 {
