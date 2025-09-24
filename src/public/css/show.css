@@ -1,0 +1,12 @@
+
+.tab-item {
+    cursor: pointer;
+}
+
+.items-list {
+    display: none;
+}
+
+.items-list.active {
+    display: flex;
+}

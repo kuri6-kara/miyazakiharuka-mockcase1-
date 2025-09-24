@@ -13,12 +13,24 @@
     </div>
 
     <div class="profile-tabs">
-        <div class="tab-item">出品した商品</div>
-        <div class="tab-item">購入した商品</div>
+        <div class="tab-item active" data-tab-target="sold-items">出品した商品</div>
+        <div class="tab-item" data-tab-target="purchased-items">購入した商品</div>
     </div>
 
-    <div class="items-list">
+    <div class="items-list active" id="sold-items">
         @foreach ($soldItems as $item)
+        <div class="item-card">
+            <a href="{{ route('item.show', ['item_id' => $item->id]) }}">
+                <img src="{{ Storage::url($item->item_image_path) }}" alt="{{ $item->name }}">
+                <p>{{ $item->name }}</p>
+                <p>¥{{ number_format($item->price) }}</p>
+            </a>
+        </div>
+        @endforeach
+    </div>
+
+    <div class="items-list" id="purchased-items">
+        @foreach ($purchasedItems as $item)
         <div class="item-card">
             <a href="{{ route('item.show', ['item_id' => $item->id]) }}">
                 <img src="{{ Storage::url($item->item_image_path) }}" alt="{{ $item->name }}">
@@ -31,3 +43,7 @@
 
 </div>
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/tab-switcher.js') }}"></script>
+@endpush

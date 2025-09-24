@@ -16,7 +16,7 @@ class UserController extends Controller
         $soldItems = $user->items;
         $purchasedItems = $user->purchases;
 
-        return view('mypage.show', compact('user', 'soldItems', 'purchasedItems'));
+        return view('users.show', compact('user', 'soldItems', 'purchasedItems'));
     }
 
     public function edit()
