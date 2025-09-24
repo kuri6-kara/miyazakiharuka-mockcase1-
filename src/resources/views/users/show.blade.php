@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/show.css') }}" />
+@endsection
+
 @section('content')
 <div class="user-profile">
     <div class="profile-header">
@@ -44,6 +48,4 @@
 </div>
 @endsection
 
-@push('scripts')
-<script src="{{ asset('js/tab-switcher.js') }}"></script>
-@endpush
+
