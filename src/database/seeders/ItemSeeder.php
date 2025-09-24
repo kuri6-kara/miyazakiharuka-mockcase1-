@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Item;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
@@ -139,10 +140,16 @@ class ItemSeeder extends Seeder
                 'description' => $data['description'],
                 'item_image_path' => $path,
                 'condition' => $data['condition'],
-                'category_id' => $categories->where('category', $data['category_name'])->first()->id,
             ];
 
             DB::table('items')->insert($item_data);
+
+            $item = Item::where('name', $data['name'])->first();
+            $category = Category::where('category', $data['category_name'])->first();
+
+            if ($item && $category) {
+                $item->categories()->attach($category->id);
+            }
         }
     }
 }

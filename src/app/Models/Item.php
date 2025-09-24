@@ -11,7 +11,6 @@ class Item extends Model
 
     protected $fillable = [
         'user_id',
-        'category_id',
         'name',
         'description',
         'price',
@@ -24,9 +23,9 @@ class Item extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->BelongsToMany(Category::class);
     }
 
     public function likes()
