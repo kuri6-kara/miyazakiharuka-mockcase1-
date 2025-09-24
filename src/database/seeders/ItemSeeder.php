@@ -36,7 +36,7 @@ class ItemSeeder extends Seeder
                 'price' => 15000,
                 'brand_name' => 'Rolex',
                 'description' => 'スタイリッシュなデザインのメンズ腕時計',
-                'img_url' => 'Armani+Mens+Clock.jpg',
+                'item_image_path' => 'Armani+Mens+Clock.jpg',
                 'condition' => '良好',
                 'category_name' => 'メンズ'
             ],
@@ -45,7 +45,7 @@ class ItemSeeder extends Seeder
                 'price' => 5000,
                 'brand_name' => '東芝',
                 'description' => '高速で信頼性の高いハードディスク',
-                'img_url' => 'https://coach-tech-matter-s3.ap-northeast-1.amazonaws.com/image_url_2',
+                'item_image_path' => 'HDD+Hard+Disk.jpg',
                 'condition' => '目立った傷や汚れなし',
                 'category_name' => '家電・スマホ・カメラ'
             ],
@@ -54,7 +54,7 @@ class ItemSeeder extends Seeder
                 'price' => 300,
                 'brand_name' => 'なし',
                 'description' => '新鮮な玉ねぎ3束のセット',
-                'img_url' => 'https://coach-tech-matter-s3.ap-northeast-1.amazonaws.com/image_url_3',
+                'item_image_path' => 'iLoveIMG+d.jpg',
                 'condition' => 'やや傷や汚れあり',
                 'category_name' => 'その他'
             ],
@@ -63,7 +63,7 @@ class ItemSeeder extends Seeder
                 'price' => 4000,
                 'brand_name' => 'なし',
                 'description' => 'クラシックなデザインの革靴',
-                'img_url' => 'https://coach-tech-matter-s3.ap-northeast-1.amazonaws.com/image_url_4',
+                'item_image_path' => 'Leather+Shoes+Product+Photo.jpg',
                 'condition' => '状態が悪い',
                 'category_name' => 'メンズ'
             ],
@@ -72,7 +72,7 @@ class ItemSeeder extends Seeder
                 'price' => 45000,
                 'brand_name' => '高性能なノートパソコン',
                 'description' => '良好',
-                'img_url' => 'https://coach-tech-matter-s3.ap-northeast-1.amazonaws.com/image_url_5',
+                'item_image_path' => 'Living+Room+Laptop.jpg',
                 'condition' => '良好',
                 'category_name' => '家電・スマホ・カメラ'
             ],
@@ -81,7 +81,7 @@ class ItemSeeder extends Seeder
                 'price' => 8000,
                 'brand_name' => 'なし',
                 'description' => '高音質のレコーディング用マイク',
-                'img_url' => 'https://coach-tech-matter-s3.ap-northeast-1.amazonaws.com/image_url_6',
+                'item_image_path' => 'Music+Mic+4632231.jpg',
                 'condition' => '目立った傷や汚れなし',
                 'category_name' => '家電・スマホ・カメラ'
             ],
@@ -90,7 +90,7 @@ class ItemSeeder extends Seeder
                 'price' => 3500,
                 'brand_name' => 'おしゃれなショルダーバッグ',
                 'description' => 'やや傷や汚れあり',
-                'img_url' => 'https://coach-tech-matter-s3.ap-northeast-1.amazonaws.com/image_url_7',
+                'item_image_path' => 'Purse+fashion+pocket.jpg',
                 'condition' => 'やや傷や汚れあり',
                 'category_name' => 'レディース'
             ],
@@ -99,7 +99,7 @@ class ItemSeeder extends Seeder
                 'price' => 500,
                 'brand_name' => 'なし',
                 'description' => '使いやすいタンブラー',
-                'img_url' => 'https://coach-tech-matter-s3.ap-northeast-1.amazonaws.com/image_url_8',
+                'item_image_path' => 'Tumbler+souvenir.jpg',
                 'condition' => '状態が悪い',
                 'category_name' => 'その他'
             ],
@@ -108,7 +108,7 @@ class ItemSeeder extends Seeder
                 'price' => 4000,
                 'brand_name' => 'Starbucks',
                 'description' => '手動のコーヒーミル',
-                'img_url' => 'https://coach-tech-matter-s3.ap-northeast-1.amazonaws.com/image_url_9',
+                'item_image_path' => 'Waitress+with+Coffee+Grinder.jpg',
                 'condition' => '良好',
                 'category_name' => 'その他'
             ],
@@ -117,15 +117,15 @@ class ItemSeeder extends Seeder
                 'price' => 2500,
                 'brand_name' => '便利なメイクアップセット',
                 'description' => '目立った傷や汚れなし',
-                'img_url' => 'https://coach-tech-matter-s3.ap-northeast-1.amazonaws.com/image_url_10',
+                'item_image_path' => '外出メイクアップセット.jpg',
                 'condition' => '目立った傷や汚れなし',
                 'category_name' => 'レディース'
             ],
         ];
 
         foreach ($items_data as $data) {
-            $contents = file_get_contents($data['img_url']);
-            $filename = basename($data['img_url']);
+            $contents = file_get_contents($data['item_image_path']);
+            $filename = basename($data['item_image_path']);
             $path = 'item_images/' . $filename;
 
             Storage::disk('public')->put($path, $contents);
