@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
+    public function show()
+    {
+        $user = Auth::user();
+
+        $soldItems = $user->items;
+        $purchasedItems = $user->purchases;
+
+        return view('mypage.show', compact('user', 'soldItems', 'purchasedItems'));
+    }
+
     public function edit()
     {
         $user = Auth::user();
