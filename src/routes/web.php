@@ -1,6 +1,6 @@
 <?php
 
-use Laravel\Fortify\Fortify;
+// use Laravel\Fortify\Fortify;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
@@ -22,10 +22,6 @@ use App\Http\Controllers\UserController;
 
 // Fortify::routes();
 
-
-// Route::post('/register', [AuthController::class, 'register']);
-// Route::post('/login', [AuthController::class, 'login']);
-// Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/', [ItemController::class, 'index'])->name('item.index');
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
