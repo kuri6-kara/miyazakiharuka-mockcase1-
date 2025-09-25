@@ -3,7 +3,7 @@
 @section('content')
 <div class="profile-edit-container">
     <h2>プロフィール設定</h2>
-    <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" novalidate>
         @csrf
 
         <div class="form-group">

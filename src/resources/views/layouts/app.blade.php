@@ -29,7 +29,7 @@
                         </li>
                         <li class="header-nav__item">
                             @if (Auth::check())
-                            <form class="form" action="/logout" method="post">
+                            <form class="form" action="/logout" method="post" novalidate>
                                 @csrf
                                 <button class="header-nav__button">ログアウト</button>
                             </form>
@@ -47,7 +47,7 @@
         @yield('content')
     </main>
 
-    
+
 </body>
 
 </html>

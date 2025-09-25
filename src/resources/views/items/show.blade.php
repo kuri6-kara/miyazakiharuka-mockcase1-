@@ -55,7 +55,7 @@
                     <p class="comment-text">{{ $comment->comment }}</p>
                 </div>
                 @endforeach
-                <form action="#" method="POST">
+                <form action="#" method="POST" novalidate>
                     @csrf
                     <textarea name="comment" placeholder="コメントを追加"></textarea>
                     <button type="submit">コメントを送信</button>
