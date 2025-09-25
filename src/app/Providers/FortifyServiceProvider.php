@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Contracts\RegisterResponse;
 
 use function PHPUnit\Framework\returnSelf;
 
@@ -25,7 +26,7 @@ class FortifyServiceProvider extends ServiceProvider
         $this->app->instance(RegisterResponse::class, new class implements RegisterResponse {
 public function toResponse($request)
 {
-    return redirect('/mypage/profile');
+    return redirect()->route('profile.edit');
 }
         });
     }
