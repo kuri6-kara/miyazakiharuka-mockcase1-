@@ -30,6 +30,12 @@ class ItemController extends Controller
 
         $items = $query->get();
 
+        $items = $items->map(function ($item) {
+            $item->is_sold = $item->purchases->isNotEmpty();
+            return $item;
+        });
+
+
         return view('items.index', compact('items'));
     }
 
