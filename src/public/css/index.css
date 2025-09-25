@@ -6,6 +6,12 @@
     opacity: 0.5;
 }
 
+.sold-label {
+    color: #ff0000;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
 .item-card.sold-out::after {
     content: "SOLD";
     position: absolute;
