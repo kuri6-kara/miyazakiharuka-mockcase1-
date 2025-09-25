@@ -11,6 +11,13 @@
     </div>
     <form class="form" action="/login" method="post" novalidate>
         @csrf
+
+        <div class="form__error">
+            @error('email')
+            {{ $message }}
+            @enderror
+        </div>
+
         <div class="form__group">
             <div class="form__group-title">
                 <span class="form__label--item">メールアドレス</span>
@@ -21,11 +28,14 @@
                 </div>
                 <div class="form__error">
                     @error('email')
+                    @if ($message !== 'ログイン情報が登録されていません')
                     {{ $message }}
+                    @endif
                     @enderror
                 </div>
             </div>
         </div>
+
         <div class="form__group">
             <div class="form__group-title">
                 <span class="form__label--item">パスワード</span>
