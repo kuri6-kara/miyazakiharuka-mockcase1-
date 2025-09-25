@@ -13,7 +13,7 @@
         @csrf
         <div class="form__group">
             <div class="form__group-title">
-                <span class="form__label--item">お名前</span>
+                <span class="form__label--item">ユーザー名</span>
             </div>
             <div class="form__group-content">
                 <div class="form__input--text">
@@ -71,7 +71,7 @@
         </div>
     </form>
     <div class="login__link">
-        <a class="login__button-submit" href="/login">ログインはこちら</a>
+        <a class="login__button-submit" href="/login">ログインの方はこちら</a>
     </div>
 </div>
 @endsection

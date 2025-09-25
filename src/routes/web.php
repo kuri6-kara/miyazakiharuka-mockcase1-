@@ -25,6 +25,7 @@ Route::get('/item/search', [ItemController::class, 'search'])->name('item.search
 
 Route::middleware('auth')->group(function () {
     Route::get('/mypage', [UserController::class, 'show'])->name('user.mypage');
+    
     Route::get('/mypage/profile', [UserController::class, 'edit'])->name('profile.edit');
     Route::post('/mypage/profile', [UserController::class, 'update'])->name('profile.update');
 });
