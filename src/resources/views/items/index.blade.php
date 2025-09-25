@@ -19,8 +19,6 @@
                 <p>{{ $item->name }}</p>
                 @if ($item->is_sold)
                 <p class="sold-label">SOLD</p>
-                @else
-                <p>¥{{ number_format($item->price) }}</p>
                 @endif
             </a>
         </div>
