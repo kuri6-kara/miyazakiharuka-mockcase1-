@@ -44,6 +44,6 @@ class UserController extends Controller
             'profile_updated' => true,
         ]);
 
-        return redirect()->route('home');
+        return redirect()->route('user.mypage');
     }
 }
