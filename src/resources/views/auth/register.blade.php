@@ -65,6 +65,11 @@
                     <input type="password" name="password_confirmation" />
                 </div>
             </div>
+            <div class="form__error">
+                @error('password')
+                {{ $message }}
+                @enderror
+            </div>
         </div>
         <div class="form__button">
             <button class="form__button-submit" type="submit">登録</button>

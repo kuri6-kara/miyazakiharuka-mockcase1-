@@ -39,7 +39,7 @@ class ItemSeeder extends Seeder
                 'description' => 'スタイリッシュなデザインのメンズ腕時計',
                 'item_image_path' => 'Armani+Mens+Clock.jpg',
                 'condition' => '良好',
-                'category_name' => 'メンズ'
+                'category' => 'メンズ'
             ],
             [
                 'name' => 'HDD',
