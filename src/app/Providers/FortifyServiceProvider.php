@@ -26,10 +26,10 @@ class FortifyServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->instance(RegisterResponse::class, new class implements RegisterResponse {
-public function toResponse($request)
-{
-    return redirect()->route('profile.edit');
-}
+            public function toResponse($request)
+            {
+                return redirect()->route('profile.edit');
+            }
         });
     }
 
@@ -38,7 +38,7 @@ public function toResponse($request)
      */
     public function boot(): void
     {
-$this->app->bind(FortifyLoginRequest::class, LoginRequest::class);
+        $this->app->bind(FortifyLoginRequest::class, LoginRequest::class);
 
         Fortify::createUsersUsing(CreateNewUser::class);
         // Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);

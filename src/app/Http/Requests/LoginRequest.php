@@ -24,7 +24,7 @@ class LoginRequest extends FortifyLoginRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'email'],
+            'email' => ['required'],
             'password' => ['required'],
         ];
     }
@@ -33,7 +33,7 @@ class LoginRequest extends FortifyLoginRequest
     {
         return [
             'email.required' => 'メールアドレスを入力してください',
-            'email.email' => 'ログイン情報が登録されていません',
+            // 'email.email' => 'メールアドレスの形式が正しくありません',
             'password.required' => 'パスワードを入力してください',
         ];
     }
