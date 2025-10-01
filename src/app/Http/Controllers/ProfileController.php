@@ -12,22 +12,19 @@ class ProfileController extends Controller
      * @param string
      * @return
      */
-    public function index($tab): View
+    public static function index(string $tab): View
     {
         $user = Auth::user();
-
         $items = collect();
 
         if ($tab === 'sell') {
             $items = $user->items;
-
             return view('profile.sold_items', compact('items', 'tab'));
         } elseif ($tab === 'buy') {
             $items = $user->purchases;
-
             return view('profile.purchased_items', compact('items', 'tab'));
         }
 
-        return view('profile.empty_items', compact('items', 'tab'));
+        return view('profile.sold_items', compact('items', 'tab'));
     }
 }

@@ -24,11 +24,12 @@
     </div>
 
     <div class="profile-tabs">
-        <a href="{{ route('user.mypage', ['tab' => 'sell']) }}" class="tab-item {{ $tab === 'sell' || $tab === null ? 'active' : '' }}">
+        {{-- タブのリンクをクエリパラメータ 'page' に変更 --}}
+        <a href="{{ route('user.mypage', ['page' => 'sell']) }}" class="tab-item {{ $tab === 'sell' || $tab === null ? 'active' : '' }}">
             出品した商品
         </a>
 
-        <a href="{{ route('user.mypage', ['tab' => 'buy']) }}" class="tab-item {{ $tab === 'buy' ? 'active' : '' }}">
+        <a href="{{ route('user.mypage', ['page' => 'buy']) }}" class="tab-item {{ $tab === 'buy' ? 'active' : '' }}">
             購入した商品
         </a>
     </div>
@@ -36,9 +37,7 @@
     @php
     $activeTab = $tab === 'buy' ? 'buy' : 'sell';
 
-    $profileController = app(\App\Http\Controllers\ProfileController::class);
-    $viewData = $profileController->index($activeTab)->getData();
-
+    $viewData = \App\Http\Controllers\ProfileController::index($activeTab)->getData();
     $items = $viewData['items'] ?? collect();
     @endphp
 

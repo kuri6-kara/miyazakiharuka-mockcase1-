@@ -10,16 +10,15 @@ use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
 {
     /**
-     *
-     * @param string
+     * @param
      * @return
      */
-    public function show($tab = 'sell')
+    public function show(Request $request)
     {
         $user = Auth::user();
 
-        // アクティブなタブ情報のみをビューに渡す
-        // 商品リストのデータは ProfileController で処理するため、ここでは取得しない
+        $tab = $request->get('page', 'sell');
+
         return view('users.show', compact('user', 'tab'));
     }
 
@@ -37,7 +36,6 @@ class UserController extends Controller
         if ($request->hasFile('profile_image')) {
             $path = Storage::disk('public')->putFile('profile_images', $request->file('profile_image'));
 
-            // 古い画像があれば削除
             if ($user->profile_image_path) {
                 Storage::disk('public')->delete($user->profile_image_path);
             }
