@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/purchase_create.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/purchase.css') }}" />
 @endsection
 
 @section('content')
@@ -38,7 +38,7 @@
             <div class="shipping-info">
                 <h2 class="section-heading">配送先</h2>
                 <div style="text-align: right; margin-bottom: 10px;">
-                    <a href="#" class="change-link">変更する</a>
+                    <a href="{{ route('purchase.edit', ['item_id' => $item->id]) }}" class="change-link">変更する</a>
                 </div>
 
                 <div class="address-info">
