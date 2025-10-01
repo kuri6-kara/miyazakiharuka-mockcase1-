@@ -12,7 +12,7 @@
     <div class="max-w-xl mx-auto p-6 bg-white shadow-md rounded-lg">
         <h2 class="section-heading mb-6 text-center">住所の変更</h2>
 
-        <form method="POST" action="{{ route('purchase.address.update', ['item_id' => $item->id]) }}">
+        <form method="POST" action="{{ route('purchase.update', ['item_id' => $item->id]) }}">
             @csrf
 
             {{-- 郵便番号 --}}
