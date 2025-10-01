@@ -9,11 +9,12 @@ use Illuminate\Support\Facades\Auth;
 class PurchaseController extends Controller
 {
     /**
-     * @param  string
-     * @return
+     * @param  string $item_id
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
     public function create(string $item_id)
     {
+        // 認証チェックはルーティングのミドルウェアで行われているが、念のため残す
         if (!Auth::check()) {
             return redirect()->route('login');
         }
@@ -25,13 +26,17 @@ class PurchaseController extends Controller
             abort(404);
         }
 
-        return view('purchases.create', compact('item'));
+        // ★★★ 修正箇所: ログインユーザーの情報を取得 ★★★
+        $user = Auth::user();
+
+        // 商品情報とユーザー情報をビューに渡す
+        return view('purchases.create', compact('item', 'user'));
     }
 
     /**
-     * @param
-     * @param  string
-     * @return
+     * @param  \Illuminate\Http\Request $request
+     * @param  string $item_id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request, string $item_id)
     {
