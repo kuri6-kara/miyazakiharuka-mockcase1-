@@ -14,8 +14,23 @@ class CommentController extends Controller
      * @param
      * @return
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function store(CommentRequest $request)
     {
+
+        // dd([
+        //     'user_id' => Auth::id(),
+        //     'item_id' => $request->item_id,
+        //     'comment' => $request->comment,
+        // ]);
+
+
         Comment::create([
             'user_id' => Auth::id(),
             'item_id' => $request->item_id,
