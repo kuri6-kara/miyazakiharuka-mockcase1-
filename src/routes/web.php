@@ -28,7 +28,7 @@ Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show'
 Route::get('/item/search', [ItemController::class, 'search'])->name('item.search');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/mypage', [UserController::class, 'show'])->name('user.mypage');
+    Route::get('/mypage/{tab?}', [UserController::class, 'show'])->name('user.mypage')->where('tab', 'buy|sell');
 
     Route::get('/mypage/profile', [UserController::class, 'edit'])->name('profile.edit');
     Route::post('/mypage/profile', [UserController::class, 'update'])->name('profile.update');
