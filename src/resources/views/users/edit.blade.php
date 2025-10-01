@@ -8,11 +8,12 @@
 
         <div class="form-group">
             <div class="profile-image-preview">
-                @if ($user->profile_image_path && Storage::disk('public')->exists($user->profile_image_path))
-                <img src="{{ Storage::url($user->profile_image_path) }}" alt="プロフィール画像">
+                @if (Auth::user()->profile_image_path)
+                <img src="{{ Storage::url(Auth::user()->profile_image_path) }}" alt="プロフィール画像">
                 @else
                 <img src="{{ asset('image/人物アイコン.png') }}" alt="デフォルト画像">
                 @endif
+
             </div>
             <label class="file-label">
                 <input type="file" name="profile_image">

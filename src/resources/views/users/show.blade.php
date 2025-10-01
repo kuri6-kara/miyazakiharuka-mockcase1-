@@ -8,14 +8,11 @@
 <div class="user-profile">
     <div class="profile-header">
         <div class="user-icon">
-            @php
-            $placeholder = 'https://via.placeholder.com/150';
-            $imagePath = $user->profile_image_path;
-            $imageUrl = ($imagePath && Storage::disk('public')->exists($imagePath))
-            ? Storage::url($imagePath)
-            : $placeholder;
-            @endphp
+            @if (Auth::user()->profile_image_path)
+            <img src="{{ Storage::url(Auth::user()->profile_image_path) }}" alt="プロフィール画像">
+            @else
             <img src="{{ asset('image/人物アイコン.png') }}" alt="デフォルト画像">
+            @endif
         </div>
         <div class="user-info">
             <h2>{{ $user->name }}</h2>
