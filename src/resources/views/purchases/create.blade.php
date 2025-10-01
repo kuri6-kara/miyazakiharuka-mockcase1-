@@ -42,20 +42,15 @@
                 </div>
 
                 <div class="address-info">
-                    {{-- 【修正箇所】$address_data から取得 --}}
-                    {{-- 郵便番号 --}}
                     <p class="mb-1">〒 {{ $address_data['postcode'] ?? '---' }}</p>
 
-                    {{-- 住所 --}}
                     <p>
                         {{ $address_data['address'] ?? '住所が登録されていません' }}
 
-                        {{-- 建物名 (存在する場合のみ表示) --}}
                         @if (!empty($address_data['building']))
                         <span class="ml-1">({{ $address_data['building'] }})</span>
                         @endif
                     </p>
-                    {{-- 【修正箇所ここまで】 --}}
                 </div>
             </div>
 
@@ -70,7 +65,7 @@
 
                 <div class="summary-row" style="border-bottom: none;">
                     <span>支払い方法</span>
-                    <span>コンビニ払い</span> {{-- 選択されたものを表示する想定 --}}
+                    <span>コンビニ払い</span>
                 </div>
             </div>
 

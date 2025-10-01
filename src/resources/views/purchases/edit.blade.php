@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('css')
-{{-- 購入画面CSSを流用 --}}
 <link rel="stylesheet" href="{{ asset('css/purchase.css') }}" />
 @endsection
 
@@ -15,7 +14,6 @@
         <form method="POST" action="{{ route('purchase.update', ['item_id' => $item->id]) }}">
             @csrf
 
-            {{-- 郵便番号 --}}
             <div class="mb-4">
                 <label for="postcode" class="block text-gray-700 font-bold mb-2">郵便番号</label>
                 <input type="text" name="postcode" id="postcode"
@@ -26,7 +24,6 @@
                 @enderror
             </div>
 
-            {{-- 住所 --}}
             <div class="mb-4">
                 <label for="address" class="block text-gray-700 font-bold mb-2">住所</label>
                 <input type="text" name="address" id="address"
@@ -37,7 +34,6 @@
                 @enderror
             </div>
 
-            {{-- 建物名 --}}
             <div class="mb-6">
                 <label for="building" class="block text-gray-700 font-bold mb-2">建物名</label>
                 <input type="text" name="building" id="building"
@@ -48,7 +44,6 @@
                 @enderror
             </div>
 
-            {{-- 更新ボタン --}}
             <button type="submit" class="buy-button">更新する</button>
         </form>
     </div>
