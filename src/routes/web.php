@@ -34,5 +34,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/mypage/profile', [UserController::class, 'edit'])->name('profile.edit');
     Route::post('/mypage/profile', [UserController::class, 'update'])->name('profile.update');
 
-    Route::post('/items/{item_id}/comments', [CommentController::class, 'store'])->name('item.show');
+    Route::post('/items/{item_id}/comments', [CommentController::class, 'store'])->name('comment.store');
 });
