@@ -74,13 +74,6 @@ class PurchaseController extends Controller
      */
     public function update(Request $request, string $item_id)
     {
-        // TODO: AddressUpdateRequestを作成してバリデーションを適用する
-
-        $validated = $request->validate([
-            'postal_code' => ['required', 'string', 'max:8'],
-            'address' => ['required', 'string', 'max:255'],
-            'building' => ['nullable', 'string', 'max:255'],
-        ]);
 
         // ユーザーテーブルの住所は変更せず、セッションに一時的に保存する
         $request->session()->put('shipping_address', $validated);

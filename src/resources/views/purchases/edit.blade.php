@@ -18,10 +18,10 @@
             {{-- 郵便番号 --}}
             <div class="mb-4">
                 <label for="postal_code" class="block text-gray-700 font-bold mb-2">郵便番号</label>
-                <input type="text" name="postal_code" id="postal_code"
-                    value="{{ old('postal_code', $address_data['postal_code'] ?? '') }}"
+                <input type="text" name="postcode" id="postal_code"
+                    value="{{ old('postcode', $address_data['postcode'] ?? '') }}"
                     class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
-                @error('postal_code')
+                @error('postcode')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>
