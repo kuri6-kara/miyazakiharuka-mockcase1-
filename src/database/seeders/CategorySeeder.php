@@ -29,6 +29,7 @@ class CategorySeeder extends Seeder
             ['category' => 'アクセサリー'],
             ['category' => 'おもちゃ'],
             ['category' => 'ベビー・キッズ'],
+            ['category' => 'その他'],
         ]);
     }
 }
