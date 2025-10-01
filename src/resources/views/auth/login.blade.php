@@ -22,9 +22,7 @@
                 </div>
                 <div class="form__error">
                     @error('email')
-                    @if ($message === 'メールアドレスを入力してください')
                     {{ $message }}
-                    @endif
                     @enderror
                 </div>
             </div>
@@ -43,11 +41,7 @@
                     {{ $message }}
                     @enderror
 
-                    @error('email')
-                    @if ($message !== 'メールアドレスを入力してください')
-                    {{ $message }}
-                    @endif
-                    @enderror
+                    
                 </div>
             </div>
         </div>

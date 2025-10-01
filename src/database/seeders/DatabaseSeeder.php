@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\ItemSeeder;
 use Database\Seeders\CategoryItemSeeder;
+use Database\Seeders\PaymentMethodSeeder;
 
 
 class DatabaseSeeder extends Seeder
@@ -20,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorySeeder::class);
         $this->call(ItemSeeder::class);
         $this->call(CategoryItemSeeder::class);
+        $this->call(PaymentMethodSeeder::class);
     }
 }
