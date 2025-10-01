@@ -36,7 +36,9 @@
     @php
     $activeTab = $tab === 'buy' ? 'buy' : 'sell';
 
-    $viewData = \App\Http\Controllers\ProfileController::index($activeTab)->getData();
+    $profileController = app(\App\Http\Controllers\ProfileController::class);
+    $viewData = $profileController->index($activeTab)->getData();
+
     $items = $viewData['items'] ?? collect();
     @endphp
 
