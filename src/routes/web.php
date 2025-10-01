@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommentController;
 
 
 
@@ -32,4 +33,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/mypage/profile', [UserController::class, 'edit'])->name('profile.edit');
     Route::post('/mypage/profile', [UserController::class, 'update'])->name('profile.update');
+
+    Route::post('/items/{item_id}/comments', [CommentController::class, 'store'])->name('item.show');
 });
