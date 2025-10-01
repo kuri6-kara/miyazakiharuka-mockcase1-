@@ -21,7 +21,6 @@
     </div>
 
     <div class="profile-tabs">
-        {{-- タブのリンクをクエリパラメータ 'page' に変更 --}}
         <a href="{{ route('user.mypage', ['page' => 'sell']) }}" class="tab-item {{ $tab === 'sell' || $tab === null ? 'active' : '' }}">
             出品した商品
         </a>

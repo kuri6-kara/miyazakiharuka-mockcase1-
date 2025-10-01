@@ -5,10 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\CommentController;
-
-
-
+use App\Models\Purchase;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +32,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/mypage/profile', [UserController::class, 'edit'])->name('profile.edit');
     Route::post('/mypage/profile', [UserController::class, 'update'])->name('profile.update');
+
+    Route::get('/purchase/{item_id}', [PurchaseController::class, 'create'])->name('purchase.create');
 
     Route::post('/items/{item_id}/comments', [CommentController::class, 'store'])->name('comment.store');
 });

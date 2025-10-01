@@ -21,7 +21,11 @@
                     <span class="likes-count">★ {{ $item->likes->count() }}</span>
                     <span class="comments-count">💬 {{ $item->comments->count() }}</span>
                 </div>
-                <button class="buy-button">購入手続きへ</button>
+
+                <a href="{{ route('purchase.create', ['item_id' => $item->id]) }}" class="buy-button-link">
+                    <button class="buy-button">購入手続きへ</button>
+                </a>
+
             </div>
 
             <div class="item-description">
