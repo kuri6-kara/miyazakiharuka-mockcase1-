@@ -21,7 +21,6 @@
                     <input type="email" name="email" value="{{ old('email') }}" />
                 </div>
                 <div class="form__error">
-                    {{-- 1. メールアドレスの必須エラーのみを表示 (メッセージが「メールアドレスを入力してください」の場合) --}}
                     @error('email')
                     @if ($message === 'メールアドレスを入力してください')
                     {{ $message }}
@@ -40,14 +39,11 @@
                     <input type="password" name="password" />
                 </div>
                 <div class="form__error">
-                    {{-- 2. パスワードの必須エラーを表示 --}}
                     @error('password')
                     {{ $message }}
                     @enderror
 
-                    {{-- 3. 認証失敗エラー（@error('email')に紐づくメッセージ）をここで表示 --}}
                     @error('email')
-                    {{-- メッセージが「メールアドレスを入力してください」ではない場合 == 認証失敗エラーの場合 --}}
                     @if ($message !== 'メールアドレスを入力してください')
                     {{ $message }}
                     @endif
