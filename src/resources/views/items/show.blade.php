@@ -59,6 +59,12 @@
                     @csrf
                     <textarea name="comment" placeholder="コメントを追加"></textarea>
                     <button type="submit">コメントを送信</button>
+
+                    <div class="form__error">
+                        @error('comment')
+                        {{ $message }}
+                        @enderror
+                    </div>
                 </form>
             </div>
         </div>

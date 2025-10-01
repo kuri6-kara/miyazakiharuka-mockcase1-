@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CommentRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Comment;
 
@@ -13,7 +14,7 @@ class CommentController extends Controller
      * @param
      * @return
      */
-    public function store(Request $request)
+    public function store(CommentRequest $request)
     {
         Comment::create([
             'user_id' => Auth::id(),
