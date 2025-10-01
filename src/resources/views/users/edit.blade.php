@@ -11,7 +11,7 @@
                 @if ($user->profile_image_path && Storage::disk('public')->exists($user->profile_image_path))
                 <img src="{{ Storage::url($user->profile_image_path) }}" alt="プロフィール画像">
                 @else
-                <img src="https://via.placeholder.com/150" alt="デフォルト画像">
+                <img src="{{ asset('image/人物アイコン.png') }}" alt="デフォルト画像">
                 @endif
             </div>
             <label class="file-label">

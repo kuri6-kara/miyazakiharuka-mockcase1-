@@ -15,7 +15,7 @@
             ? Storage::url($imagePath)
             : $placeholder;
             @endphp
-            <img src="{{ $imageUrl }}" alt="プロフィール画像">
+            <img src="{{ asset('image/人物アイコン.png') }}" alt="デフォルト画像">
         </div>
         <div class="user-info">
             <h2>{{ $user->name }}</h2>
