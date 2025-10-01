@@ -42,15 +42,20 @@
                 </div>
 
                 <div class="address-info">
-                    <p class="mb-1">〒 {{ $user->postcode ?? '---' }}</p>
+                    {{-- 【修正箇所】$address_data から取得 --}}
+                    {{-- 郵便番号 --}}
+                    <p class="mb-1">〒 {{ $address_data['postcode'] ?? '---' }}</p>
 
+                    {{-- 住所 --}}
                     <p>
-                        {{ $user->address ?? '住所が登録されていません' }}
+                        {{ $address_data['address'] ?? '住所が登録されていません' }}
 
-                        @if (!empty($user->building))
-                        <span class="ml-1">({{ $user->building }})</span>
+                        {{-- 建物名 (存在する場合のみ表示) --}}
+                        @if (!empty($address_data['building']))
+                        <span class="ml-1">({{ $address_data['building'] }})</span>
                         @endif
                     </p>
+                    {{-- 【修正箇所ここまで】 --}}
                 </div>
             </div>
 

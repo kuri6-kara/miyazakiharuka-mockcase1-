@@ -30,7 +30,7 @@ class PurchaseController extends Controller
 
         // 変更された住所がセッションにあるか確認し、なければユーザーのデフォルト住所を使用
         $address_data = session('shipping_address') ?? [
-            'postal_code' => $user->postal_code,
+            'postcode' => $user->postcode,
             'address' => $user->address,
             'building' => $user->building,
         ];
@@ -56,7 +56,7 @@ class PurchaseController extends Controller
         // セッションに保存されている一時的な住所があれば取得、なければユーザーのデフォルトを使用
         // ビュー側でフォームの初期値として利用
         $address_data = session('shipping_address') ?? [
-            'postal_code' => $user->postal_code,
+            'postcode' => $user->postcode,
             'address' => $user->address,
             'building' => $user->building,
         ];
@@ -74,6 +74,13 @@ class PurchaseController extends Controller
      */
     public function update(Request $request, string $item_id)
     {
+        // TODO: AddressUpdateRequestを作成してバリデーションを適用する
+
+        $validated = $request->validate([
+            'postcode' => ['required', 'string', 'max:8'],
+            'address' => ['required', 'string', 'max:255'],
+            'building' => ['nullable', 'string', 'max:255'],
+        ]);
 
         // ユーザーテーブルの住所は変更せず、セッションに一時的に保存する
         $request->session()->put('shipping_address', $validated);
