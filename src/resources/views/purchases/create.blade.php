@@ -15,7 +15,7 @@
                     @if ($item->item_image_path)
                     <img src="{{ Storage::url($item->item_image_path) }}" alt="{{ $item->name }}" />
                     @else
-                    <div style="text-align: center; line-height: 100px; font-size: 12px;">商品画像</div>
+                    <div class="image-placeholder">商品画像</div>
                     @endif
                 </div>
                 <div>
@@ -37,7 +37,7 @@
 
             <div class="shipping-info">
                 <h2 class="section-heading">配送先</h2>
-                <div style="text-align: right; margin-bottom: 10px;">
+                <div class="shipping-actions">
                     <a href="{{ route('purchase.edit', ['item_id' => $item->id]) }}" class="change-link">変更する</a>
                 </div>
 
@@ -63,7 +63,7 @@
                     <span>¥{{ number_format($item->price) }}</span>
                 </div>
 
-                <div class="summary-row" style="border-bottom: none;">
+                <div class="summary-row">
                     <span>支払い方法</span>
                     <span>コンビニ払い</span>
                 </div>
