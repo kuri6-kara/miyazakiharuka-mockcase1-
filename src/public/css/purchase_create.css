@@ -1,0 +1,104 @@
+.purchase-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.purchase-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.purchase-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.item-info-section {
+    flex: 1;
+}
+
+.order-summary-section {
+    width: 350px;
+    flex-shrink: 0;
+}
+
+.item-detail {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.item-image {
+    width: 100px;
+    height: 100px;
+    background-color: #eee;
+    margin-right: 20px;
+    /* 実際の画像表示のためのスタイル */
+}
+
+.item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.summary-box {
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 16px;
+}
+
+.summary-row:first-child {
+    border-bottom: 1px solid #ddd;
+}
+
+.shipping-info,
+.payment-methods {
+    margin-top: 30px;
+}
+
+.section-heading {
+    font-size: 20px;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.buy-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #ff4500;
+    /* 赤系の色 */
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    border-radius: 4px;
+}
+
+.change-link {
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.address-info {
+    border: 1px solid #eee;
+    padding: 15px;
+    background-color: #f9f9f9;
+}
