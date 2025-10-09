@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\PaymentMethod;
 use Illuminate\Support\Facades\Auth;
 
 class PurchaseController extends Controller
@@ -24,6 +25,8 @@ class PurchaseController extends Controller
             abort(404);
         }
 
+        $payment_methods = PaymentMethod::all();
+
         $user = Auth::user();
 
         $address_data = session('shipping_address') ?? [
@@ -32,7 +35,7 @@ class PurchaseController extends Controller
             'building' => $user->building,
         ];
 
-        return view('purchases.create', compact('item', 'user', 'address_data'));
+        return view('purchases.create', compact('item', 'user', 'address_data', 'payment_methods'));
     }
 
     /**

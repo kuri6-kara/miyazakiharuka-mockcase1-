@@ -30,6 +30,6 @@ class Purchase extends Model
 
     public function paymentMethod()
     {
-        return $this->belongsTo(PaymentMethod::class);
+        return $this->hasMany(PaymentMethod::class);
     }
 }

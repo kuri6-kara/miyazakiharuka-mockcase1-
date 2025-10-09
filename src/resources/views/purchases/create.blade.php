@@ -27,10 +27,10 @@
             <div class="payment-methods">
                 <h2 class="section-heading">支払い方法</h2>
                 <div class="mt-2">
-                    <select name="payment_method" class="border p-2 rounded-md">
-                        <option value="convenience">コンビニ払い</option>
-                        <option value="card">クレジットカード</option>
-                        <option value="bank">銀行振込</option>
+                    <select name="payment_method_id" class="border p-2 rounded-md">
+                        @foreach ($payment_methods as $method)
+                        <option value="{{ $method->id }}">{{ $method->payment_method }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
