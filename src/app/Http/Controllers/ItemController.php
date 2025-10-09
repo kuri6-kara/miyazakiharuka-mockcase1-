@@ -11,6 +11,10 @@ class ItemController extends Controller
 {
     public function index(Request $request)
     {
+        if ($request->session()->has('shipping_address')) {
+            $request->session()->forget('shipping_address');
+        }
+
         $tab = $request->input('tab', 'recommend');
         $query = Item::query();
 
