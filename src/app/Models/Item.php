@@ -16,6 +16,7 @@ class Item extends Model
         'price',
         'condition',
         'item_image_path',
+        'is_sold',
     ];
 
     public function user()
