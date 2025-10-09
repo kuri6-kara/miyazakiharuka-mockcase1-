@@ -38,6 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'edit'])->name('purchase.edit');
     Route::post('/purchase/address/{item_id}', [PurchaseController::class, 'update'])->name('purchase.update');
 
+    Route::post('/purchase/{item_id}', [PurchaseController::class, 'store'])->name('purchase.store');
+
 
     Route::post('/items/{item_id}/comments', [CommentController::class, 'store'])->name('comment.store');
 });
