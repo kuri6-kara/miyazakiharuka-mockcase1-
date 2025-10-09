@@ -45,7 +45,14 @@ class ItemController extends Controller
 
     public function show(string $item_id)
     {
-        $item = Item::with(['user', 'categories', 'likes', 'comments'])->find($item_id);
+        $item = Item::with([
+            'user',
+            'categories',
+            'likes',
+            'comments' => function ($query) {
+                $query->orderBy('id', 'desc');
+            }
+        ])->find($item_id);
         if (!$item) {
             abort(404);
         }
