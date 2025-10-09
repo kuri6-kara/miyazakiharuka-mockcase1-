@@ -31,29 +31,43 @@
                     <h2 class="section-heading">支払い方法</h2>
                     <div class="mt-2">
                         <select name="payment_method_id" id="payment_method_select" class="border p-2 rounded-md">
+                            <option value="" disabled selected>支払い方法を選択してください</option>
                             @foreach ($payment_methods as $method)
-                            <option value="{{ $method->payment_method }}">{{ $method->payment_method }}</option>
+                            <option value="{{ $method->id }}">{{ $method->payment_method }}</option>
                             @endforeach
                         </select>
+
+                        @if ($errors->has('payment_method_id'))
+                        <p class="mt-1 text-red-500 text-sm">{{ $errors->first('payment_method_id') }}</p>
+                        @endif
                     </div>
                 </div>
 
                 <div class="shipping-info">
                     <h2 class="section-heading">配送先</h2>
+
+                    @if ($errors->has('shipping_address_set'))
+                    <p class="mt-1 text-red-500 text-sm">{{ $errors->first('shipping_address_set') }}</p>
+                    @endif
+
                     <div class="shipping-actions">
                         <a href="{{ route('purchase.edit', ['item_id' => $item->id]) }}" class="change-link">変更する</a>
                     </div>
 
                     <div class="address-info">
+                        @if (!empty($address_data['address']))
                         <p class="mb-1">〒 {{ $address_data['postcode'] ?? '---' }}</p>
-
                         <p>
-                            {{ $address_data['address'] ?? '住所が登録されていません' }}
+                            {{ $address_data['address'] }}
 
                             @if (!empty($address_data['building']))
                             <span class="ml-1">({{ $address_data['building'] }})</span>
                             @endif
                         </p>
+                        @else
+                        <p class="mb-1">〒 {{ $address_data['postcode'] ?? '---' }}</p>
+                        <p class="text-red-500">住所が登録されていません</p>
+                        @endif
                     </div>
                 </div>
 
