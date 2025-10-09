@@ -6,6 +6,10 @@
 
 @section('content')
 
+@php
+$is_liked = Auth::check() ? $item->likes->contains('user_id', Auth::id()) : false;
+@endphp
+
 <div class="show-container">
     <div class="show-item">
         <div class="show-item__image">
@@ -18,14 +22,39 @@
 
             <div class="item-actions">
                 <div class="likes-comments">
+                    <!-- いいねボタン -->
+                    @auth
+                    <button
+                        id="like-button"
+                        data-item-id="{{ $item->id }}"
+                        data-is-liked="{{ $is_liked ? 'true' : 'false' }}"
+                        class="like-button @if($is_liked) liked @endif">
+                        <span id="like-icon">
+                            @if($is_liked)
+                            <!-- いいね済み（色付き）アイコン -->
+                            ★
+                            @else
+                            <!-- 未いいね（白抜き）アイコン -->
+                            ☆
+                            @endif
+                        </span>
+                        <span id="likes-count">{{ $item->likes->count() }}</span>
+                    </button>
+                    @endauth
+                    @guest
                     <span class="likes-count">★ {{ $item->likes->count() }}</span>
+                    @endguest
+
                     <span class="comments-count">💬 {{ $item->comments->count() }}</span>
                 </div>
 
+                @if (!$item->is_sold)
                 <a href="{{ route('purchase.create', ['item_id' => $item->id]) }}" class="buy-button-link">
                     <button class="buy-button">購入手続きへ</button>
                 </a>
-
+                @else
+                <button class="buy-button sold-out" disabled>SOLD OUT</button>
+                @endif
             </div>
 
             <div class="item-description">
@@ -85,4 +114,60 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const likeButton = document.getElementById('like-button');
+        const likeIcon = document.getElementById('like-icon');
+        const likesCountSpan = document.getElementById('likes-count');
+
+        if (likeButton) {
+            likeButton.addEventListener('click', function() {
+                const itemId = this.dataset.itemId;
+                let isLiked = this.dataset.isLiked === 'true';
+                let currentCount = parseInt(likesCountSpan.textContent);
+
+                // CSRFトークンを取得
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                fetch(`/items/${itemId}/like`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: JSON.stringify({
+                            item_id: itemId
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            // 状態を反転
+                            isLiked = data.action === 'attached';
+                            this.dataset.isLiked = isLiked ? 'true' : 'false';
+
+                            // ビューを更新
+                            if (isLiked) {
+                                likeIcon.innerHTML = '★'; // いいね済みアイコン
+                                this.classList.add('liked');
+                                likesCountSpan.textContent = currentCount + 1;
+                            } else {
+                                likeIcon.innerHTML = '☆'; // 未いいねアイコン
+                                this.classList.remove('liked');
+                                likesCountSpan.textContent = currentCount - 1;
+                            }
+                        } else if (data.status === 'error' && data.message === 'unauthenticated') {
+                            // 認証エラーの場合
+                            window.location.href = '/login';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        }
+    });
+</script>
+
 @endsection

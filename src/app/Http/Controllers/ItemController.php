@@ -17,14 +17,20 @@ class ItemController extends Controller
 
         $tab = $request->input('tab', 'recommend');
         $query = Item::query();
+        $no_items_message = null;
 
         if ($tab == 'mylist') {
             if (Auth::check()) {
                 $likedItems = Auth::user()->likes()->pluck('item_id');
                 $query->whereIn('id', $likedItems);
+
+                if ($likedItems->isEmpty()) {
+                    $no_items_message = 'いいねした商品はありません';
+                }
             } else {
                 $items = collect();
-                return view('items.index', compact('items'));
+                $no_items_message = 'ログインまたは新規会員登録してください';
+                return view('items.index', compact('items', 'no_items_message'));
             }
         } else {
             if (Auth::check()) {
@@ -39,8 +45,7 @@ class ItemController extends Controller
             return $item;
         });
 
-
-        return view('items.index', compact('items'));
+        return view('items.index', compact('items', 'no_items_message'));
     }
 
     public function show(string $item_id)

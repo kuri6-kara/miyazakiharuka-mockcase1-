@@ -6,18 +6,20 @@
         <a href="{{ route('item.index', ['tab' => 'recommend']) }}" class="tab-item {{ Request::get('tab', 'recommend') == 'recommend' ? 'active' : '' }}">
             おすすめ
         </a>
-        <a href="{{ Auth::check() ? route('item.index', ['tab' => 'mylist']) : route('login') }}" class="tab-item {{ Request::get('tab') == 'mylist' ? 'active' : '' }}">
+        <a href="{{ route('item.index', ['tab' => 'mylist']) }}" class="tab-item {{ Request::get('tab') == 'mylist' ? 'active' : '' }}">
             マイリスト
         </a>
     </div>
 
     <div class="items-list">
+        @if (!empty($no_items_message))
+        <p class="no-items-message">{{ $no_items_message }}</p>
+        @else
         @foreach ($items as $item)
         <div class="item-card @if($item->is_sold) sold-out @endif">
             <a href="{{ route('item.show', ['item_id' => $item->id]) }}">
                 <div class="item-image">
                     @if ($item->is_sold)
-                    {{-- SOLDバッジを表示 --}}
                     <div class="sold-badge">SOLD</div>
                     @endif
 
@@ -32,6 +34,7 @@
             </a>
         </div>
         @endforeach
+        @endif
     </div>
 </div>
 @endsection

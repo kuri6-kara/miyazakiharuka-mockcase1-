@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
 use App\Models\Purchase;
 
@@ -40,6 +41,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/purchase/{item_id}', [PurchaseController::class, 'store'])->name('purchase.store');
 
+
+    Route::post('/items/{item_id}/like', [LikeController::class, 'store'])->name('like.store');
 
     Route::post('/items/{item_id}/comments', [CommentController::class, 'store'])->name('comment.store');
 });
