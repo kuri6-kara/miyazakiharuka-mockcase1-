@@ -27,9 +27,9 @@
             <div class="payment-methods">
                 <h2 class="section-heading">支払い方法</h2>
                 <div class="mt-2">
-                    <select name="payment_method_id" class="border p-2 rounded-md">
+                    <select name="payment_method_id" id="payment_method_select" class="border p-2 rounded-md">
                         @foreach ($payment_methods as $method)
-                        <option value="{{ $method->id }}">{{ $method->payment_method }}</option>
+                        <option value="{{ $method->payment_method }}">{{ $method->payment_method }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -65,7 +65,7 @@
 
                 <div class="summary-row">
                     <span>支払い方法</span>
-                    <span>コンビニ払い</span>
+                    <span id="selected-payment-name">{{ $payment_methods->first()->payment_method ?? '---' }}</span>
                 </div>
             </div>
 
@@ -74,4 +74,28 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const select = document.getElementById('payment_method_select');
+
+        const displaySpan = document.getElementById('selected-payment-name');
+
+
+        if (select && displaySpan) {
+            displaySpan.textContent = select.options[select.selectedIndex].text;
+        }
+
+        if (select) {
+            select.addEventListener('change', function() {
+                const selectedText = this.options[this.selectedIndex].text;
+
+                if (displaySpan) {
+                    displaySpan.textContent = selectedText;
+                }
+            });
+        }
+    });
+</script>
+
 @endsection
