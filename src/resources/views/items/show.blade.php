@@ -55,8 +55,19 @@
                 <h2>コメント({{ $item->comments->count() }})</h2>
                 @foreach ($item->comments as $comment)
                 <div class="comment">
-                    <p class="comment-user">{{ $comment->user->name }}</p>
+                    <div class="comment-header">
+                        <!-- ユーザー画像を表示する部分 -->
+                        <div class="comment-user-image">
+                            @if ($comment->user->profile_image_path)
+                            <img src="{{ Storage::url($comment->user->profile_image_path) }}" alt="{{ $comment->user->name }}のプロフィール画像" class="profile-icon">
+                            @else
+                            <div class="profile-placeholder">👤</div>
+                            @endif
+                        </div>
+                        <p class="comment-user">{{ $comment->user->name }}</p>
+                    </div>
                     <p class="comment-text">{{ $comment->comment }}</p>
+                    <span class="comment-time">{{ $comment->created_at->diffForHumans() }}</span>
                 </div>
                 @endforeach
                 <form action="{{ route('comment.store', ['item_id' => $item->id]) }}" method="POST" novalidate>

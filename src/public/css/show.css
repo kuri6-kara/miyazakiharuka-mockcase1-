@@ -10,3 +10,48 @@
 .items-list.active {
     display: flex;
 }
+
+/* コメントヘッダー（画像とユーザー名）の横並び設定 */
+.comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+/* プロフィール画像のコンテナ */
+.comment-user-image {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 8px;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-placeholder {
+    font-size: 20px;
+    color: #999;
+}
+
+.profile-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.comment-text {
+    margin-left: 40px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.comment-time {
+    display: block;
+    font-size: 0.75rem;
+    color: #999;
+    margin-bottom: 16px;
+    margin-left: 40px;
+}
