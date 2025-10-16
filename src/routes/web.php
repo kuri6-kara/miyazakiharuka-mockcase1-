@@ -45,4 +45,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/items/{item_id}/like', [LikeController::class, 'store'])->name('like.store');
 
     Route::post('/items/{item_id}/comments', [CommentController::class, 'store'])->name('comment.store');
+
+    // 商品出品画面の表示
+    Route::get('/sell', [ItemController::class, 'create'])->name('item.create');
+    // 商品出品処理
+    Route::post('/sell', [ItemController::class, 'store'])->name('item.store');
 });

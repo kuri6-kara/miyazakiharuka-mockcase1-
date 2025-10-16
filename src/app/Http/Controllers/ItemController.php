@@ -64,4 +64,30 @@ class ItemController extends Controller
 
         return view('items.show', compact('item'));
     }
+
+    /**
+     * 商品出品フォームを表示する
+     *
+     * @return \Illuminate\View\View
+     */
+    public function create()
+    {
+        // 実際にはここでカテゴリや商品の状態などのマスタデータを取得する
+        return view('items.create');
+    }
+
+    /**
+     * 商品の出品処理（POST）
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request)
+    {
+        // TODO: バリデーションと画像のアップロード、DBへの保存ロジックを実装
+
+        // 仮の実装として、商品一覧へリダイレクト
+        return redirect()->route('item.index')
+            ->with('status', '【出品処理待ち】出品機能を実装中です。');
+    }
 }
