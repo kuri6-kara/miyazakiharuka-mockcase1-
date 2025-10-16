@@ -88,23 +88,7 @@ class ItemController extends Controller
      */
     public function create()
     {
-        // 実際にはDBから取得すべきカテゴリと商品の状態のリスト
-        $categories = [
-            ['id' => 1, 'category' => 'ファッション'],
-            ['id' => 2, 'category' => '家電'],
-            ['id' => 3, 'category' => 'インテリア'],
-            ['id' => 4, 'category' => 'レディース'],
-            ['id' => 5, 'category' => 'メンズ'],
-            ['id' => 6, 'category' => 'コスメ'],
-            ['id' => 7, 'category' => '本'],
-            ['id' => 8, 'category' => 'ゲーム'],
-            ['id' => 9, 'category' => 'スポーツ'],
-            ['id' => 10, 'category' => 'キッチン'],
-            ['id' => 11, 'category' => 'ハンドメイド'],
-            ['id' => 12, 'category' => 'アクセサリー'],
-            ['id' => 13, 'category' => 'おもちゃ'],
-            ['id' => 14, 'category' => 'ベビー・キッズ'],
-        ];
+        $categories = Category::all();
 
         $conditions = [
             '新品、未使用',
@@ -164,3 +148,4 @@ class ItemController extends Controller
         // 出品完了後、商品一覧画面にリダイレクト
         return redirect()->route('item.index')->with('success', '商品を出品しました！');
     }
+}
