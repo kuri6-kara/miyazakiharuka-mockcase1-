@@ -38,6 +38,11 @@
                             <a class="header-nav__link" href="/login">ログイン</a>
                             @endif
                         </li>
+                        <li class="header-nav__item">
+                            @if (Auth::check())
+                            <a href="{{ route('item.create') }}" class="header-button sell-button">出品</a>
+                            @endif
+                        </li>
                     </ul>
                 </nav>
             </div>
