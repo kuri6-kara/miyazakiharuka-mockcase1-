@@ -8,6 +8,18 @@
 <div class="sell-container">
     <h1 class="page-title">商品の出品</h1>
 
+    {{-- 出品成功メッセージの表示 --}}
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+
+    {{-- DB保存エラーメッセージの表示 --}}
+    @error('error')
+    <div class="form__error alert-danger">{{ $message }}</div>
+    @enderror
+
     <form action="{{ route('item.store') }}" method="POST" enctype="multipart/form-data" class="sell-form">
         @csrf
 
@@ -17,7 +29,7 @@
             <div class="image-upload-area">
                 <input type="file" id="item_image" name="item_image" accept="image/*" class="image-input">
                 <label for="item_image" class="image-label">
-                    <span id="image-placeholder">画像を選択する</span>
+                    <span id="image-placeholder" style="{{ old('item_image') ? 'display: none;' : '' }}">画像を選択する</span>
                     <img id="image-preview" src="#" alt="商品画像プレビュー" style="display: none; max-width: 100%; max-height: 200px;">
                 </label>
             </div>
@@ -33,36 +45,36 @@
             <div class="form-group category-group">
                 <label>カテゴリ</label>
                 <div class="category-tags">
-                    {{-- マスタデータがないため、画像に基づきダミーのタグを配置 --}}
-                    <span class="tag">ファッション</span>
-                    <span class="tag">家電</span>
-                    <span class="tag tag-active">インテリア</span>
-                    <span class="tag">レディース</span>
-                    <span class="tag">メンズ</span>
-                    <span class="tag">コスメ</span>
-                    <span class="tag">本</span>
-                    <span class="tag">ゲーム</span>
-                    <span class="tag">スポーツ</span>
-                    <span class="tag">キッチン</span>
-                    <span class="tag">ハンドメイド</span>
-                    <span class="tag">アクセサリー</span>
-                    <span class="tag">おもちゃ</span>
-                    <span class="tag">ベビー・キッズ</span>
+                    {{-- ItemControllerのcreate()から渡されたカテゴリリストを使用 --}}
+                    @foreach ($categories as $category)
+                    <input
+                        type="checkbox"
+                        id="category-{{ $category['id'] }}"
+                        name="categories[]"
+                        value="{{ $category['id'] }}"
+                        class="category-checkbox"
+                        {{-- old('categories')に値が含まれているかチェックし、チェック状態を保持 --}}
+                        @if(is_array(old('categories')) && in_array($category['id'], old('categories'))) checked @endif>
+                    <label for="category-{{ $category['id'] }}" class="tag">
+                        {{ $category['category'] }}
+                    </label>
+                    @endforeach
                 </div>
-                {{-- 実際はhidden inputやJavaScriptでカテゴリIDを送信する --}}
+                @error('categories')
+                <div class="form__error">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-group">
                 <label for="condition">商品の状態</label>
-                {{-- 実際はマスタデータから取得する --}}
                 <select id="condition" name="condition" class="input-select">
-                    <option value="" selected>選択してください</option>
-                    <option value="新品、未使用">新品、未使用</option>
-                    <option value="未使用に近い">未使用に近い</option>
-                    <option value="目立った傷や汚れなし">目立った傷や汚れなし</option>
-                    <option value="やや傷や汚れあり">やや傷や汚れあり</option>
-                    <option value="傷や汚れあり">傷や汚れあり</option>
-                    <option value="全体的に状態が悪い">全体的に状態が悪い</option>
+                    <option value="">選択してください</option>
+                    {{-- ItemControllerのcreate()から渡された商品の状態リストを使用 --}}
+                    @foreach ($conditions as $condition)
+                    <option value="{{ $condition }}" {{ old('condition') == $condition ? 'selected' : '' }}>
+                        {{ $condition }}
+                    </option>
+                    @endforeach
                 </select>
                 @error('condition')
                 <div class="form__error">{{ $message }}</div>
@@ -132,6 +144,31 @@
             preview.style.display = 'none';
             placeholder.style.display = 'block';
         }
+    });
+
+    // カテゴリタグのスタイル切り替え (JavaScriptでチェックボックスの状態を反映)
+    document.querySelectorAll('.category-tags label.tag').forEach(label => {
+        // ページ読み込み時にold()でチェック済みのタグに .tag-active クラスを適用
+        const checkboxId = label.getAttribute('for');
+        const checkbox = document.getElementById(checkboxId);
+        if (checkbox && checkbox.checked) {
+            label.classList.add('tag-active');
+        }
+
+        // クリックイベントでクラスをトグル
+        label.addEventListener('click', function(e) {
+            const checkboxId = this.getAttribute('for');
+            const checkbox = document.getElementById(checkboxId);
+
+            // クリック後（状態がトグルした後）にクラスを適用/解除
+            // ここではクリックされた要素のクラスを直接トグル
+            // 実際にはチェックボックスの状態が変わってからCSSで反映するのが理想だが、ここではJSで制御
+            if (checkbox.checked) {
+                this.classList.remove('tag-active');
+            } else {
+                this.classList.add('tag-active');
+            }
+        });
     });
 </script>
 @endsection
