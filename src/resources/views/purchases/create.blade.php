@@ -31,7 +31,7 @@
                     <h2 class="section-heading">支払い方法</h2>
                     <div class="mt-2">
                         <select name="payment_method_id" id="payment_method_select" class="border p-2 rounded-md">
-                            <option value="" disabled selected>支払い方法を選択してください</option>
+                            <option value="" disabled selected>選択してください</option>
                             @foreach ($payment_methods as $method)
                             <option value="{{ $method->id }}">{{ $method->payment_method }}</option>
                             @endforeach
