@@ -22,21 +22,23 @@ class ItemController extends Controller
         }
 
         $tab = $request->input('tab', 'recommend');
+        $keyword = $request->input('keyword'); // ★★★ キーワードの取得 ★★★
         $query = Item::query();
         $no_items_message = null; // メッセージを初期化
 
+        // 1. タブによる絞り込み (recommend または mylist)
         if ($tab == 'mylist') {
             if (Auth::check()) {
                 // 認証済みの場合、いいねした商品のIDを取得
                 $likedItems = Auth::user()->likes()->pluck('item_id');
                 $query->whereIn('id', $likedItems);
 
-                // いいねした商品がない場合のメッセージ
+                // いいねした商品がない場合のメッセージ (検索前)
                 if ($likedItems->isEmpty()) {
                     $no_items_message = 'いいねした商品はありません';
                 }
             } else {
-                // 未認証の場合、空のコレクションを返し、ビューでログインを促す
+                // 未認証の場合、空のコレクションを返す
                 $items = collect();
                 // メッセージはビュー側で処理されます
             }
@@ -48,6 +50,18 @@ class ItemController extends Controller
             }
         }
 
+        // 2. ★★★ キーワードによる絞り込み (部分一致) ★★★
+        // $tabによる絞り込み後、さらにキーワードで絞り込む（マイリスト検索状態の保持に対応）
+        if (!empty($keyword)) {
+            $query->where('name', 'LIKE', '%' . $keyword . '%');
+
+            // 絞り込みを行った結果、アイテムがなかった場合のメッセージを上書き
+            if (!isset($items) && $query->count() === 0) {
+                $no_items_message = '「' . $keyword . '」に一致する商品はありません';
+            }
+        }
+
+
         // 商品の取得と販売済みフラグの設定
         if (!isset($items)) {
             $items = $query->get();
@@ -58,8 +72,8 @@ class ItemController extends Controller
             return $item;
         });
 
-        // no_items_message をビューに渡す
-        return view('items.index', compact('items', 'no_items_message'));
+        // no_items_message と keyword, tab をビューに渡す
+        return view('items.index', compact('items', 'no_items_message', 'keyword', 'tab'));
     }
 
     public function show(string $item_id)

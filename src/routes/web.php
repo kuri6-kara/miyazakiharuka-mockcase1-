@@ -26,7 +26,8 @@ use App\Models\Purchase;
 
 Route::get('/', [ItemController::class, 'index'])->name('item.index');
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
-Route::get('/item/search', [ItemController::class, 'search'])->name('item.search');
+// ★★★ 修正箇所: 不要な検索ルートを削除しました ★★★
+// Route::get('/item/search', [ItemController::class, 'search'])->name('item.search');
 
 Route::middleware('auth')->group(function () {
     Route::get('/mypage', [UserController::class, 'show'])->name('user.mypage');

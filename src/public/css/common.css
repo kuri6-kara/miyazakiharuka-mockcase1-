@@ -27,14 +27,55 @@
     max-width: 100%;
 }
 
+.search-form {
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    background-color: #fff;
+    padding: 4px 8px;
+    width: 40%; /* 検索欄の幅を調整 */
+    max-width: 500px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    padding: 0;
+    flex-grow: 1;
+    font-size: 16px;
+    color: #333;
+    margin-left: 8px;
+}
+
+.search-button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-right: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #999;
+}
+
+.search-button svg {
+    width: 20px;
+    height: 20px;
+}
+/* ★★★ 修正箇所: ここまで ★★★ */
+
+
 .header-utilities nav {
-  width: 18%;
+  /* 検索フォームの追加により、ナビゲーションの幅を調整 */
+  width: auto; 
 }
 
 .header-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px; /* アイテム間のスペースを確保 */
 }
 
 .header-nav__link {
@@ -48,4 +89,15 @@
   color: #fff;
   font-size: 16px;
   cursor: pointer;
+}
+
+/* 出品ボタンのスタイルは既存のものを維持 */
+.header-button.sell-button {
+    background-color: #fff;
+    color: #000;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    white-space: nowrap; /* テキストが折り返さないように */
 }

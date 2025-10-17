@@ -19,6 +19,17 @@
                 <a class="header__logo" href="/">
                     <img src="{{ asset('image/logo.svg') }}" alt="COACHTECH">
                 </a>
+
+                <form action="{{ url('/') }}" method="GET" class="search-form">
+                    <input type="hidden" name="tab" value="{{ Request::get('tab', 'recommend') }}">
+                    <input type="text" name="keyword" placeholder="商品名で検索" value="{{ Request::get('keyword') }}" class="search-input">
+                    <button type="submit" class="search-button">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        </svg>
+                    </button>
+                </form>
+
                 <nav>
                     <ul class="header-nav">
                         <li class="header-nav__item">

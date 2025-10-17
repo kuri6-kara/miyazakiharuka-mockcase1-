@@ -53,20 +53,17 @@
 
 .item-detail {
     display: flex;
-    align-items: center; 
-    
-    /* ★★★ 修正点1: 商品画像・名・価格の直下を濃い黒線に変更し、位置を調整 ★★★ */
-    border-bottom: 2px solid #333; 
+    align-items: center;
+    /* border-bottom: 2px solid #333;  */
     padding-bottom: 85px; /* 線を上に移動するためパディングを減らす */
     margin-bottom: 30px; /* 線の下に次のセクションとの余白を確保 */
-    
     /* サマリーボックス上端との垂直位置を揃えるための微調整 */
-    padding-top: 10px; 
+    padding-top: 10px;
 }
 
 .item-image {
     /* ★★★ 修正箇所: 画像の幅と高さを120pxから160pxに拡大 ★★★ */
-    width: 180px; 
+    width: 180px;
     background-color: #eee;
     margin-right: 56px;
     flex-shrink: 0;
