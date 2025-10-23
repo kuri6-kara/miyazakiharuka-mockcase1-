@@ -1,7 +1,6 @@
 /* --- プロフィール画面全体 --- */
 .user-profile {
     margin: 40px 0; /* 上下のマージンのみ */
-    /* 左右のパディングは内部の要素で制御し、ここでは画面幅全体を使う */
     padding: 0;
 }
 
@@ -9,18 +8,16 @@
 
 /* プロフィールヘッダーエリアは、中央寄せのまま維持します */
 .profile-header-wrapper {
-    /* アイコンとユーザー名のエリアは中央寄せを維持 */
-    max-width: 900px;
+    /* デスクトップ時の最大幅 */
+    max-width: 1000px; 
     margin: 0 auto;
-    padding: 0 20px 40px 20px; /* 左右にパディング、下部に間隔を空ける */
+    padding: 0 40px 40px 40px; /* デスクトップ時の左右パディングを調整 */
 }
 
 .profile-header {
     display: flex;
     align-items: center;
-    /* アイコンと情報ブロックを左右に配置し、中央の空間を広げる */
     justify-content: space-between;
-    /* プロフィール画像の下の薄い下線は不要なので削除 */
     border-bottom: none;
 }
 
@@ -41,7 +38,6 @@
 
 /* ユーザー情報（H2とボタンをまとめたブロック） */
 .user-info {
-    /* flex-grow: 1 を設定し、アイコンの右側全てを使うようにする */
     flex-grow: 1;
     margin-left: 30px;
     display: block;
@@ -51,18 +47,16 @@
 .user-name-and-edit {
     display: flex;
     align-items: center;
-    /* ユーザー名とボタンを離すために space-between を使用 */
     justify-content: space-between;
-    /* 親要素の flex-grow: 1 で確保した空間全てに広げる */
     width: 100%;
 }
 
 .user-info h2 {
     font-size: 24px;
     font-weight: bold;
-    margin: 0; /* 外部の調整に合わせるためマージンをリセット */
-    flex-shrink: 0; /* ユーザー名は縮まないように */
-    margin-right: 30px; /* ユーザー名とボタンの間にスペースを確保 */
+    margin: 0; 
+    flex-shrink: 0; 
+    margin-right: 30px; 
 }
 
 .profile-edit-button {
@@ -73,7 +67,6 @@
     text-decoration: none;
     font-size: 14px;
     transition: background-color 0.3s, color 0.3s;
-    /* ボタンの位置を右端に寄せるために flex-shrink: 0 */
     flex-shrink: 0;
 }
 
@@ -84,7 +77,6 @@
 
 /* --- タブ切り替えエリアと商品リスト --- */
 
-/* 画面幅全体に広がるセクションのためのラッパー (ここでは特にスタイルなし) */
 .content-full-width-section {
     width: 100%;
 }
@@ -92,9 +84,8 @@
 /* タブを画面左端から表示するためのコンテナ */
 .profile-tabs {
     display: flex;
-    /* タブのすぐ下に黒い下線を引く */
-    border-bottom: 2px solid #333; /* 太めの黒い線 */
-    padding-left: 20px; /* タブアイテム全体を左から20px離す */
+    border-bottom: 2px solid #333; 
+    padding-left: 40px; /* デスクトップ時のタブアイテム全体を左から40px離す */
 }
 
 .tab-item {
@@ -104,20 +95,19 @@
     font-size: 24px;
     font-weight: bold;
     transition: color 0.3s;
-    border-bottom: 3px solid transparent; /* 非アクティブ時の下線 */
-    margin-bottom: -2px; /* タブの下線が親要素のborder-bottomと重なるように調整 */
+    border-bottom: 3px solid transparent; 
+    margin-bottom: -2px; 
 }
 
 .tab-item.active {
-    color: #e74c3c; /* アクティブなタブの色を赤に */
-    border-bottom: 3px solid #e74c3c; /* アクティブ時の赤い下線 */
+    color: #e74c3c; 
+    border-bottom: 3px solid #e74c3c; 
 }
 
 /* --- 商品リストエリア --- */
 
-/* 商品リストも画面左端から配置 */
 .items-section {
-    padding: 40px 20px; /* 上下に40px、左右に20pxのパディング */
+    padding: 40px 40px; /* デスクトップ時の左右パディングを調整 */
 }
 
 .items-list {
@@ -128,7 +118,7 @@
     width: 100%;
 }
 
-/* 商品カードの共通スタイル */
+/* 商品カードの共通スタイル (省略) */
 .item-card {
     background-color: #fff;
     border: 1px solid #eee;
@@ -146,7 +136,7 @@
 
 .item-image {
     width: 100%;
-    padding-top: 100%; /* 1:1の比率 */
+    padding-top: 100%; 
     position: relative;
     background-color: #eee;
 }
@@ -194,14 +184,41 @@
 }
 
 /* --- レスポンシブ対応 --- */
-@media (max-width: 768px) {
-    .profile-header-wrapper {
-        padding: 20px 10px 20px 10px;
+
+/* 1. タブレット対応 (900px以下) */
+@media (max-width: 900px) {
+    /* 左右のパディングを減らす */
+    .profile-header-wrapper,
+    .profile-tabs,
+    .items-section {
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
-    /* モバイルでのヘッダーレイアウトを調整 */
+    /* 商品リストを4列から3列に変更 */
+    .items-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* 2. モバイル対応 (768px以下) */
+@media (max-width: 768px) {
+    /* 左右のパディングをさらに減らす */
+    .profile-header-wrapper,
+    .profile-tabs,
+    .items-section {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    /* ヘッダーエリア */
+    .profile-header-wrapper {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    /* モバイルでのヘッダーレイアウト: 縦並び、中央寄せ */
     .profile-header {
-        /* デフォルトのflex-direction: columnに戻す */
         flex-direction: column;
         align-items: center;
         text-align: center;
@@ -210,6 +227,7 @@
     .user-info {
         margin-left: 0;
         margin-top: 20px;
+        width: 100%; /* 全幅を使う */
     }
 
     /* ユーザー名と編集ボタンを縦に並べる（モバイル） */
@@ -220,25 +238,50 @@
     }
 
     .user-info h2 {
+        font-size: 22px; /* ユーザー名を少し小さく */
         margin-right: 0;
         margin-bottom: 15px;
+    }
+    
+    .profile-edit-button {
+        font-size: 16px;
+        padding: 10px 20px;
+        width: 100%; /* ボタンを横いっぱいに広げる */
+        max-width: 300px; /* 最大幅を設定 */
     }
 
     .user-icon {
         width: 100px;
         height: 100px;
     }
-
-    .profile-tabs {
-        padding-left: 10px; /* モバイルでの左右パディング */
+    
+    /* タブエリアの調整 */
+    .tab-item {
+        font-size: 20px; /* タブ文字を小さく */
+        padding: 8px 15px;
     }
 
     .items-section {
-        padding: 20px 10px; /* モバイルでの左右パディング */
+        padding-top: 20px; 
+        padding-bottom: 20px;
     }
 
     /* 商品リストを2列にする */
     .items-list {
         grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 3. 超小型デバイス対応 (480px以下) */
+@media (max-width: 480px) {
+    /* 商品リストを1列にする */
+    .items-list {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    /* ユーザー名もさらに小さく */
+    .user-info h2 {
+        font-size: 20px;
     }
 }
