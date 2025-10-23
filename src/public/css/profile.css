@@ -44,7 +44,7 @@
     /* flex-grow: 1 を設定し、アイコンの右側全てを使うようにする */
     flex-grow: 1;
     margin-left: 30px;
-    display: block; 
+    display: block;
 }
 
 /* ユーザー名と編集ボタンの横並び配置 */
@@ -54,7 +54,7 @@
     /* ユーザー名とボタンを離すために space-between を使用 */
     justify-content: space-between;
     /* 親要素の flex-grow: 1 で確保した空間全てに広げる */
-    width: 100%; 
+    width: 100%;
 }
 
 .user-info h2 {
@@ -101,6 +101,7 @@
     padding: 10px 20px;
     text-decoration: none;
     color: #555;
+    font-size: 24px;
     font-weight: bold;
     transition: color 0.3s;
     border-bottom: 3px solid transparent; /* 非アクティブ時の下線 */
@@ -111,7 +112,6 @@
     color: #e74c3c; /* アクティブなタブの色を赤に */
     border-bottom: 3px solid #e74c3c; /* アクティブ時の赤い下線 */
 }
-
 
 /* --- 商品リストエリア --- */
 
@@ -160,7 +160,8 @@
     object-fit: cover;
 }
 
-.item-name, .item-price {
+.item-name,
+.item-price {
     padding: 5px 10px;
     margin: 0;
     font-size: 14px;
@@ -197,7 +198,7 @@
     .profile-header-wrapper {
         padding: 20px 10px 20px 10px;
     }
-    
+
     /* モバイルでのヘッダーレイアウトを調整 */
     .profile-header {
         /* デフォルトのflex-direction: columnに戻す */
@@ -222,12 +223,12 @@
         margin-right: 0;
         margin-bottom: 15px;
     }
-    
+
     .user-icon {
         width: 100px;
         height: 100px;
     }
-    
+
     .profile-tabs {
         padding-left: 10px; /* モバイルでの左右パディング */
     }
@@ -235,7 +236,7 @@
     .items-section {
         padding: 20px 10px; /* モバイルでの左右パディング */
     }
-    
+
     /* 商品リストを2列にする */
     .items-list {
         grid-template-columns: repeat(2, 1fr);

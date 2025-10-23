@@ -16,27 +16,23 @@
 
     <div class="tab-container">
         <!-- おすすめタブ -->
-        {{-- URL生成を修正: $keywordがある場合のみクエリに追加する --}}
+        {{-- URL生成を簡素化: request()ヘルパを使用して既存のクエリパラメータ（keyword）を保持 --}}
         <?php
-        $recommend_url = url('/') . '?tab=recommend';
-        if (!empty($keyword)) {
-            $recommend_url .= '&keyword=' . urlencode($keyword);
-        }
+        $recommend_query = request()->except('tab');
+        $recommend_query['tab'] = 'recommend';
         ?>
-        <a href="{{ $recommend_url }}"
+        <a href="{{ route('item.index', $recommend_query) }}"
             class="tab-item {{ $tab == 'recommend' ? 'active' : '' }}">
             おすすめ
         </a>
 
         <!-- マイリストタブ -->
-        {{-- URL生成を修正: $keywordがある場合のみクエリに追加する --}}
+        {{-- URL生成を簡素化: request()ヘルパを使用して既存のクエリパラメータ（keyword）を保持 --}}
         <?php
-        $mylist_url = url('/') . '?tab=mylist';
-        if (!empty($keyword)) {
-            $mylist_url .= '&keyword=' . urlencode($keyword);
-        }
+        $mylist_query = request()->except('tab');
+        $mylist_query['tab'] = 'mylist';
         ?>
-        <a href="{{ $mylist_url }}"
+        <a href="{{ route('item.index', $mylist_query) }}"
             class="tab-item {{ $tab == 'mylist' ? 'active' : '' }}">
             マイリスト
         </a>
