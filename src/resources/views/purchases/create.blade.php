@@ -9,7 +9,6 @@
     @csrf
 
     <div class="purchase-container">
-        <h1 class="purchase-title">商品購入画面</h1>
 
         <div class="purchase-content">
             <div class="item-info-section">
