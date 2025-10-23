@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/profile_edit.css') }}" />
+@endsection
+
 @section('content')
 <div class="profile-edit-container">
     <h2>プロフィール設定</h2>
@@ -7,18 +11,21 @@
         @csrf
 
         <div class="form-group">
-            <div class="profile-image-preview">
-                @if (Auth::user()->profile_image_path)
-                <img src="{{ Storage::url(Auth::user()->profile_image_path) }}" alt="プロフィール画像">
-                @else
-                <img src="{{ asset('image/人物アイコン.png') }}" alt="デフォルト画像">
-                @endif
-
+            <!-- 修正点: 画像とボタンをまとめるラッパーを追加 -->
+            <div class="profile-image-group">
+                <div class="profile-image-preview">
+                    @if (Auth::user()->profile_image_path)
+                    <img src="{{ Storage::url(Auth::user()->profile_image_path) }}" alt="プロフィール画像">
+                    @else
+                    <img src="{{ asset('image/人物アイコン.png') }}" alt="デフォルト画像">
+                    @endif
+                </div>
+                <label class="file-label">
+                    <input type="file" name="profile_image">
+                    画像を選択する
+                </label>
             </div>
-            <label class="file-label">
-                <input type="file" name="profile_image">
-                画像を選択する
-            </label>
+            <!-- /修正点 -->
         </div>
 
         <div class="form-group">
