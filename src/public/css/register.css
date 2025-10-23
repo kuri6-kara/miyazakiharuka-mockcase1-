@@ -11,7 +11,9 @@
 
 .form {
     margin: 0 auto;
+    /* PCでのフォームの最大幅を制限 (500px) */
     width: 50%;
+    max-width: 500px;
     text-align: center;
 }
 
@@ -32,11 +34,12 @@
 
 .form__input--text input {
     padding: 10px;
-    width: 96.5%;
+    /* widthを100%にし、box-sizingでパディングを含める */
+    width: 100%;
     height: 40px;
     border: 1px solid rgba(95, 95, 95, 1);
     border-radius: 3px;
-
+    box-sizing: border-box; 
     appearance: none;
 }
 
@@ -64,4 +67,36 @@
 .login__button-submit {
      color: rgba(0, 115, 204, 1);
     text-decoration: none;
+}
+
+/* --- レスポンシブ対応 --- */
+
+@media (max-width: 768px) {
+    .register-form__content {
+        padding: 60px 15px; /* モバイルで上下のパディングを調整 */
+    }
+
+    .form {
+        /* モバイルではフォーム幅を広げ、入力しやすくする */
+        width: 85%;
+        max-width: none; /* max-widthを解除 */
+    }
+
+    .form__group-title {
+        font-size: 20px; /* フォントサイズを小さく */
+    }
+
+    .form__input--text input {
+        height: 50px; /* 入力欄の高さを上げてタップしやすくする */
+        font-size: 16px; /* フォントサイズを読みやすく */
+    }
+
+    .form__button-submit {
+        height: 55px; /* ボタンの高さを調整 */
+        font-size: 18px; /* ボタンの文字サイズを調整 */
+    }
+    
+    .login__link {
+        font-size: 16px; /* ログインリンクのフォントサイズを調整 */
+    }
 }
