@@ -1,39 +1,61 @@
+/* Reset and Base Styles */
+/* ... (既存のsanitize.cssなどは維持) ... */
+
+/* body要素に横スクロールを強制的に抑制するスタイルを追加 (維持) */
+body {
+    overflow-x: hidden; /* 横方向のスクロールを禁止し、余白の発生を防ぐ */
+    margin: 0;
+    padding: 0;
+}
+
 .header {
   background: #000;
+  /* ★ 修正点: width: 100% に戻し、calc()と負のマージンで全幅を強制します */
+  width: 100%; 
+  /* calc(100% + スクロールバーの幅) に近い効果を持たせる */
+  margin-right: calc(50% - 50vw);
+  padding-right: calc(50vw - 50%);
+  /* width: 100vw; の代わりにこのテクニックを使用 */
 }
 
 .header__inner {
   margin: 0 auto;
-  padding: 20px 15px;
-  max-width: 1230px;
+  /* デフォルトはモバイル向け：パディングを適用し、最大幅は持たない */
+  padding: 15px 10px; 
+  max-width: none;
 }
 
+/* PC/タブレット時 (769px以上) のロゴとナビゲーションの垂直方向の中央揃えを保証 */
 .header-utilities {
   display: flex;
-  align-items: center;
+  align-items: center; /* 垂直方向の中央揃え */
   justify-content: space-between;
 }
 
-.header__logo {
-  color: #fff;
-  /* text-decoration: none;
-  font-weight: bold;
-  font-size: 24px; */
-}
-
+/* ------------------------------------------- */
+/* --- ロゴ --- */
+/* ------------------------------------------- */
 .header__logo img {
     width: 120px;
     height: auto;
     max-width: 100%;
+    display: block; 
+    /* モバイル時とPC時でロゴの高さを揃えるために、デフォルトでパディングを適用 */
+    padding: 3px 0;
 }
 
+/* ------------------------------------------- */
+/* --- 検索フォーム --- */
+/* ------------------------------------------- */
+/* PC/タブレット表示時、ロゴとナビゲーションの中央に配置されます */
 .search-form {
     display: flex;
     align-items: center;
     border-radius: 4px;
     background-color: #fff;
     padding: 4px 8px;
-    width: 40%; /* 検索欄の幅を調整 */
+    flex-grow: 1; 
+    margin: 0 20px; 
     max-width: 500px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
@@ -63,35 +85,41 @@
     width: 20px;
     height: 20px;
 }
-/* ★★★ 修正箇所: ここまで ★★★ */
 
-
-.header-utilities nav {
-  /* 検索フォームの追加により、ナビゲーションの幅を調整 */
-  width: auto; 
-}
-
+/* ------------------------------------------- */
+/* --- ナビゲーション --- */
+/* ------------------------------------------- */
 .header-nav {
   display: flex;
-  align-items: center;
+  align-items: center; /* ナビゲーション内のアイテムを垂直方向の中央揃え */
   justify-content: space-between;
-  gap: 20px; /* アイテム間のスペースを確保 */
+  gap: 20px; 
 }
 
 .header-nav__link {
   color: #fff;
   text-decoration: none;
+  white-space: nowrap; 
+  display: flex;
+  align-items: center;
+  height: 36px; 
 }
 
+/* ログアウトボタンなどの装飾のないボタンの垂直中央揃えを強化 */
 .header-nav__button {
   border: none;
   background: transparent;
   color: #fff;
   font-size: 16px;
   cursor: pointer;
+  white-space: nowrap; 
+  display: flex;
+  align-items: center;
+  height: 36px; 
+  padding: 0; 
 }
 
-/* 出品ボタンのスタイルは既存のものを維持 */
+/* 出品ボタン (sell-button) はパディングを持つため、それに応じて調整 */
 .header-button.sell-button {
     background-color: #fff;
     color: #000;
@@ -99,5 +127,93 @@
     border-radius: 4px;
     text-decoration: none;
     font-weight: bold;
-    white-space: nowrap; /* テキストが折り返さないように */
+    white-space: nowrap; 
+    height: 36px; 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* ==================================================== */
+/* --- レスポンシブ対応 (769px以上: PC/タブレット用) --- */
+/* ==================================================== */
+@media (min-width: 769px) {
+    .header__inner {
+        /* PC表示時: 最大幅を設定し、左右のパディングを維持します。 */
+        padding: 20px 15px; 
+        max-width: 1200px;
+    }
+    
+    /* ヘッダーのコンテンツ全体に適用されていた padding を PC 時のみリセット */
+    /* これにより、コンテンツの配置は .header__inner の max-width と margin: auto に任せる */
+    .header {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+
+/* ==================================================== */
+/* --- レスポンシブ対応 (768px以下: モバイル用) --- */
+/* ==================================================== */
+@media (max-width: 768px) {
+    /* .header__inner はデフォルトの padding: 15px 10px; max-width: none; を使用 */
+    
+    .header-utilities {
+        flex-wrap: wrap; 
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* 1. ロゴとナビゲーションを上段の左右に配置 */
+    .header__logo {
+        margin-right: auto; 
+        order: 1; /* 上段左 */
+        width: auto; 
+        /* ナビゲーションと縦位置を合わせるため、ロゴの画像を少し小さく見せる */
+        transform: translateY(5px); 
+    }
+
+    .header-utilities nav {
+        order: 2; /* 上段右 */
+        width: auto;
+    }
+    
+    /* 2. 検索フォーム (下段: 全幅) */
+    .search-form {
+        order: 3; 
+        width: 100%; 
+        max-width: none;
+        margin: 15px 0 0 0; 
+        flex-grow: 1; 
+    }
+
+    /* 3. モバイルでのナビゲーションアイテムの調整 */
+    .header-nav {
+        gap: 8px; 
+        height: 100%;
+        align-items: flex-end; /* ナビゲーション全体を下に揃えてロゴとバランスを取る */
+    }
+
+    .header-nav__link,
+    .header-nav__button {
+        padding: 3px 5px;
+        font-size: 14px;
+        height: 30px; 
+    }
+    
+    .header-button.sell-button {
+        padding: 4px 8px; 
+        font-size: 14px;
+        height: 30px; 
+    }
+
+    .form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
 }
