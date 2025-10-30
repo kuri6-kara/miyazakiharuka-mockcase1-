@@ -62,6 +62,9 @@ class ItemController extends Controller
         }
 
 
+        // ★★★ 修正箇所: 出品日時で降順 (新しい順) に並び替える ★★★
+        $query->orderBy('created_at', 'desc');
+
         // 商品の取得と販売済みフラグの設定
         if (!isset($items)) {
             $items = $query->get();
