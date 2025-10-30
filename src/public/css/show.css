@@ -100,8 +100,7 @@
     margin-bottom: 20px;
 }
 
-/* [修正 1] アイコンと数字を縦並びにするためのコンテナ (統一) */
-/* .likes-count, .comments-count は .action-column を持つため、このルールのみで制御 */
+/* アイコンと数字を縦並びにするためのコンテナ (統一) */
 .action-column {
     display: flex;
     flex-direction: column; /* 要素を縦に並べる */
@@ -115,19 +114,8 @@
     padding: 0;
 }
 
-/* [削除] 冗長な定義を削除
-.likes-count,
-.comments-count {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #555;
-}
-*/
-
 /* いいねボタン (ログイン時) */
 .like-button {
-    /* button要素自体が action-column なので、個別のスタイルは最小限に */
     transition: opacity 0.3s;
 }
 
@@ -145,7 +133,7 @@
     margin: 0;
 }
 
-/* [修正 2] すべてのアイコン画像（imgタグ）にサイズと下マージンを適用 */
+/* すべてのアイコン画像（imgタグ）にサイズと下マージンを適用 */
 #like-icon img, /* ログイン時 */
 .comments-count .icon-img, /* ゲスト時/コメント */
 .likes-count .icon-img { /* ゲスト時 */
@@ -155,8 +143,7 @@
     margin-bottom: 5px; /* アイコンと数字の間に少しスペースを空ける */
 }
 
-/* [修正 3] カウント数の数字（spanタグ）にスタイルを適用 */
-/* ログイン時(#likes-count)とゲスト時/コメント(.count-number)の両方を対象にする */
+/* カウント数の数字（spanタグ）にスタイルを適用 */
 #likes-count,
 .count-number { 
     font-size: 16px;
@@ -165,19 +152,8 @@
     color: #555;
 }
 
-/* [削除] 競合していた不要なカウント数の定義を削除
-#likes-count,
-.likes-count,
-.comments-count {
-    font-size: 16px;
-    font-weight: bold; 
-    line-height: 1; 
-}
-*/
-
-/* いいね済みの場合のスタイル (画像の色が白黒の場合にCSSで色を付けるための例) */
+/* いいね済みの場合のスタイル */
 .like-button.liked #like-icon img {
-    /* アイコン画像自体で色分けしていない場合は、CSSフィルターで色を付けます */
     /* filter: brightness(0) saturate(100%) invert(34%) sepia(87%) saturate(5441%) hue-rotate(352deg) brightness(97%) contrast(100%); */
 }
 
@@ -244,7 +220,6 @@
 .item-info td {
     padding: 12px 10px;
     text-align: left;
-    /* カテゴリと商品の状態の下線（border-bottom）は削除済み */
     border-bottom: none; 
 }
 
@@ -283,7 +258,6 @@
 }
 
 .comment {
-    /* コメント全体の下線削除 */
     border-bottom: none; 
     padding: 15px 0;
 }
@@ -387,7 +361,7 @@
 }
 
 /* ---------------------------------------------------- */
-/* --- レスポンシブ対応 --- */
+/* --- レスポンシブ対応 (900px以下: タブレット・スマートフォン) --- */
 /* ---------------------------------------------------- */
 @media (max-width: 900px) {
     .show-container {
@@ -395,5 +369,68 @@
         margin: 20px auto 50px; 
         padding: 15px; 
     }
-    /* 以下略 */
+
+    /* [メインの修正] 横並びを縦並びにする */
+    .show-item {
+        flex-direction: column; /* 画像と詳細を縦に並べる */
+        gap: 20px;
+    }
+
+    /* [メインの修正] 幅を100%に戻す */
+    .show-item__image,
+    .show-item__details {
+        max-width: 100%;
+        width: 100%; /* 明示的に100%にする */
+        padding: 0; /* 詳細情報の不要なパディングをリセット */
+    }
+
+    /* 画像の最低高さを調整 */
+    .show-item__image img {
+        min-height: 300px; /* スマホで見やすい高さに */
+    }
+
+    /* 詳細情報の調整 */
+    .item-name {
+        font-size: 24px;
+    }
+
+    .price {
+        font-size: 28px;
+    }
+}
+
+/* ---------------------------------------------------- */
+/* --- レスポンシブ対応 (480px以下: スマートフォン) --- */
+/* ---------------------------------------------------- */
+@media (max-width: 480px) {
+    .show-container {
+        padding: 10px; 
+    }
+    
+    .item-name {
+        font-size: 22px;
+    }
+
+    .price {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    /* アクションエリアのアイコン間隔を調整 */
+    .likes-comments {
+        gap: 25px; 
+    }
+    
+    /* アイコンサイズを少し小さく */
+    #like-icon img, 
+    .comments-count .icon-img,
+    .likes-count .icon-img {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* コメントエリアの調整 */
+    .item-comments textarea {
+        height: 80px;
+    }
 }
