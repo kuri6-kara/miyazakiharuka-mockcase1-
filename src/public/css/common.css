@@ -3,19 +3,17 @@
 
 /* body要素に横スクロールを強制的に抑制するスタイルを追加 (維持) */
 body {
-    overflow-x: hidden; /* 横方向のスクロールを禁止し、余白の発生を防ぐ */
+    /* overflow-x: hidden; 横方向のスクロールを禁止し、余白の発生を防ぐ */
     margin: 0;
     padding: 0;
 }
 
 .header {
   background: #000;
-  /* ★ 修正点: width: 100% に戻し、calc()と負のマージンで全幅を強制します */
+  /* スクロールバーによる右端の白い余白を防ぐため、負のマージンのテクニックを維持 */
   width: 100%; 
-  /* calc(100% + スクロールバーの幅) に近い効果を持たせる */
-  margin-right: calc(50% - 50vw);
-  padding-right: calc(50vw - 50%);
-  /* width: 100vw; の代わりにこのテクニックを使用 */
+  /* margin-right: calc(50% - 50vw);
+  padding-right: calc(50vw - 50%); */
 }
 
 .header__inner {
@@ -23,6 +21,9 @@ body {
   /* デフォルトはモバイル向け：パディングを適用し、最大幅は持たない */
   padding: 15px 10px; 
   max-width: none;
+  /* ヘッダー要素の上下パディングを個別に調整するため、一旦 flex-direction: column; を設定 */
+  display: flex;
+  flex-direction: column;
 }
 
 /* PC/タブレット時 (769px以上) のロゴとナビゲーションの垂直方向の中央揃えを保証 */
@@ -35,12 +36,15 @@ body {
 /* ------------------------------------------- */
 /* --- ロゴ --- */
 /* ------------------------------------------- */
+.header__logo {
+    /* PC表示でのロゴの左右パディングを個別に設定するために、コンテナにmarginを設定 */
+    /* モバイル時も上段左に配置するために、このブロックは維持します */
+    width: auto;
+}
 .header__logo img {
-    width: 120px;
     height: auto;
     max-width: 100%;
     display: block; 
-    /* モバイル時とPC時でロゴの高さを揃えるために、デフォルトでパディングを適用 */
     padding: 3px 0;
 }
 
@@ -102,7 +106,6 @@ body {
   white-space: nowrap; 
   display: flex;
   align-items: center;
-  height: 36px; 
 }
 
 /* ログアウトボタンなどの装飾のないボタンの垂直中央揃えを強化 */
@@ -115,7 +118,6 @@ body {
   white-space: nowrap; 
   display: flex;
   align-items: center;
-  height: 36px; 
   padding: 0; 
 }
 
@@ -128,7 +130,7 @@ body {
     text-decoration: none;
     font-weight: bold;
     white-space: nowrap; 
-    height: 36px; 
+    width: 100px; 
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -140,16 +142,41 @@ body {
 /* ==================================================== */
 @media (min-width: 769px) {
     .header__inner {
-        /* PC表示時: 最大幅を設定し、左右のパディングを維持します。 */
-        padding: 20px 15px; 
-        max-width: 1200px;
+        /* 中央揃えと幅の制限 */
+        max-width: 100%;
+        /* PC表示では、ヘッダーの要素を縦に並べる必要がないため、flex-directionをrowに戻す */
+        flex-direction: row;
+        /* ロゴと検索フォームのパディングを個別に調整するため、上下左右のパディングをリセット */
+        padding: 0 0; 
     }
     
     /* ヘッダーのコンテンツ全体に適用されていた padding を PC 時のみリセット */
-    /* これにより、コンテンツの配置は .header__inner の max-width と margin: auto に任せる */
     .header {
         padding-left: 0;
         padding-right: 0;
+    }
+    
+    /* --- 1. ロゴのパディング (左: 40px, 上下: 22px) --- */
+    .header__logo {
+        padding: 22px 0 22px 0; /* 上 22px, 右 0, 下 22px, 左 40px */
+    }
+
+    /* --- 2. 検索フォームのパディング (上下: 15px) --- */
+    /* .header__inner が padding: 0 0; となったため、検索フォームのコンテナである .header-utilities にパディングを適用します */
+    .header-utilities {
+        /* 上下 15px を設定し、左右は内側の要素（ロゴ、ナビ）が持つパディング・マージンで制御 */
+        padding: 15px 0; 
+        width: 100%;
+    }
+    
+    /* 検索フォーム自体のマージンも調整が必要 */
+    .search-form {
+        margin: 0 0 0 65px; /* 既存のマージンを維持 */
+    }
+    
+    /* ナビゲーション側の右端にも 40px 程度の空間を確保 */
+    .header-nav {
+        padding-right: 40px; 
     }
 }
 
@@ -172,7 +199,6 @@ body {
         margin-right: auto; 
         order: 1; /* 上段左 */
         width: auto; 
-        /* ナビゲーションと縦位置を合わせるため、ロゴの画像を少し小さく見せる */
         transform: translateY(5px); 
     }
 
