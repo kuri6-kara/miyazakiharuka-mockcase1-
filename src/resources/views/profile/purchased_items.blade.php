@@ -12,7 +12,6 @@
             </div>
 
             <p class="item-name">{{ $purchase->item->name }}</p>
-            <p class="item-price">¥{{ number_format($purchase->item->price) }}</p>
         </a>
         @endif
     </div>
