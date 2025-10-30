@@ -123,52 +123,9 @@
         <button type="submit" class="submit-button">出品する</button>
     </form>
 </div>
+@endsection
 
-<script>
-    // 画像プレビュー機能
-    document.getElementById('item_image').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        const preview = document.getElementById('image-preview');
-        const placeholder = document.getElementById('image-placeholder');
-
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-                placeholder.style.display = 'none';
-            };
-            reader.readAsDataURL(file);
-        } else {
-            preview.src = '#';
-            preview.style.display = 'none';
-            placeholder.style.display = 'block';
-        }
-    });
-
-    // カテゴリタグのスタイル切り替え (JavaScriptでチェックボックスの状態を反映)
-    document.querySelectorAll('.category-tags label.tag').forEach(label => {
-        // ページ読み込み時にold()でチェック済みのタグに .tag-active クラスを適用
-        const checkboxId = label.getAttribute('for');
-        const checkbox = document.getElementById(checkboxId);
-        if (checkbox && checkbox.checked) {
-            label.classList.add('tag-active');
-        }
-
-        // クリックイベントでクラスをトグル
-        label.addEventListener('click', function(e) {
-            const checkboxId = this.getAttribute('for');
-            const checkbox = document.getElementById(checkboxId);
-
-            // クリック後（状態がトグルした後）にクラスを適用/解除
-            // ここではクリックされた要素のクラスを直接トグル
-            // 実際にはチェックボックスの状態が変わってからCSSで反映するのが理想だが、ここではJSで制御
-            if (checkbox.checked) {
-                this.classList.remove('tag-active');
-            } else {
-                this.classList.add('tag-active');
-            }
-        });
-    });
-</script>
+@section('script')
+{{-- 外部JavaScriptファイルを読み込みます --}}
+<script src="{{ asset('js/item_create.js') }}"></script>
 @endsection
