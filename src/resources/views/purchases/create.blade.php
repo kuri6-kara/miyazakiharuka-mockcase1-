@@ -92,27 +92,9 @@
     </div>
 </form>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const select = document.getElementById('payment_method_select');
+@endsection
 
-        const displaySpan = document.getElementById('selected-payment-name');
-
-
-        if (select && displaySpan) {
-            displaySpan.textContent = select.options[select.selectedIndex].text;
-        }
-
-        if (select) {
-            select.addEventListener('change', function() {
-                const selectedText = this.options[this.selectedIndex].text;
-
-                if (displaySpan) {
-                    displaySpan.textContent = selectedText;
-                }
-            });
-        }
-    });
-</script>
-
+@section('script')
+{{-- 外部JavaScriptファイルを読み込みます --}}
+<script src="{{ asset('js/purchase_create.js') }}"></script>
 @endsection
