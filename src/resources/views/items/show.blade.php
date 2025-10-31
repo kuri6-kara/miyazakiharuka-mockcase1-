@@ -47,7 +47,7 @@ $is_liked = Auth::check() ? $item->likes->contains('user_id', Auth::id()) : fals
                     @guest
                     <!-- [修正点] 数字を専用のspanで囲み、imgと数字のspanの2つの子要素にする -->
                     <span class="likes-count action-column">
-                        <img src="{{ Storage::url('icon/hoshigata-icon.png') }}" alt="いいねアイコン" class="icon-img">
+                        <img src="{{ Storage::url('icon/star-icon.png') }}" alt="いいねアイコン" class="icon-img">
                         <span class="count-number">{{ $item->likes->count() }}</span>
                     </span>
                     @endguest
