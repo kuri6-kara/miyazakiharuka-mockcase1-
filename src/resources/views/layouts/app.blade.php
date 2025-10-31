@@ -64,6 +64,8 @@
         @yield('content')
     </main>
 
+    {{-- ★★★ 修正箇所: この行を追加することで、子ビューの @section('script') の内容がここに読み込まれます ★★★ --}}
+    @yield('script')
 
 </body>
 

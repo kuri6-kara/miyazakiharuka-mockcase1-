@@ -127,71 +127,9 @@ $is_liked = Auth::check() ? $item->likes->contains('user_id', Auth::id()) : fals
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const likeButton = document.getElementById('like-button');
-        const likeIcon = document.getElementById('like-icon');
-        const likesCountSpan = document.getElementById('likes-count');
+@endsection
 
-        // アイコン画像要素を操作するための関数
-        function updateLikeIcon(isLiked) {
-            const imgElement = likeIcon.querySelector('img');
-            if (imgElement) {
-                // いいね済みの場合、赤色や塗りつぶし画像、未いいねの場合、白抜き画像など、
-                // 実際の画像ファイル名に合わせてパスを調整してください。
-                // 例として、ここではシンプルに alt テキストのみを更新します。
-                imgElement.alt = isLiked ? 'いいね済みアイコン' : 'いいねアイコン';
-                // 画像の色を変える場合は、CSSフィルターを適用するためにクラスのトグルが必要です
-            }
-        }
-
-        if (likeButton) {
-            likeButton.addEventListener('click', function() {
-                const itemId = this.dataset.itemId;
-                let isLiked = this.dataset.isLiked === 'true';
-                let currentCount = parseInt(likesCountSpan.textContent);
-
-                // CSRFトークンを取得
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-                fetch(`/items/${itemId}/like`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': csrfToken
-                        },
-                        body: JSON.stringify({
-                            item_id: itemId
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            // 状態を反転
-                            isLiked = data.action === 'attached';
-                            this.dataset.isLiked = isLiked ? 'true' : 'false';
-
-                            // ビューを更新
-                            if (isLiked) {
-                                this.classList.add('liked');
-                                likesCountSpan.textContent = currentCount + 1;
-                            } else {
-                                this.classList.remove('liked');
-                                likesCountSpan.textContent = currentCount - 1;
-                            }
-                            // アイコン画像を更新
-                            updateLikeIcon(isLiked);
-                        } else if (data.status === 'error' && data.message === 'unauthenticated') {
-                            // 認証エラーの場合
-                            window.location.href = '/login';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-            });
-        }
-    });
-</script>
-
+@section('script')
+{{-- 外部JavaScriptファイルを読み込みます --}}
+<script src="{{ asset('js/item_show.js') }}"></script>
 @endsection
