@@ -180,16 +180,8 @@
 /* --- レスポンシブ対応の強化 --- */
 /* ------------------------------------------- */
 
-/* 画面幅が900px以下になった場合の調整 */
-@media (max-width: 900px) {
-    .purchase-container {
-        padding-left: 40px;
-        padding-right: 40px;
-    }
-}
-
 /* 画面幅が768px以下になった場合の調整 (スマートフォン対応) */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     .purchase-container {
         padding-left: 20px;
         padding-right: 20px;

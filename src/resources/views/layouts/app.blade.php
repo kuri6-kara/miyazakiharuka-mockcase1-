@@ -41,7 +41,7 @@
                         </li>
                         <li class="header-nav__item">
                             @if (Auth::check())
-                            <form class="form" action="/logout" method="post" novalidate>
+                            <form class="nav_form" action="/logout" method="post" novalidate>
                                 @csrf
                                 <button class="header-nav__button">ログアウト</button>
                             </form>
