@@ -18,9 +18,6 @@
     /* 全体のボーダーを黒から赤に変更し、アクティブ時のスタイルに移動 */
     border-bottom: 2px solid #000; 
     margin-bottom: 76.39px;
-    width: 100%;
-    /* 画面両端のパディングをここで設定（商品一覧に合わせる） */
-    padding: 0 15px;
 }
 
 .tab-item {
