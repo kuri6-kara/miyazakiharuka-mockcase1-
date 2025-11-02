@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
-use App\Models\Like;
+use App\Models\Like; // Likeモデルをuseに追加
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\ItemRequest;
@@ -22,20 +22,56 @@ class ItemController extends Controller
         }
 
         $tab = $request->input('tab', 'recommend');
-        $keyword = $request->input('keyword'); // ★★★ キーワードの取得 ★★★
-        $query = Item::query();
+        $keyword = $request->input('keyword');
         $no_items_message = null; // メッセージを初期化
 
-        // 1. タブによる絞り込み (recommend または mylist)
+        // 商品のコレクションを初期化
+        $items = collect();
+
         if ($tab == 'mylist') {
             if (Auth::check()) {
-                // 認証済みの場合、いいねした商品のIDを取得
-                $likedItems = Auth::user()->likes()->pluck('item_id');
-                $query->whereIn('id', $likedItems);
+                // 認証済みの場合
+                // 1. ユーザーがいいねしたLikeレコードを、いいね日時（created_at）が新しい順に取得
+                $likedLikes = Auth::user()->likes()
+                    ->orderBy('created_at', 'desc') // いいねした日時で降順に並び替え
+                    ->get();
 
-                // いいねした商品がない場合のメッセージ (検索前)
-                if ($likedItems->isEmpty()) {
+                $likedItemIds = $likedLikes->pluck('item_id')->toArray();
+
+                // いいねした商品IDが空の場合のメッセージ
+                if (empty($likedItemIds)) {
+                    $items = collect();
                     $no_items_message = 'いいねした商品はありません';
+                } else {
+                    // 2. 取得したIDの商品をwhereInで絞り込む
+                    $itemQuery = Item::whereIn('id', $likedItemIds);
+
+                    // 3. キーワード検索（マイリストの絞り込み後、さらにキーワードで絞り込む）
+                    if (!empty($keyword)) {
+                        $itemQuery->where('name', 'LIKE', '%' . $keyword . '%');
+                        // キーワード検索の結果、何もヒットしなかった場合
+                        if ($itemQuery->count() === 0) {
+                            $no_items_message = '「' . $keyword . '」に一致する商品はありません';
+                            $items = collect(); // アイテムを空にする
+                        }
+                    }
+
+                    // 4. クエリ実行して商品を取得
+                    if ($items->isEmpty() && $no_items_message === null) { // アイテムがまだセットされておらず、メッセージも出ていない場合のみ実行
+                        $items = $itemQuery->get();
+                    }
+
+
+                    // 5. 取得した商品をlikedItemIdsの順序（いいね順）に並び替える
+                    // whereInで取得した順序は保証されないため、手動でソートする
+                    $items = $items->sortBy(function ($item) use ($likedItemIds) {
+                        return array_search($item->id, $likedItemIds);
+                    })->values();
+
+                    // キーワード検索により結果が0になった場合のメッセージを再チェック
+                    if ($items->isEmpty() && !isset($no_items_message)) {
+                        $no_items_message = '「' . $keyword . '」に一致する商品はありません';
+                    }
                 }
             } else {
                 // 未認証の場合、空のコレクションを返す
@@ -44,32 +80,31 @@ class ItemController extends Controller
             }
         } else {
             // おすすめタブの場合
+            $itemQuery = Item::query(); // 新しいクエリインスタンスを作成
+
             if (Auth::check()) {
                 // 自分の出品した商品は除外
-                $query->where('user_id', '!=', Auth::id());
+                $itemQuery->where('user_id', '!=', Auth::id());
             }
-        }
 
-        // 2. ★★★ キーワードによる絞り込み (部分一致) ★★★
-        // $tabによる絞り込み後、さらにキーワードで絞り込む（マイリスト検索状態の保持に対応）
-        if (!empty($keyword)) {
-            $query->where('name', 'LIKE', '%' . $keyword . '%');
+            // 出品日時で降順 (新しい順) に並び替える
+            $itemQuery->orderBy('created_at', 'desc');
 
-            // 絞り込みを行った結果、アイテムがなかった場合のメッセージを上書き
-            if (!isset($items) && $query->count() === 0) {
-                $no_items_message = '「' . $keyword . '」に一致する商品はありません';
+            // キーワード検索
+            if (!empty($keyword)) {
+                $itemQuery->where('name', 'LIKE', '%' . $keyword . '%');
+
+                // 絞り込みを行った結果、アイテムがなかった場合のメッセージを上書き
+                if ($itemQuery->count() === 0) {
+                    $no_items_message = '「' . $keyword . '」に一致する商品はありません';
+                }
             }
+
+            // 商品の取得
+            $items = $itemQuery->get();
         }
 
-
-        // ★★★ 修正箇所: 出品日時で降順 (新しい順) に並び替える ★★★
-        $query->orderBy('created_at', 'desc');
-
-        // 商品の取得と販売済みフラグの設定
-        if (!isset($items)) {
-            $items = $query->get();
-        }
-
+        // 商品の販売済みフラグの設定 (どのタブでも共通)
         $items = $items->map(function ($item) {
             $item->is_sold = $item->purchases->isNotEmpty();
             return $item;
@@ -158,7 +193,6 @@ class ItemController extends Controller
             // ユーザーに分かりやすいエラーメッセージを表示
             // throw ValidationException::withMessages(['error' => '出品情報の保存中にエラーが発生しました。時間を置いて再度お試しください。']);
             // エラーを適切にログに記録し、汎用的なエラーメッセージを返す
-            // この機能は今回はスキップし、throwせずにリダイレクトさせる
             return redirect()->back()->withErrors(['error' => '出品情報の保存中にエラーが発生しました。時間を置いて再度お試しください。'])->withInput();
         }
 
