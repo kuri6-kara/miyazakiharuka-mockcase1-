@@ -18,6 +18,7 @@
     /* 全体のボーダーを黒から赤に変更し、アクティブ時のスタイルに移動 */
     border-bottom: 2px solid #000; 
     margin-bottom: 76.39px;
+    width: 100%;
 }
 
 .tab-item {
@@ -115,9 +116,9 @@
 /* ==================================== */
 @media screen and (min-width: 768px) {
     /* タブのパディング調整 */
-    .tab-container {
-        padding: 0 30px; /* 左右の余白を縮小 */
-    }
+    /* .tab-container {
+        padding: 0 30px;
+    } */
 
     .tab-item {
         padding: 0 30px 10px 30px; /* タブ自体のパディングを調整 */
@@ -148,9 +149,9 @@
 /* ==================================== */
 @media screen and (min-width: 1400px) {
     /* タブのパディング調整 */
-    .tab-container {
-        padding: 0 100px; /* 左右の余白をさらに拡大 */
-    }
+    /* .tab-container {
+        padding: 0 100px;
+    } */
 
     .tab-item {
         padding: 0 60px 10px 60px; /* タブ自体のパディングを調整 */
