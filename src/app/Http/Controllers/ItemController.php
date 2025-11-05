@@ -21,7 +21,16 @@ class ItemController extends Controller
             $request->session()->forget('shipping_address');
         }
 
-        $tab = $request->input('tab', 'recommend');
+        // --- ★★★ ここから初期タブ表示のロジックを変更 ★★★ ---
+        $default_tab = 'recommend';
+        if (! $request->filled('tab') && Auth::check()) {
+            // tabパラメータがなく、かつログインしている場合、初期タブを 'mylist' にする
+            $default_tab = 'mylist';
+        }
+        $tab = $request->input('tab', $default_tab);
+        // --- ★★★ 初期タブ表示のロジック変更ここまで ★★★ ---
+
+
         $keyword = $request->input('keyword');
         $no_items_message = null; // メッセージを初期化
 
@@ -51,7 +60,6 @@ class ItemController extends Controller
                     }
 
                     // 4. クエリ実行して商品を取得
-                    // ※ここで$itemsを取得し、後の処理でソートと空チェックを行う
                     $items = $itemQuery->get();
 
                     // 5. 取得した商品をlikedItemIdsの順序（いいね順）に並び替える
@@ -66,17 +74,17 @@ class ItemController extends Controller
                             // キーワード検索により結果が0になった場合
                             $no_items_message = '「' . $keyword . '」に一致する商品はありません';
                         }
-                        // ここで$itemsが空になるのは、LikedItemIdsには含まれるがキーワードで絞り込まれた結果0になった場合のみ。
-                        // LikedItemIdsが空の場合は上の if (empty($likedItemIds)) で処理済み。
                     }
                 }
             } else {
                 // 未認証の場合、空のコレクションを返す
                 $items = collect();
-                // メッセージはビュー側で処理されます
+                // 未認証でマイリストタブを選択した場合、おすすめタブの処理にフォールバックさせたい場合は、
+                // ここで $tab = 'recommend'; として、以下の else { // おすすめタブの場合 } に処理を移すことも可能ですが、
+                // 今回はシンプルに空コレクションとします。
             }
         } else {
-            // おすすめタブの場合
+            // おすすめタブの場合 (または未認証時にマイリストが選択されたが空だった場合のフォールバック)
             $itemQuery = Item::query(); // 新しいクエリインスタンスを作成
 
             if (Auth::check()) {
@@ -197,3 +205,4 @@ class ItemController extends Controller
         return redirect()->route('item.index')->with('success', '商品を出品しました！');
     }
 }
+
