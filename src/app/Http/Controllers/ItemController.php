@@ -33,14 +33,13 @@ class ItemController extends Controller
                 // 認証済みの場合
                 // 1. ユーザーがいいねしたLikeレコードを、いいね日時（created_at）が新しい順に取得
                 $likedLikes = Auth::user()->likes()
-                    ->orderBy('created_at', 'desc') // いいねした日時で降順に並び替え
+                    ->orderBy('created_at', 'desc') // ★★★ いいねした日時で降順に並び替え ★★★
                     ->get();
 
                 $likedItemIds = $likedLikes->pluck('item_id')->toArray();
 
                 // いいねした商品IDが空の場合のメッセージ
                 if (empty($likedItemIds)) {
-                    $items = collect();
                     $no_items_message = 'いいねした商品はありません';
                 } else {
                     // 2. 取得したIDの商品をwhereInで絞り込む
@@ -49,18 +48,11 @@ class ItemController extends Controller
                     // 3. キーワード検索（マイリストの絞り込み後、さらにキーワードで絞り込む）
                     if (!empty($keyword)) {
                         $itemQuery->where('name', 'LIKE', '%' . $keyword . '%');
-                        // キーワード検索の結果、何もヒットしなかった場合
-                        if ($itemQuery->count() === 0) {
-                            $no_items_message = '「' . $keyword . '」に一致する商品はありません';
-                            $items = collect(); // アイテムを空にする
-                        }
                     }
 
                     // 4. クエリ実行して商品を取得
-                    if ($items->isEmpty() && $no_items_message === null) { // アイテムがまだセットされておらず、メッセージも出ていない場合のみ実行
-                        $items = $itemQuery->get();
-                    }
-
+                    // ※ここで$itemsを取得し、後の処理でソートと空チェックを行う
+                    $items = $itemQuery->get();
 
                     // 5. 取得した商品をlikedItemIdsの順序（いいね順）に並び替える
                     // whereInで取得した順序は保証されないため、手動でソートする
@@ -68,9 +60,14 @@ class ItemController extends Controller
                         return array_search($item->id, $likedItemIds);
                     })->values();
 
-                    // キーワード検索により結果が0になった場合のメッセージを再チェック
-                    if ($items->isEmpty() && !isset($no_items_message)) {
-                        $no_items_message = '「' . $keyword . '」に一致する商品はありません';
+                    // キーワード検索またはいいね数が0で結果が0になった場合のメッセージをチェック
+                    if ($items->isEmpty()) {
+                        if (!empty($keyword)) {
+                            // キーワード検索により結果が0になった場合
+                            $no_items_message = '「' . $keyword . '」に一致する商品はありません';
+                        }
+                        // ここで$itemsが空になるのは、LikedItemIdsには含まれるがキーワードで絞り込まれた結果0になった場合のみ。
+                        // LikedItemIdsが空の場合は上の if (empty($likedItemIds)) で処理済み。
                     }
                 }
             } else {
@@ -87,21 +84,21 @@ class ItemController extends Controller
                 $itemQuery->where('user_id', '!=', Auth::id());
             }
 
-            // 出品日時で降順 (新しい順) に並び替える
+            // ★★★ 出品日時で降順 (新しい順) に並び替える ★★★
             $itemQuery->orderBy('created_at', 'desc');
 
             // キーワード検索
             if (!empty($keyword)) {
                 $itemQuery->where('name', 'LIKE', '%' . $keyword . '%');
-
-                // 絞り込みを行った結果、アイテムがなかった場合のメッセージを上書き
-                if ($itemQuery->count() === 0) {
-                    $no_items_message = '「' . $keyword . '」に一致する商品はありません';
-                }
             }
 
             // 商品の取得
             $items = $itemQuery->get();
+
+            // 絞り込みを行った結果、アイテムがなかった場合のメッセージ
+            if ($items->isEmpty() && !empty($keyword)) {
+                $no_items_message = '「' . $keyword . '」に一致する商品はありません';
+            }
         }
 
         // 商品の販売済みフラグの設定 (どのタブでも共通)
