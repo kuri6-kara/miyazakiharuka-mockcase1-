@@ -40,6 +40,8 @@ class ItemController extends Controller
         if ($tab == 'mylist') {
             if (Auth::check()) {
                 // 認証済みの場合
+                $user_id = Auth::id(); // 認証済みユーザーIDを取得
+
                 // 1. ユーザーがいいねしたLikeレコードを、いいね日時（created_at）が新しい順に取得
                 $likedLikes = Auth::user()->likes()
                     ->orderBy('created_at', 'desc') // ★★★ いいねした日時で降順に並び替え ★★★
@@ -53,6 +55,9 @@ class ItemController extends Controller
                 } else {
                     // 2. 取得したIDの商品をwhereInで絞り込む
                     $itemQuery = Item::whereIn('id', $likedItemIds);
+
+                    // ★★★ 修正箇所: マイリストでも自分の出品した商品は除外する ★★★
+                    $itemQuery->where('user_id', '!=', $user_id);
 
                     // 3. キーワード検索（マイリストの絞り込み後、さらにキーワードで絞り込む）
                     if (!empty($keyword)) {
@@ -73,15 +78,18 @@ class ItemController extends Controller
                         if (!empty($keyword)) {
                             // キーワード検索により結果が0になった場合
                             $no_items_message = '「' . $keyword . '」に一致する商品はありません';
+                        } elseif (count($likedItemIds) > 0) {
+                            // いいねした商品の中に自分の出品した商品しかなかった場合
+                            $no_items_message = 'いいねした商品はありますが、自分の出品した商品はマイリストには表示されません。';
+                        } else {
+                            // それ以外（いいねした商品がない）
+                            $no_items_message = 'いいねした商品はありません';
                         }
                     }
                 }
             } else {
                 // 未認証の場合、空のコレクションを返す
                 $items = collect();
-                // 未認証でマイリストタブを選択した場合、おすすめタブの処理にフォールバックさせたい場合は、
-                // ここで $tab = 'recommend'; として、以下の else { // おすすめタブの場合 } に処理を移すことも可能ですが、
-                // 今回はシンプルに空コレクションとします。
             }
         } else {
             // おすすめタブの場合 (または未認証時にマイリストが選択されたが空だった場合のフォールバック)
@@ -205,4 +213,3 @@ class ItemController extends Controller
         return redirect()->route('item.index')->with('success', '商品を出品しました！');
     }
 }
-
