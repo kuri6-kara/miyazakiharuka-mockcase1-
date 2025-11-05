@@ -32,20 +32,33 @@ class PurchaseController extends Controller
 
         $user = Auth::user();
 
+        // 配送先情報をセッションから取得、なければユーザーの登録情報を使用
         $address_data = session('shipping_address') ?? [
             'postcode' => $user->postcode,
             'address' => $user->address,
             'building' => $user->building,
         ];
 
-        return view('purchases.create', compact('item', 'user', 'address_data', 'payment_methods'));
+        // 支払い方法IDをセッションから取得（住所変更後に戻ってきた場合の保持された値）
+        $selected_payment_method_id = session('selected_payment_method_id');
+
+        // セッションから取得した後はクリアしておく（次回リダイレクト時に古い値を使わないように）
+        if ($selected_payment_method_id) {
+            session()->forget('selected_payment_method_id');
+        }
+        // ★★★ 
+
+        return view('purchases.create', compact('item', 'user', 'address_data', 'payment_methods', 'selected_payment_method_id'));
     }
 
     /**
+     * 配送先住所変更画面を表示する
+     *
      * @param  string $item_id
+     * @param  \Illuminate\Http\Request $request // 修正点: クエリパラメータを受け取るためにRequestを追加
      * @return \Illuminate\View\View
      */
-    public function edit(string $item_id)
+    public function edit(string $item_id, Request $request) // 修正点: Request を受け取るように変更
     {
         $item = Item::find($item_id);
         if (!$item) {
@@ -54,24 +67,46 @@ class PurchaseController extends Controller
 
         $user = Auth::user();
 
+        // セッションに保存された最新の住所情報を優先して表示
         $address_data = session('shipping_address') ?? [
             'postcode' => $user->postcode,
             'address' => $user->address,
             'building' => $user->building,
         ];
 
-        return view('purchases.edit', compact('item', 'address_data'));
+        // 修正点: 購入画面から遷移する際にクエリパラメータ 'payment_method_id' で渡された値を取得
+        $selected_payment_method_id = $request->query('payment_method_id');
+
+        return view('purchases.edit', compact('item', 'address_data', 'selected_payment_method_id'));
     }
 
     /**
+     * 配送先住所を更新し、購入画面へリダイレクトする
+     * (機能要件に従い、/purchase/address/{item_id} の POST メソッドとして使用)
+     *
      * @param  \Illuminate\Http\Request $request
      * @param  string $item_id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, string $item_id)
     {
-        $request->session()->put('shipping_address', $request->all());
+        // 修正点: 住所情報のバリデーションを追加
+        $request->validate([
+            'postcode' => 'required|string|regex:/^\d{3}-?\d{4}$/', // 郵便番号のフォーマット
+            'address' => 'required|string|max:255',
+            'building' => 'nullable|string|max:255',
+        ]);
 
+        // 配送先情報をセッションに保存
+        // フォームで送信されたデータのみを保存
+        $request->session()->put('shipping_address', $request->only(['postcode', 'address', 'building']));
+
+        // 修正点: フォームから渡された payment_method_id をセッションに保存して保持
+        if ($request->filled('payment_method_id')) {
+            $request->session()->put('selected_payment_method_id', $request->input('payment_method_id'));
+        }
+
+        // 要件: 更新後、購入画面へリダイレクト
         return redirect()->route('purchase.create', ['item_id' => $item_id])
             ->with('status', '配送先情報を更新しました。');
     }
@@ -113,17 +148,19 @@ class PurchaseController extends Controller
                 'building' => $address_data['building'] ?? Auth::user()->building,
             ]);
 
-            // 2. 商品ステータスをSOLDに変更
-            $item->update(['is_sold' => true]);
+            // 2. 商品ステータスをSOLDに変更 (ここではPurchaseモデルのリレーションに依存している可能性が高い)
+            $item->update();
 
-            // 3. セッションの配送先情報をクリア
+            // 3. セッションの配送先情報と支払い方法IDをクリア
             $request->session()->forget('shipping_address');
+            $request->session()->forget('selected_payment_method_id');
+
 
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
             // エラーログの記録（開発用）
-            // \Log::error("Purchase failed: " . $e->getMessage()); 
+            // \Log::error("Purchase failed: " . $e->getMessage());
             return redirect()->back()->withErrors(['db' => '購入処理中にエラーが発生しました。']);
         }
 

@@ -12,8 +12,13 @@
     <div class="address-change-card">
         <h2 class="section-heading mb-6 text-center">住所の変更</h2>
 
+        {{-- 修正点1: フォームアクションを既存の POST ルート purchase.update に戻す --}}
         <form method="POST" action="{{ route('purchase.update', ['item_id' => $item->id]) }}">
             @csrf
+
+            {{-- 修正点2: 選択中の payment_method_id を保持するための隠しフィールドを追加 --}}
+            {{-- $selected_payment_method_id は PurchaseController の edit メソッドから渡されます --}}
+            <input type="hidden" name="payment_method_id" value="{{ $selected_payment_method_id ?? '' }}">
 
             {{-- 郵便番号 --}}
             <div class="form-group">
