@@ -175,4 +175,35 @@ class RegistrationTest extends TestCase
         // 3. ユーザーが認証されていないことを確認
         $this->assertGuest();
     }
+
+    /**
+     * 【最終テストケース】全ての項目が入力されている場合、会員情報が登録され、プロフィール設定画面に遷移されることをテスト
+     *
+     * @return void
+     */
+    public function test_new_users_can_register()
+    {
+        // 登録に必要な有効なデータ
+        $userData = [
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123', // 確認用パスワード
+        ];
+
+        // /register ルートにPOSTリクエストを送信
+        $response = $this->post('/register', $userData);
+
+        // 1. データベースにユーザーが作成されたことを確認
+        $this->assertDatabaseHas('users', [
+            'email' => 'test@example.com',
+            'name' => 'Test User',
+        ]);
+
+        // 2. 登録後、プロフィール設定画面('/mypage/profile') にリダイレクトされることを確認 (期待挙動: 画面遷移)
+        $response->assertRedirect('/mypage/profile');
+
+        // 3. ユーザーが認証済みであることを確認 (期待挙動: 会員情報が登録された)
+        $this->assertAuthenticated();
+    }
 }
