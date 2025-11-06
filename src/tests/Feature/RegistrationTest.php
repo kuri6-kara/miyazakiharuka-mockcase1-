@@ -111,4 +111,36 @@ class RegistrationTest extends TestCase
         // 3. ユーザーが認証されていないことを確認
         $this->assertGuest();
     }
+
+    /**
+     * 【テストケース４】パスワードが７文字以下の場合、バリデーションメッセージが表示されることをテスト
+     * 期待挙動：「パスワードは８文字以上で入力してください」というバリデーションメッセージが表示される
+     *
+     * @return void
+     */
+    public function test_registration_fails_when_password_is_too_short()
+    {
+        // パスワード（password）を7文字（最小文字数8未満）にしたデータ
+        $userData = [
+            'name' => 'User With Short Password',
+            'email' => 'shortpass@example.com',
+            'password' => 'pass123', // 7文字
+            'password_confirmation' => 'pass123',
+        ];
+
+        // /register ルートにPOSTリクエストを送信
+        $response = $this->post('/register', $userData);
+
+        // 1. レスポンスがバリデーションエラーを含んでいることを確認
+        // Laravelのデフォルトでは、この時 'password' フィールドにエラーが発生します
+        $response->assertSessionHasErrors('password');
+
+        // 2. データベースにユーザーが作成されていないことを確認
+        $this->assertDatabaseMissing('users', [
+            'email' => 'shortpass@example.com'
+        ]);
+
+        // 3. ユーザーが認証されていないことを確認
+        $this->assertGuest();
+    }
 }
