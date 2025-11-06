@@ -143,4 +143,36 @@ class RegistrationTest extends TestCase
         // 3. ユーザーが認証されていないことを確認
         $this->assertGuest();
     }
+
+    /**
+     * 【テストケース５】パスワードが確認用パスワードと一致しない場合、バリデーションエラーが表示されることをテスト
+     * 期待挙動：「パスワードと一致しません」というバリデーションメッセージが表示される
+     *
+     * @return void
+     */
+    public function test_registration_fails_when_password_and_confirmation_do_not_match()
+    {
+        // パスワードと確認用パスワードを異なる値にしたデータ
+        $userData = [
+            'name' => 'User With Mismatch Password',
+            'email' => 'mismatch@example.com',
+            'password' => 'correctpassword', // 正しいパスワード
+            'password_confirmation' => 'wrongpassword', // 間違った確認用パスワード
+        ];
+
+        // /register ルートにPOSTリクエストを送信
+        $response = $this->post('/register', $userData);
+
+        // 1. レスポンスがバリデーションエラーを含んでいることを確認
+        // confirmed ルールは 'password' フィールドに対してエラーを返します
+        $response->assertSessionHasErrors('password');
+
+        // 2. データベースにユーザーが作成されていないことを確認
+        $this->assertDatabaseMissing('users', [
+            'email' => 'mismatch@example.com'
+        ]);
+
+        // 3. ユーザーが認証されていないことを確認
+        $this->assertGuest();
+    }
 }
