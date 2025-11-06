@@ -18,8 +18,6 @@ class RegistrationTest extends TestCase
     // テストごとにデータベースをリフレッシュし、マイグレーションを実行
     use RefreshDatabase;
 
-    
-
     /**
      * 【テストケース１】名前が入力されていない場合、バリデーションメッセージが表示されることをテスト
      * 期待挙動：「お名前を入力してください」というバリデーションメッセージが表示される
@@ -45,6 +43,38 @@ class RegistrationTest extends TestCase
         // 2. データベースにユーザーが作成されていないことを確認
         $this->assertDatabaseMissing('users', [
             'email' => 'missingname@example.com'
+        ]);
+
+        // 3. ユーザーが認証されていないことを確認
+        $this->assertGuest();
+    }
+
+    /**
+     * 【テストケース１】メールアドレスが入力されていない場合、バリデーションメッセージが表示されることをテスト
+     * 期待挙動：「メールアドレスを入力してください」というバリデーションメッセージが表示される
+     *
+     * @return void
+     */
+    public function test_registration_fails_when_email_is_missing()
+    {
+        // メールアドレス（email）を空にしたデータ
+        $userData = [
+            'name' => 'User Without Email',
+            'email' => '', // テスト対象: メールアドレスが未入力
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ];
+
+        // /register ルートにPOSTリクエストを送信
+        $response = $this->post('/register', $userData);
+
+        // 1. レスポンスがバリデーションエラーを含んでいることを確認
+        $response->assertSessionHasErrors('email');
+
+        // 2. データベースにユーザーが作成されていないことを確認 (メールアドレスが空のユーザーは存在しないはず)
+        // 今回のPOSTデータに合わせて、メールアドレスが空のレコードがないことを確認
+        $this->assertDatabaseMissing('users', [
+            'email' => ''
         ]);
 
         // 3. ユーザーが認証されていないことを確認
