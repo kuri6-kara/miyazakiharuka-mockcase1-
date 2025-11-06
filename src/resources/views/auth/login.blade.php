@@ -40,8 +40,6 @@
                     @error('password')
                     {{ $message }}
                     @enderror
-
-                    
                 </div>
             </div>
         </div>
