@@ -7,7 +7,6 @@
 @section('content')
 <div class="main-container">
 
-    {{-- 検索結果ない場合のメッセージ --}}
     @if (isset($no_items_message))
     <div class="no-items-message-container">
         <p class="no-items-message">{{ $no_items_message }}</p>
@@ -15,8 +14,6 @@
     @endif
 
     <div class="tab-container">
-        <!-- おすすめタブ -->
-        {{-- URL生成を簡素化: request()ヘルパを使用して既存のクエリパラメータ（keyword）を保持 --}}
         <?php
         $recommend_query = request()->except('tab');
         $recommend_query['tab'] = 'recommend';
@@ -26,8 +23,6 @@
             おすすめ
         </a>
 
-        <!-- マイリストタブ -->
-        {{-- URL生成を簡素化: request()ヘルパを使用して既存のクエリパラメータ（keyword）を保持 --}}
         <?php
         $mylist_query = request()->except('tab');
         $mylist_query['tab'] = 'mylist';
@@ -49,7 +44,6 @@
                     <img src="https://via.placeholder.com/180x180?text=No+Image" alt="画像なし">
                     @endif
 
-                    {{-- SOLDバッジの表示 --}}
                     @if ($item->is_sold)
                     <div class="sold-badge">SOLD</div>
                     @endif

@@ -22,9 +22,7 @@ $is_liked = Auth::check() ? $item->likes->contains('user_id', Auth::id()) : fals
 
             <div class="item-actions">
                 <div class="likes-comments">
-                    <!-- いいねボタン (ログインユーザー) -->
                     @auth
-                    <!-- button要素自体が action-column を持つため、構造は維持 -->
                     <button
                         id="like-button"
                         data-item-id="{{ $item->id }}"
@@ -32,10 +30,8 @@ $is_liked = Auth::check() ? $item->likes->contains('user_id', Auth::id()) : fals
                         class="like-button @if($is_liked) liked @endif action-column">
                         <span id="like-icon">
                             @if($is_liked)
-                            <!-- いいね済み（星型アイコン） -->
                             <img src="{{ Storage::url('icon/star-icon.png') }}" alt="いいね済みアイコン">
                             @else
-                            <!-- 未いいね（星型アイコン） -->
                             <img src="{{ Storage::url('icon/star-icon.png') }}" alt="いいねアイコン">
                             @endif
                         </span>
@@ -43,17 +39,13 @@ $is_liked = Auth::check() ? $item->likes->contains('user_id', Auth::id()) : fals
                     </button>
                     @endauth
 
-                    <!-- いいね表示 (ゲストユーザー) -->
                     @guest
-                    <!-- [修正点] 数字を専用のspanで囲み、imgと数字のspanの2つの子要素にする -->
                     <span class="likes-count action-column">
                         <img src="{{ Storage::url('icon/star-icon.png') }}" alt="いいねアイコン" class="icon-img">
                         <span class="count-number">{{ $item->likes->count() }}</span>
                     </span>
                     @endguest
 
-                    <!-- コメントアイコン -->
-                    <!-- [修正点] 数字を専用のspanで囲み、imgと数字のspanの2つの子要素にする -->
                     <span class="comments-count action-column">
                         <img src="{{ Storage::url('icon/hukidasi-icon.png') }}" alt="吹き出しアイコン" class="icon-img">
                         <span class="count-number">{{ $item->comments->count() }}</span>
@@ -97,7 +89,6 @@ $is_liked = Auth::check() ? $item->likes->contains('user_id', Auth::id()) : fals
                 @foreach ($item->comments as $comment)
                 <div class="comment">
                     <div class="comment-header">
-                        <!-- ユーザー画像を表示する部分 -->
                         <div class="comment-user-image">
                             @if ($comment->user->profile_image_path)
                             <img src="{{ Storage::url($comment->user->profile_image_path) }}" alt="{{ $comment->user->name }}のプロフィール画像" class="profile-icon">
@@ -130,6 +121,5 @@ $is_liked = Auth::check() ? $item->likes->contains('user_id', Auth::id()) : fals
 @endsection
 
 @section('script')
-{{-- 外部JavaScriptファイルを読み込みます --}}
 <script src="{{ asset('js/item_show.js') }}"></script>
 @endsection

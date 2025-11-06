@@ -8,14 +8,12 @@
 <div class="sell-container">
     <h1 class="page-title">商品の出品</h1>
 
-    {{-- 出品成功メッセージの表示 --}}
     @if (session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
     </div>
     @endif
 
-    {{-- DB保存エラーメッセージの表示 --}}
     @error('error')
     <div class="form__error alert-danger">{{ $message }}</div>
     @enderror
@@ -23,7 +21,6 @@
     <form action="{{ route('item.store') }}" method="POST" enctype="multipart/form-data" class="sell-form">
         @csrf
 
-        {{-- 商品画像 --}}
         <section class="form-section image-section">
             <h2>商品画像</h2>
             <div class="image-upload-area">
@@ -38,14 +35,12 @@
             @enderror
         </section>
 
-        {{-- 商品の詳細 --}}
         <section class="form-section details-section">
             <h2>商品の詳細</h2>
 
             <div class="form-group category-group">
                 <label>カテゴリ</label>
                 <div class="category-tags">
-                    {{-- ItemControllerのcreate()から渡されたカテゴリリストを使用 --}}
                     @foreach ($categories as $category)
                     <input
                         type="checkbox"
@@ -69,7 +64,6 @@
                 <label for="condition">商品の状態</label>
                 <select id="condition" name="condition" class="input-select">
                     <option value="">選択してください</option>
-                    {{-- ItemControllerのcreate()から渡された商品の状態リストを使用 --}}
                     @foreach ($conditions as $condition)
                     <option value="{{ $condition }}" {{ old('condition') == $condition ? 'selected' : '' }}>
                         {{ $condition }}
@@ -82,7 +76,6 @@
             </div>
         </section>
 
-        {{-- 商品名と説明 --}}
         <section class="form-section names-description-section">
             <h2>商品名と説明</h2>
 
@@ -108,7 +101,6 @@
             </div>
         </section>
 
-        {{-- 販売価格 --}}
         <section class="form-section price-section">
             <h2>販売価格</h2>
             <div class="form-group price-input-group">
@@ -126,6 +118,5 @@
 @endsection
 
 @section('script')
-{{-- 外部JavaScriptファイルを読み込みます --}}
 <script src="{{ asset('js/item_create.js') }}"></script>
 @endsection
