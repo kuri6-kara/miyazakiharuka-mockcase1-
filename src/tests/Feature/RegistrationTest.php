@@ -80,4 +80,35 @@ class RegistrationTest extends TestCase
         // 3. ユーザーが認証されていないことを確認
         $this->assertGuest();
     }
+
+    /**
+     * 【テストケース３】パスワードが入力されていない場合、バリデーションメッセージが表示されることをテスト
+     * 期待挙動：「パスワードを入力してください」というバリデーションメッセージが表示される
+     *
+     * @return void
+     */
+    public function test_registration_fails_when_password_is_missing()
+    {
+        // パスワード（password）を空にしたデータ
+        $userData = [
+            'name' => 'User Without Password',
+            'email' => 'missingpass@example.com',
+            'password' => '', // テスト対象: パスワード未入力
+            'password_confirmation' => '', // 確認用パスワードも空にする
+        ];
+
+        // /register ルートにPOSTリクエストを送信
+        $response = $this->post('/register', $userData);
+
+        // 1. レスポンスがバリデーションエラーを含んでいることを確認
+        $response->assertSessionHasErrors('password');
+
+        // 2. データベースにユーザーが作成されていないことを確認
+        $this->assertDatabaseMissing('users', [
+            'email' => 'missingpass@example.com'
+        ]);
+
+        // 3. ユーザーが認証されていないことを確認
+        $this->assertGuest();
+    }
 }
