@@ -11,7 +11,6 @@
         @csrf
 
         <div class="form-group">
-            <!-- 修正点: 画像とボタンをまとめるラッパーを追加 -->
             <div class="profile-image-group">
                 <div class="profile-image-preview">
                     @if (Auth::user()->profile_image_path)
@@ -25,7 +24,6 @@
                     画像を選択する
                 </label>
             </div>
-            <!-- /修正点 -->
         </div>
 
         <div class="form-group">
