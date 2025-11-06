@@ -30,10 +30,8 @@
                     <h2 class="section-heading">支払い方法</h2>
                     <div class="mt-2">
                         <select name="payment_method_id" id="payment_method_select" class="border p-2 rounded-md">
-                            {{-- 選択肢なしの場合にselectedを付与 --}}
                             <option value="" disabled {{ !old('payment_method_id', $selected_payment_method_id) ? 'selected' : '' }}>選択してください</option>
                             @foreach ($payment_methods as $method)
-                            {{-- $selected_payment_method_id を利用して選択状態を保持 --}}
                             <option value="{{ $method->id }}"
                                 {{ (int)old('payment_method_id', $selected_payment_method_id) === $method->id ? 'selected' : '' }}>
                                 {{ $method->payment_method }}
@@ -55,7 +53,6 @@
                     @endif
 
                     <div class="shipping-actions">
-                        {{-- JSでクエリパラメータを付与するため、data-base-url属性を設定 --}}
                         <a href="#" id="change-address-link"
                             data-base-url="{{ route('purchase.edit', ['item_id' => $item->id]) }}"
                             class="change-link">
@@ -105,6 +102,5 @@
 @endsection
 
 @section('script')
-{{-- 統合されたJavaScriptファイルを読み込みます --}}
 <script src="{{ asset('js/purchase_create.js') }}"></script>
 @endsection
