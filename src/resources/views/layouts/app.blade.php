@@ -17,7 +17,7 @@
         <div class="header__inner">
             <div class="header-utilities">
                 <a class="header__logo" href="/">
-                    <img src="{{ asset('image/logo.svg') }}" alt="COACHTECH">
+                    <img src="{{ Storage::url('icon/logo.svg') }}" alt="COACHTECH">
                 </a>
 
                 <form action="{{ url('/') }}" method="GET" class="search-form">
