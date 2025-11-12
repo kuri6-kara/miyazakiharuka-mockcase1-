@@ -45,7 +45,7 @@
                     @endif
 
                     @if ($item->is_sold)
-                    <div class="sold-badge">SOLD</div>
+                    <div class="sold-badge">Sold</div>
                     @endif
                 </div>
                 <p class="item-name">{{ $item->name }}</p>
