@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Auth;
 class LikeController extends Controller
 {
     /**
-     * いいねの登録または解除を行う
-     *
      * @param  \Illuminate\Http\Request $request
      * @param  string $item_id
      * @return \Illuminate\Http\JsonResponse
