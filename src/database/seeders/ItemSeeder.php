@@ -115,7 +115,6 @@ class ItemSeeder extends Seeder
         ];
 
         foreach ($items_data as $data) {
-            // $contents = file_get_contents(storage_path('app/public/images/' . $data['item_image_path']));
             $contents = File::get(public_path('image/' . $data['item_image_path']));
             $filename = basename($data['item_image_path']);
             $path = 'item_images/' . $filename;
@@ -133,13 +132,6 @@ class ItemSeeder extends Seeder
             ];
 
             DB::table('items')->insert($item_data);
-
-            // $item = Item::where('name', $data['name'])->first();
-            // $category = Category::where('category', $data['category_name'])->first();
-
-            // if ($item && $category) {
-            //     $item->categories()->attach($category->id);
-            // }
         }
     }
 }
