@@ -6,13 +6,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 
-/**
- * 会員登録機能の機能テスト
- * 1. 登録画面が表示されること
- * 2. 有効なデータで登録が成功すること
- * 3. バリデーションエラーが表示されること
- * - 名前が入力されていない場合
- */
 class RegistrationTest extends TestCase
 {
     // テストごとにデータベースをリフレッシュし、マイグレーションを実行
