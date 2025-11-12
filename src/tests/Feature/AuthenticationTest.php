@@ -64,4 +64,28 @@ class AuthenticationTest extends TestCase
         // 2. ユーザーが認証されていないことを確認
         $this->assertGuest();
     }
+
+    /**
+     * 【テストケース２】パスワードが入力されていない場合、バリデーションメッセージが表示されることをテスト
+     * 期待挙動：「パスワードを入力してください」というバリデーションメッセージが表示される
+     *
+     * @return void
+     */
+    public function test_login_fails_when_password_is_missing()
+    {
+        // パスワードを空にしたデータ
+        $credentials = [
+            'email' => 'login@example.com',
+            'password' => '', // テスト対象: パスワード未入力
+        ];
+
+        // /login ルートにPOSTリクエストを送信
+        $response = $this->post('/login', $credentials);
+
+        // 1. レスポンスがバリデーションエラーを含んでいることを確認
+        $response->assertSessionHasErrors('password');
+
+        // 2. ユーザーが認証されていないことを確認
+        $this->assertGuest();
+    }
 }
