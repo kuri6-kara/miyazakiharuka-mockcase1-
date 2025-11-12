@@ -139,4 +139,26 @@ class AuthenticationTest extends TestCase
         // デフォルトではログイン成功時に /dashboard にリダイレクトされます
         $response->assertRedirect('/');
     }
+
+    /**
+     * 【テストケース５】ログアウト処理が実行されることをテスト
+     * 期待挙動：ユーザーが未認証状態になる
+     *
+     * @return void
+     */
+    public function test_users_can_logout()
+    {
+        // 1. ユーザーを認証済みにする
+        $this->actingAs($this->user);
+
+        // 2. /logout ルートにPOSTリクエストを送信
+        $response = $this->post('/logout');
+
+        // 3. ユーザーが未認証状態（ゲスト）になったことを確認
+        $this->assertGuest();
+
+        // 4. リダイレクト先がトップページ（/）またはログインページ（/）であることを確認
+        // Fortify/Breezeのデフォルトはトップページへのリダイレクトです
+        $response->assertRedirect('/');
+    }
 }
