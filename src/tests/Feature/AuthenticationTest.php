@@ -114,4 +114,29 @@ class AuthenticationTest extends TestCase
         // デフォルトではログイン成功時に /dashboard にリダイレクトされます
         $response->assertRedirect('/');
     }
+
+    /**
+     * 【テストケース４】無効な認証情報ではログインに失敗することをテスト
+     * 期待挙動：エラーメッセージが表示され、認証されない
+     *
+     * @return void
+     */
+    public function test_users_cannot_authenticate_with_invalid_credentials()
+    {
+        // 無効な認証情報 (間違ったパスワード)
+        $credentials = [
+            'email' => 'login@example.com',
+            'password' => 'wrong-password',
+        ];
+
+        // /login ルートにPOSTリクエストを送信
+        $response = $this->post('/login', $credentials);
+
+        // 1. ユーザーが認証されていないことを確認
+        $this->assertGuest();
+
+        // 2. エラーメッセージがセッションにあることを確認
+        // Laravel Breeze/Fortifyのデフォルト設定では、'email'フィールドに認証エラーが紐づけられます
+        $response->assertSessionHasErrors('email');
+    }
 }
