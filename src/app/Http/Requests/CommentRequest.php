@@ -22,7 +22,6 @@ class CommentRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'item_id' => ['required', 'exists:items,id'],
             'comment' => ['required', 'string', 'max:255'],
         ];
     }
