@@ -1,10 +1,4 @@
-/* -------------------------------------- */
-/* 配送先住所変更画面 (purchases/edit.blade.php) 用スタイル */
-/* -------------------------------------- */
-
-/* メインコンテナ */
 .address-change-card {
-    /* 中央に配置し、幅を制限（画像に合わせる） */
     max-width: 100%;
     margin: 40px 40px;
     padding: 50px 103px;
@@ -12,12 +6,10 @@
     border-radius: 8px;
 }
 
-/* フォームグループ */
 .form-group {
     margin-bottom: 20px;
 }
 
-/* ラベル */
 .form-label {
     display: block;
     font-weight: bold;
@@ -25,32 +17,29 @@
     margin-bottom: 8px;
 }
 
-/* 入力欄 */
 .form-input {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box; /* paddingを含めて幅を100%にする */
+    box-sizing: border-box;
     transition: border-color 0.2s;
 }
 
 .form-input:focus {
     outline: none;
-    border-color: #f75555; /* フォーカス時の色は赤系の色に */
+    border-color: #f75555;
 }
 
-/* エラーメッセージ */
 .error-message {
     color: #f75555;
-    font-size: 0.875rem; /* 14px */
+    font-size: 0.875rem;
     margin-top: 4px;
 }
 
-/* 更新ボタン (画像のデザインに合わせる) */
 .submit-button {
     width: 100%;
-    background-color: #f75555; /* 赤色 */
+    background-color: #f75555;
     color: white;
     font-weight: bold;
     padding: 12px 0;
@@ -62,10 +51,9 @@
 }
 
 .submit-button:hover {
-    background-color: #e54d4d; /* ホバーで少し暗く */
+    background-color: #e54d4d;
 }
 
-/* タイトル (購入画面と共通) */
 .purchase-title {
     font-size: 1.5rem;
     font-weight: bold;
@@ -73,6 +61,3 @@
     margin-top: 20px;
     margin-bottom: 20px;
 }
-/* -------------------------------------- */
-/* purchase_create.blade.php と共通のスタイルは省略 */
-/* -------------------------------------- */

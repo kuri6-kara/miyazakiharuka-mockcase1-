@@ -1,22 +1,14 @@
-/* -------------------------------------- */
-/* ページ全体のコンテナ */
-/* -------------------------------------- */
 .main-container {
     max-width: 100%;
     margin: 0 auto;
-    /* 左右の余白を削除 (0 15px -> 0) */
     padding: 0;
     padding-top: 20px;
 }
 
-/* -------------------------------------- */
-/* タブとタブ下ボーダー */
-/* -------------------------------------- */
 .tab-container {
     display: flex;
     justify-content: flex-start;
-    /* 全体のボーダーを黒から赤に変更し、アクティブ時のスタイルに移動 */
-    border-bottom: 2px solid #000; 
+    border-bottom: 2px solid #000;
     margin-bottom: 76.39px;
     width: 100%;
 }
@@ -24,47 +16,36 @@
 .tab-item {
     font-size: 24px;
     font-weight: bold;
-    color: #666; 
+    color: #666;
     text-decoration: none;
     padding: 0 50px 10px 50px;
     cursor: pointer;
     transition: color 0.2s;
     position: relative;
-    margin-right: 30px; 
+    margin-right: 30px;
 }
 
-/* アクティブなタブのスタイル */
 .tab-item.active {
-    /* アクティブなタブの文字色を赤に変更 */
-    color: #ff0000; 
+    color: #ff0000;
 }
 
-/* アクティブなタブの下に赤線を表示するための疑似要素を追加 */
 .tab-item.active::after {
-    content: '';
+    content: "";
     position: absolute;
-    bottom: -2px; /* tab-containerのborder-bottomの上に重ねるため */
+    bottom: -2px;
     left: 0;
     width: 100%;
     height: 2px;
-    background-color: #ff0000; /* 赤線 */
+    background-color: #ff0000;
 }
 
-/* -------------------------------------- */
-/* 商品グリッドレイアウト (モバイル/デフォルト: 2列) */
-/* -------------------------------------- */
 .items-grid {
     display: grid;
-    /* モバイルでは minmax(200px, 1fr) で実質2列 */
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 76.61px 71.51px;
-    /* 画面両端のパディングをここで設定 */
-    padding: 0 69px; 
+    padding: 0 69px;
 }
 
-/* -------------------------------------- */
-/* 商品カード */
-/* -------------------------------------- */
 .item-card a {
     text-decoration: none;
     color: #000;
@@ -92,9 +73,6 @@
     margin-bottom: 2px;
 }
 
-/* -------------------------------------- */
-/* SOLDバッジ */
-/* -------------------------------------- */
 .sold-badge {
     position: absolute;
     top: 50%;
@@ -110,28 +88,16 @@
     z-index: 10;
 }
 
-
-/* ==================================== */
-/* レスポンシブ対応 (タブレット 768px 以上) */
-/* ==================================== */
 @media screen and (min-width: 768px) {
-    /* タブのパディング調整 */
-    /* .tab-container {
-        padding: 0 30px;
-    } */
-
     .tab-item {
-        padding: 0 30px 10px 30px; /* タブ自体のパディングを調整 */
+        padding: 0 30px 10px 30px;
         font-size: 22px;
     }
 
-    /* 商品グリッド: 3列表示に切り替え */
     .items-grid {
-        /* minmax(200px, 1fr) は 200px 以上で最大3列に収まるよう調整 */
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        /* パディングを縮小し、コンテンツが広がりすぎないようにする */
-        padding: 0 30px; 
-        gap: 30px 20px; /* ギャップも調整 */
+        padding: 0 30px;
+        gap: 30px 20px;
     }
 
     .item-name {
@@ -143,34 +109,22 @@
     }
 }
 
-
-/* ==================================== */
-/* レスポンシブ対応 (PC 1400px 以上) */
-/* ==================================== */
 @media screen and (min-width: 1400px) {
-    /* タブのパディング調整 */
-    /* .tab-container {
-        padding: 0 100px;
-    } */
-
     .tab-item {
-        padding: 0 60px 10px 60px; /* タブ自体のパディングを調整 */
+        padding: 0 60px 10px 60px;
         font-size: 26px;
     }
 
-    /* 商品グリッド: 4列表示に切り替え */
     .items-grid {
-        /* 4列表示を実現するために minmax の幅を調整し、4つ並ぶようにする */
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
-        /* PC画面では左右のパディングを大きく取る */
-        padding: 0 100px; 
-        gap: 40px 30px; /* ギャップも調整 */
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        padding: 0 100px;
+        gap: 40px 30px;
     }
 
     .item-image {
-        height: 350px; /* 画像の高さを上げる */
+        height: 350px;
     }
-    
+
     .item-name {
         font-size: 28px;
     }

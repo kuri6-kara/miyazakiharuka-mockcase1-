@@ -1,35 +1,21 @@
-/* ---------------------------------------------------- */
-/* --- 画面全体とコンテナ --- */
-/* ---------------------------------------------------- */
 .show-container {
-    /* 画面幅に合わせて中央に配置し、最大幅を広く設定 */
-    max-width: 1400px; 
-    
-    /* 上40px, 左右auto(中央), 下100px の設定を維持 */
-    margin: 40px auto 100px; 
-    
-    /* 左右のパディングを適度に調整 */
-    padding: 30px 40px; 
-    
+    max-width: 1400px;
+    margin: 40px auto 100px;
+    padding: 30px 40px;
     border: none;
     background-color: #fff;
-    box-shadow: none; 
+    box-shadow: none;
 }
 
 .show-item {
-    display: flex; /* 画像と詳細を横並びにする */
-    gap: 40px; /* 画像と詳細の間隔 */
+    display: flex;
+    gap: 40px;
 }
 
-/* ---------------------------------------------------- */
-/* --- 1. 商品画像エリア --- */
-/* ---------------------------------------------------- */
 .show-item__image {
-    /* 左側カラム */
-    flex: 1; 
+    flex: 1;
     max-width: 50%;
-    /* 薄い灰色の背景を削除 */
-    background-color: transparent; 
+    background-color: transparent;
     border-radius: 5px;
     overflow: hidden;
 }
@@ -38,21 +24,16 @@
     width: 100%;
     height: auto;
     display: block;
-    min-height: 400px; 
+    min-height: 400px;
     object-fit: cover;
 }
 
-/* ---------------------------------------------------- */
-/* --- 2. 詳細情報エリア --- */
-/* ---------------------------------------------------- */
 .show-item__details {
-    /* 右側カラム */
-    flex: 1; 
+    flex: 1;
     max-width: 50%;
     padding-top: 10px;
 }
 
-/* 商品名 */
 .item-name {
     font-size: 28px;
     font-weight: bold;
@@ -60,21 +41,18 @@
     color: #333;
 }
 
-/* ブランド名 */
 .brand-name {
     font-size: 16px;
     color: #888;
     margin-bottom: 20px;
 }
 
-/* 価格 */
 .price {
     font-size: 32px;
     font-weight: bold;
     color: #333;
     margin-bottom: 30px;
-    /* 価格の下線削除 */
-    border-bottom: none; 
+    border-bottom: none;
     padding-bottom: 15px;
 }
 
@@ -85,26 +63,23 @@
     margin-left: 5px;
 }
 
-/* --- アクションボタンエリア (いいね、コメント数、購入) --- */
 .item-actions {
     margin-bottom: 30px;
-    /* 購入手続きボタンの下線削除 */
-    border-bottom: none; 
+    border-bottom: none;
     padding-bottom: 20px;
 }
 
 .likes-comments {
     display: flex;
-    align-items: flex-start; /* アイコンを上端に揃える */
-    gap: 40px; /* アイコン間の間隔を広くする */
+    align-items: flex-start;
+    gap: 40px;
     margin-bottom: 20px;
 }
 
-/* アイコンと数字を縦並びにするためのコンテナ (統一) */
 .action-column {
     display: flex;
-    flex-direction: column; /* 要素を縦に並べる */
-    align-items: center; /* 中央揃えにする */
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     font-size: 18px;
     color: #555;
@@ -114,7 +89,6 @@
     padding: 0;
 }
 
-/* いいねボタン (ログイン時) */
 .like-button {
     transition: opacity 0.3s;
 }
@@ -123,46 +97,36 @@
     opacity: 0.8;
 }
 
-/* ----------------------------------------- */
-/* アイコン画像と数字のスタイル */
-/* ----------------------------------------- */
-
-/* #like-icon自体はflexの役割を終えたため、displayはblockに戻す (ログイン時) */
 #like-icon {
-    display: block; 
+    display: block;
     margin: 0;
 }
 
-/* すべてのアイコン画像（imgタグ）にサイズと下マージンを適用 */
-#like-icon img, /* ログイン時 */
-.comments-count .icon-img, /* ゲスト時/コメント */
-.likes-count .icon-img { /* ゲスト時 */
+#like-icon img,
+.comments-count .icon-img,
+.likes-count .icon-img {
     width: 40px;
     height: 40px;
     object-fit: contain;
-    margin-bottom: 5px; /* アイコンと数字の間に少しスペースを空ける */
+    margin-bottom: 5px;
 }
 
-/* カウント数の数字（spanタグ）にスタイルを適用 */
 #likes-count,
-.count-number { 
+.count-number {
     font-size: 16px;
-    font-weight: bold; /* 数字を少し強調 */
-    line-height: 1; /* 行の高さを詰める */
+    font-weight: bold;
+    line-height: 1;
     color: #555;
 }
 
-/* いいね済みの場合のスタイル */
 .like-button.liked #like-icon img {
-    /* filter: brightness(0) saturate(100%) invert(34%) sepia(87%) saturate(5441%) hue-rotate(352deg) brightness(97%) contrast(100%); */
+
 }
 
-
-/* 購入ボタン */
 .buy-button-link {
     display: block;
     text-decoration: none;
-    margin-top: 20px; /* アクションエリア内の他の要素と区切る */
+    margin-top: 20px;
 }
 
 .buy-button {
@@ -170,7 +134,7 @@
     padding: 15px;
     border: none;
     border-radius: 5px;
-    background-color: #e74c3c; /* 赤色 */
+    background-color: #e74c3c;
     color: white;
     font-size: 18px;
     font-weight: bold;
@@ -187,30 +151,23 @@
     cursor: not-allowed;
 }
 
-/* ---------------------------------------------------- */
-/* --- 3. 説明・情報エリア (見出しとコンテンツ) --- */
-/* ---------------------------------------------------- */
-
-/* 全セクションのH2見出し */
-.item-description h2, 
+.item-description h2,
 .item-info h2,
 .item-comments h2 {
     font-size: 20px;
     font-weight: bold;
     color: #333;
     margin-bottom: 15px;
-    border-left: 5px solid #e74c3c; /* 左側に赤線 */
+    border-left: 5px solid #e74c3c;
     padding-left: 10px;
     margin-top: 30px;
 }
 
-/* 商品説明 */
 .item-description p {
     line-height: 1.6;
     color: #555;
 }
 
-/* 商品の情報テーブル */
 .item-info table {
     width: 100%;
     border-collapse: collapse;
@@ -220,45 +177,38 @@
 .item-info td {
     padding: 12px 10px;
     text-align: left;
-    border-bottom: none; 
+    border-bottom: none;
 }
 
 .item-info th {
     width: 30%;
     font-weight: bold;
-    background-color: transparent; 
+    background-color: transparent;
     color: #333;
 }
 
-/* カテゴリタグのスタイル */
-.category-tag { 
+.category-tag {
     display: inline-block;
     padding: 4px 8px;
     margin-right: 8px;
-    border-radius: 15px; /* 楕円形の角 */
-    background-color: #f0f0f0; /* 灰色の背景 */
+    border-radius: 15px;
+    background-color: #f0f0f0;
     font-size: 14px;
     color: #555;
     text-decoration: none;
-    margin-bottom: 5px; 
+    margin-bottom: 5px;
 }
 
-/* 商品の状態の td はシンプルに */
-.item-info td { 
-    color: #555; 
+.item-info td {
+    color: #555;
 }
-
-
-/* ---------------------------------------------------- */
-/* --- 4. コメントエリア --- */
-/* ---------------------------------------------------- */
 
 .item-comments {
     margin-top: 40px;
 }
 
 .comment {
-    border-bottom: none; 
+    border-bottom: none;
     padding: 15px 0;
 }
 
@@ -299,16 +249,14 @@
 }
 
 .comment-text {
-    margin: 5px 0 0 40px; /* 画像の分だけインデント */
+    margin: 5px 0 0 40px;
     color: #555;
     line-height: 1.5;
-    /* コメントの内容の下に区切り線を追加 */
-    border-bottom: 1px solid #eee; 
+    border-bottom: 1px solid #eee;
     padding-bottom: 10px;
 }
 
 .comment:last-child .comment-text {
-    /* 最後のコメントの下線は削除 */
     border-bottom: none;
 }
 
@@ -320,7 +268,6 @@
     margin-top: 5px;
 }
 
-/* コメント入力フォーム */
 .item-comments form {
     margin-top: 20px;
 }
@@ -360,36 +307,29 @@
     margin-top: 5px;
 }
 
-/* ---------------------------------------------------- */
-/* --- レスポンシブ対応 (900px以下: タブレット・スマートフォン) --- */
-/* ---------------------------------------------------- */
 @media (max-width: 900px) {
     .show-container {
         max-width: 95%;
-        margin: 20px auto 50px; 
-        padding: 15px; 
+        margin: 20px auto 50px;
+        padding: 15px;
     }
 
-    /* [メインの修正] 横並びを縦並びにする */
     .show-item {
-        flex-direction: column; /* 画像と詳細を縦に並べる */
+        flex-direction: column;
         gap: 20px;
     }
 
-    /* [メインの修正] 幅を100%に戻す */
     .show-item__image,
     .show-item__details {
         max-width: 100%;
-        width: 100%; /* 明示的に100%にする */
-        padding: 0; /* 詳細情報の不要なパディングをリセット */
+        width: 100%;
+        padding: 0;
     }
 
-    /* 画像の最低高さを調整 */
     .show-item__image img {
-        min-height: 300px; /* スマホで見やすい高さに */
+        min-height: 300px;
     }
 
-    /* 詳細情報の調整 */
     .item-name {
         font-size: 24px;
     }
@@ -399,14 +339,11 @@
     }
 }
 
-/* ---------------------------------------------------- */
-/* --- レスポンシブ対応 (480px以下: スマートフォン) --- */
-/* ---------------------------------------------------- */
 @media (max-width: 480px) {
     .show-container {
-        padding: 10px; 
+        padding: 10px;
     }
-    
+
     .item-name {
         font-size: 22px;
     }
@@ -416,20 +353,17 @@
         margin-bottom: 20px;
     }
 
-    /* アクションエリアのアイコン間隔を調整 */
     .likes-comments {
-        gap: 25px; 
+        gap: 25px;
     }
-    
-    /* アイコンサイズを少し小さく */
-    #like-icon img, 
+
+    #like-icon img,
     .comments-count .icon-img,
     .likes-count .icon-img {
         width: 30px;
         height: 30px;
     }
 
-    /* コメントエリアの調整 */
     .item-comments textarea {
         height: 80px;
     }

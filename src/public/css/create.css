@@ -1,6 +1,3 @@
-/* --------------------------------------
- * 全体レイアウト
- * -------------------------------------- */
 .sell-container {
     max-width: 800px;
     margin: 40px auto;
@@ -26,19 +23,14 @@
 }
 
 .form-section h2 {
-    /* 修正点 1: 文字色をrgba(95, 95, 95, 1)に変更 */
     font-size: 20px;
     font-weight: bold;
     color: rgba(95, 95, 95, 1);
     margin-bottom: 15px;
-    
-    /* 修正点 2: 左側の青い縦線を削除 */
     border-left: none;
     padding-left: 0;
-
-    /* 修正点 3: 下線を追加 */
     border-bottom: 1px solid rgba(95, 95, 95, 1);
-    padding-bottom: 8px; /* 下線と文字の間隔 */
+    padding-bottom: 8px;
 }
 
 .form-group {
@@ -51,11 +43,6 @@
     margin-bottom: 8px;
 }
 
-/* --------------------------------------
- * フォーム要素
- * -------------------------------------- */
-
-/* テキスト入力、セレクトボックス、テキストエリア共通 */
 .input-text,
 .input-select,
 .input-textarea {
@@ -80,7 +67,6 @@
     min-height: 150px;
 }
 
-/* 販売価格 */
 .price-input-group {
     display: flex;
     align-items: center;
@@ -97,9 +83,6 @@
     flex-grow: 1;
 }
 
-/* --------------------------------------
- * 画像アップロード
- * -------------------------------------- */
 .image-upload-area {
     border: 2px dashed #ccc;
     border-radius: 6px;
@@ -110,7 +93,7 @@
 }
 
 .image-input {
-    display: none; /* 元のファイル入力を隠す */
+    display: none;
 }
 
 .image-label {
@@ -122,14 +105,13 @@
     padding: 10px 0;
 }
 
-/* 「画像を選択する」テキストをボタンのように囲むためのスタイル */
 #image-placeholder {
-    display: inline-block; 
+    display: inline-block;
     border: 2px solid rgba(255, 86, 85, 1);
-    color: rgba(255, 86, 85, 1); 
+    color: rgba(255, 86, 85, 1);
     border-radius: 6px;
-    padding: 10px 25px; 
-    font-size: 16px; 
+    padding: 10px 25px;
+    font-size: 16px;
     font-weight: bold;
 }
 
@@ -141,9 +123,6 @@
     margin: 0 auto;
 }
 
-/* --------------------------------------
- * カテゴリタグ (チェックボックス)
- * -------------------------------------- */
 .category-tags {
     display: flex;
     flex-wrap: wrap;
@@ -151,7 +130,7 @@
 }
 
 .category-checkbox {
-    display: none; /* チェックボックス自体を隠す */
+    display: none;
 }
 
 .tag {
@@ -166,7 +145,6 @@
     transition: all 0.2s;
 }
 
-/* チェックされた時の状態 */
 .category-checkbox:checked + .tag,
 .tag-active {
     background-color: rgba(255, 86, 85, 1);
@@ -174,11 +152,8 @@
     border-color: rgba(255, 86, 85, 1);
 }
 
-/* --------------------------------------
- * エラーメッセージ
- * -------------------------------------- */
 .form__error {
-    color: #e3342f; /* 赤 */
+    color: #e3342f;
     font-size: 14px;
     margin-top: 5px;
 }
@@ -192,13 +167,10 @@
     margin-bottom: 20px;
 }
 
-/* --------------------------------------
- * 出品ボタン
- * -------------------------------------- */
 .submit-button {
     width: 100%;
     padding: 15px;
-    background-color: #ff6666; /* 赤系 */
+    background-color: #ff6666;
     color: #fff;
     font-size: 18px;
     font-weight: bold;
@@ -213,16 +185,10 @@
     background-color: #e35a5a;
 }
 
-/* ======================================
- * レスポンシブ対応 (タブレット 768px 以上)
- * ====================================== */
 @media screen and (min-width: 768px) {
-    /* 画面幅が768px以上の場合に適用 */
     .sell-container {
-        /* タブレットやPCで左右の余白を適切に確保 */
-        margin: 50px auto; 
+        margin: 50px auto;
         padding: 40px;
-        /* max-widthはそのままにして、タブレットでの見た目を維持 */
     }
 
     .page-title {
@@ -233,20 +199,14 @@
         font-size: 22px;
     }
 
-    /* カテゴリタグのレイアウト調整（特に必要なければ変更なし） */
     .category-tags {
         gap: 15px;
     }
 }
 
-/* ======================================
- * レスポンシブ対応 (PC 1400px 以上)
- * ====================================== */
 @media screen and (min-width: 1400px) {
-    /* 画面幅が1400px以上の場合に適用 */
     .sell-container {
-        /* PCの広い画面に合わせてフォームの最大幅を拡張 */
-        max-width: 1000px; 
+        max-width: 1000px;
         padding: 50px 70px;
         margin: 60px auto;
     }
@@ -255,7 +215,6 @@
         font-size: 36px;
     }
 
-    /* フォームセクションのh2やラベルの文字サイズを少し大きくする */
     .form-section h2 {
         font-size: 24px;
     }
@@ -263,7 +222,6 @@
         font-size: 18px;
     }
 
-    /* 入力フィールドのパディングを増やし、ゆったりとした見た目にする */
     .input-text,
     .input-select,
     .input-textarea {

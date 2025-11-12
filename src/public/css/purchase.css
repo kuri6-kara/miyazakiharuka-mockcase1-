@@ -1,48 +1,35 @@
-/* ------------------------------------------- */
-/* 商品購入画面全体 - 画面幅いっぱいに広げる (余白制御) */
-/* ------------------------------------------- */
 .purchase-container {
-    /* 画面いっぱいに広がるように設定 */
     max-width: none;
     margin: 0;
     width: 100%;
-    /* デスクトップ時のパディング */
-    padding: 40px 80px 40px 80px; 
-    box-sizing: border-box; /* パディングを幅に含める */
+    padding: 40px 80px 40px 80px;
+    box-sizing: border-box;
 }
 
 .purchase-content {
     max-width: none;
     margin: 0;
     padding: 0;
-    
     display: flex;
     justify-content: space-between;
-    gap: 60px; /* 左右ブロックの間隔を広げる */
+    gap: 60px;
 }
 
-/* ------------------------------------------- */
-/* 左側 (商品情報・フォーム) と右側 (サマリー) の幅調整 */
-/* ------------------------------------------- */
 .item-info-section {
-    flex: 1; /* 左側を広く */
+    flex: 1;
 }
 
 .order-summary-section {
-    width: 400px; /* 右側サマリーの幅を固定し、左側が残りを占めるようにする */
+    width: 400px;
     flex-shrink: 0;
-    padding-top: 10px; 
+    padding-top: 10px;
 }
-
-/* ------------------------------------------- */
-/* 左ブロック内の要素 */
-/* ------------------------------------------- */
 
 .item-detail {
     display: flex;
     align-items: center;
-    padding-bottom: 85px; 
-    margin-bottom: 30px; 
+    padding-bottom: 85px;
+    margin-bottom: 30px;
     padding-top: 10px;
 }
 
@@ -70,21 +57,20 @@
     margin: 0;
 }
 
-/* セクション間の空間 */
 .shipping-info,
 .payment-methods {
-    margin-top: 50px; 
+    margin-top: 50px;
 }
 
 .section-heading {
     font-size: 20px;
     font-weight: bold;
-    border-bottom: none; 
-    border-top: 2px solid #333; /* 上に太めの黒線 */
-    
-    padding-top: 15px; 
-    padding-bottom: 0; 
-    margin-bottom: 30px; 
+    border-bottom: none;
+    border-top: 2px solid #333;
+
+    padding-top: 15px;
+    padding-bottom: 0;
+    margin-bottom: 30px;
 }
 
 .payment-methods select {
@@ -96,17 +82,15 @@
     box-sizing: border-box;
 }
 
-/* 配送先情報と変更リンク */
 .shipping-actions {
-    text-align: right; 
+    text-align: right;
     margin-bottom: 10px;
 }
 
 .address-info {
-    /* 配送先住所の下線 */
     border-bottom: 2px solid #333;
-    padding-bottom: 20px; 
-    margin-bottom: 30px; 
+    padding-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .address-info p {
@@ -121,18 +105,13 @@
     text-decoration: none;
 }
 
-/* ------------------------------------------- */
-/* 右ブロック (サマリー) の要素 */
-/* ------------------------------------------- */
 .summary-box {
-    border: 2px solid #333; 
-    padding: 0; 
-    background-color: white; 
-    border-radius: 0; 
-    
-    height: 230px; 
+    border: 2px solid #333;
+    padding: 0;
+    background-color: white;
+    border-radius: 0;
+    height: 230px;
     margin-bottom: 66px;
-
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -141,20 +120,17 @@
 .summary-row {
     display: flex;
     justify-content: space-between;
-    align-items: center; 
-    
-    padding: 0 20px; 
-    flex-grow: 1; 
+    align-items: center;
+    padding: 0 20px;
+    flex-grow: 1;
     font-size: 24px;
 }
 
 .summary-row span:first-child {
-    width: 120px; 
+    width: 120px;
     flex-shrink: 0;
 }
 
-
-/* 商品代金と支払い方法の間に線 */
 .summary-row:first-child {
     border-bottom: 2px solid #333;
 }
@@ -176,11 +152,6 @@
     background-color: #e63900;
 }
 
-/* ------------------------------------------- */
-/* --- レスポンシブ対応の強化 --- */
-/* ------------------------------------------- */
-
-/* 画面幅が768px以下になった場合の調整 (スマートフォン対応) */
 @media (max-width: 1000px) {
     .purchase-container {
         padding-left: 20px;
@@ -190,64 +161,59 @@
     }
 
     .purchase-content {
-        flex-direction: column; /* 縦並びにする */
-        gap: 30px; 
+        flex-direction: column;
+        gap: 30px;
     }
 
     .order-summary-section {
-        width: 100%; 
-        /* 変更点: order: -1 を削除し、サマリーを最下部に配置する */
-        /* order: -1; */
+        width: 100%;
         padding-top: 0;
     }
 
-    /* サマリーボックスの高さとマージンをオートに */
     .summary-box {
-        height: auto; 
-        margin-bottom: 20px; 
-    }
-    
-    .summary-row {
-        font-size: 20px; 
+        height: auto;
+        margin-bottom: 20px;
     }
 
-    /* 商品情報（画像とテキスト）を縦並びに */
+    .summary-row {
+        font-size: 20px;
+    }
+
     .item-detail {
         flex-direction: column;
         align-items: flex-start;
-        padding-bottom: 50px; 
+        padding-bottom: 50px;
     }
 
     .item-image {
-        width: 120px; 
+        width: 120px;
         margin-right: 0;
-        margin-bottom: 15px; 
+        margin-bottom: 15px;
     }
-    
+
     .item-name {
-        font-size: 20px; 
+        font-size: 20px;
     }
     .item-price {
-        font-size: 20px; 
+        font-size: 20px;
     }
-    
-    /* セクション間の空間を調整 */
+
     .shipping-info,
     .payment-methods {
-        margin-top: 40px; 
+        margin-top: 40px;
     }
 
     .section-heading {
-        font-size: 18px; 
-        margin-bottom: 20px; 
+        font-size: 18px;
+        margin-bottom: 20px;
     }
 
     .address-info p {
-        font-size: 16px; 
+        font-size: 16px;
     }
-    
+
     .buy-button {
-        font-size: 16px; 
+        font-size: 16px;
         padding: 12px;
     }
 }
