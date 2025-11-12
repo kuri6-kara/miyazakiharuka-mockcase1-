@@ -52,4 +52,34 @@ class ItemIndexTest extends TestCase
             $response->assertSeeText($item->name);
         }
     }
+
+
+    /**
+     * 【テストケース２】購入済み商品は "Sold" と表示される
+     * テスト手順: 1. 商品ページを開く 2. 購入済み以外の商品を表示する
+     * 期待挙動: 購入済み商品に「Sold」のラベルが表示される
+     *
+     * @return void
+     */
+    public function test_sold_label_is_displayed_for_purchased_items()
+    {
+        // 1. テスト用の商品を2つ作成
+        $itemA = Item::factory()->create(['name' => 'テスト商品A']);
+        $itemB = Item::factory()->create(['name' => 'テスト商品B']);
+
+        // 2. 商品Aを購入済みとする (Purchaseレコードを作成)
+        // 別のユーザーを作成して購入者とする
+        $buyer = User::factory()->create();
+        Purchase::factory()->create([
+            'item_id' => $itemA->id,
+            'user_id' => $buyer->id,
+        ]);
+
+        // 3. 商品一覧ページ（/）にアクセス
+        $response = $this->get('/');
+
+        // 4. 商品Aの近くに「Sold」というテキストが表示されていることを確認
+        $response->assertSee('Sold');
+        $response->assertSeeText($itemA->name);
+    }
 }
