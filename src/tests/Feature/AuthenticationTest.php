@@ -88,4 +88,30 @@ class AuthenticationTest extends TestCase
         // 2. ユーザーが認証されていないことを確認
         $this->assertGuest();
     }
+
+    /**
+     * 【テストケース３】有効な認証情報でログインできることをテスト
+     * 期待挙動：ログイン成功後、ダッシュボードにリダイレクトされ、認証済みとなる
+     *
+     * @return void
+     */
+    public function test_users_can_authenticate_with_valid_credentials()
+    {
+        // 有効な認証情報
+        $credentials = [
+            'email' => 'login@example.com',
+            'password' => 'password123',
+        ];
+
+        // /login ルートにPOSTリクエストを送信
+        $response = $this->post('/login', $credentials);
+
+        // 1. ユーザーが認証済みであることを確認
+        // assertAuthenticated() は、現在のリクエストが認証されたユーザーを持っていることを確認
+        $this->assertAuthenticated();
+
+        // 2. リダイレクト先が /dashboard であることを確認
+        // デフォルトではログイン成功時に /dashboard にリダイレクトされます
+        $response->assertRedirect('/');
+    }
 }
