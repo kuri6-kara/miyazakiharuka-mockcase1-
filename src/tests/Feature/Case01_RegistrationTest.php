@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 
-class RegistrationTest extends TestCase
+class Case01_RegistrationTest extends TestCase
 {
     // テストごとにデータベースをリフレッシュし、マイグレーションを実行
     use RefreshDatabase;

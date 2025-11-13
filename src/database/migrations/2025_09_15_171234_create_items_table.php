@@ -22,6 +22,7 @@ class CreateItemsTable extends Migration
             $table->string('brand_name')->nullable();
             $table->string('condition');
             $table->string('item_image_path');
+            $table->boolean('is_sold')->default(false);
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->nullable();
         });
