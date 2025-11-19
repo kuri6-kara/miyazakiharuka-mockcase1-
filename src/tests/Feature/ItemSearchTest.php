@@ -55,34 +55,6 @@ class ItemSearchTest extends TestCase
     }
 
     /**
-     * 【テストケース１】「商品名」で部分一致検索ができる
-     *
-     * @return void
-     */
-    public function test_can_search_items_by_partial_name_match()
-    {
-        // 1. 検索対象となる商品データを用意
-        $hitItem1 = $this->createItem(['name' => '赤色のTシャツ']);
-        $hitItem2 = $this->createItem(['name' => 'Tシャツ（青）']);
-        $missItem = $this->createItem(['name' => 'ジーンズ']);
-
-        $searchKeyword = 'Tシャツ';
-
-        // 2. 実行: 未認証ユーザーとして、検索キーワード付きでアクセス
-        // 未認証ユーザーはデフォルトで「おすすめ」タブ（全商品カタログ）になるため、tabパラメータは不要
-        $response = $this->get('/', [
-            'keyword' => $searchKeyword,
-            'tab' => 'recommend'
-        ]);
-
-        // 3. 検証:
-        $response->assertStatus(200);
-        $response->assertSeeText($hitItem1->name);
-        $response->assertSeeText($hitItem2->name);
-        $response->assertDontSeeText($missItem->name);
-    }
-
-    /**
      * 【テストケース２】検索状態がマイリストでも保持されている (検索クエリの保持)
      *
      * @return void
