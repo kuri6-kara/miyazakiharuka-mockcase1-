@@ -119,9 +119,9 @@
     color: #555;
 }
 
-/* .like-button.liked #like-icon img {
-
-} */
+.like-button.liked #like-icon img {
+    filter: invert(37%) sepia(85%) saturate(3015%) hue-rotate(345deg) brightness(85%) contrast(85%);
+}
 
 .buy-button-link {
     display: block;
