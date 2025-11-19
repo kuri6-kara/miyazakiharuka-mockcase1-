@@ -7,7 +7,7 @@ use App\Models\Item;
 use App\Models\Category;
 use App\Models\Purchase;
 use App\Models\Like;
-use App\Models\PaymentMethod; // PaymentMethod をインポート
+use App\Models\PaymentMethod;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -19,30 +19,25 @@ class MylistTest extends TestCase
     use RefreshDatabase;
 
     private $category;
-    private $paymentMethod; // PaymentMethodのインスタンスを保持するプロパティ
+    private $paymentMethod;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        // Item作成前にCategoryレコードが存在することを保証
         $this->category = Category::create(['category' => 'テストカテゴリ']);
 
-        // 【重要修正】PaymentMethodレコードを作成し、その実際のIDを動的に使用するためにインスタンスを保持する
         $this->paymentMethod = PaymentMethod::create([
             'payment_method' => 'テスト決済方法',
         ]);
     }
 
     /**
-     * ヘルパー関数: Itemを作成し、Categoryリレーションをアタッチ
-     *
      * @param array $attributes
      * @return \App\Models\Item
      */
     private function createItem(array $attributes = [])
     {
-        // データベースの NOT NULL である 'condition' に文字列値を設定
         $default = [
             'condition' => '新品、未使用',
             'name' => 'デフォルト商品',
@@ -50,11 +45,8 @@ class MylistTest extends TestCase
             'description' => '説明',
         ];
 
-        // Item::factory()を使用してItemレコードを作成
         $item = Item::factory()->create(array_merge($default, $attributes));
 
-        // Categoryの多対多リレーションをアタッチ
-        // Itemが表示されるためには、Categoryが紐づいていることが必須
         $item->categories()->attach($this->category->id);
 
         return $item;
@@ -131,11 +123,10 @@ class MylistTest extends TestCase
         ]);
 
         // 3. 購入済みとする (Purchaseレコードを作成)
-        $buyer = User::factory()->create(); // 購入者は誰でも良い
+        $buyer = User::factory()->create();
         Purchase::create([
             'item_id' => $itemSoldAndLiked->id,
             'user_id' => $buyer->id,
-            // setUp()で作成された PaymentMethod の実際のIDを使用する
             'payment_method_id' => $this->paymentMethod->id,
         ]);
 
