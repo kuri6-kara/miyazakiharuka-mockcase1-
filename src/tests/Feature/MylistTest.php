@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\Category;
 use App\Models\Purchase;
 use App\Models\Like;
+use App\Models\PaymentMethod; // PaymentMethod をインポート
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -18,12 +19,19 @@ class MylistTest extends TestCase
     use RefreshDatabase;
 
     private $category;
+    private $paymentMethod; // PaymentMethodのインスタンスを保持するプロパティ
 
     protected function setUp(): void
     {
         parent::setUp();
+
         // Item作成前にCategoryレコードが存在することを保証
         $this->category = Category::create(['category' => 'テストカテゴリ']);
+
+        // 【重要修正】PaymentMethodレコードを作成し、その実際のIDを動的に使用するためにインスタンスを保持する
+        $this->paymentMethod = PaymentMethod::create([
+            'payment_method' => 'テスト決済方法',
+        ]);
     }
 
     /**
@@ -105,4 +113,71 @@ class MylistTest extends TestCase
         $response->assertDontSeeText('自分の商品で表示されない');
     }
 
+    /**
+     * 【テストケース２】マイリスト: 購入済み商品に "Sold" ラベルが表示される
+     *
+     * @return void
+     */
+    public function test_mylist_shows_sold_label_for_purchased_items()
+    {
+        // 1. ログインユーザーを作成
+        $loggedInUser = User::factory()->create();
+        $otherUser = User::factory()->create();
+
+        // 2. 他のユーザーが出品した商品 (購入済み、かついいね済み)
+        $itemSoldAndLiked = $this->createItem([
+            'user_id' => $otherUser->id,
+            'name' => 'Soldが表示される購入済み商品',
+        ]);
+
+        // 3. 購入済みとする (Purchaseレコードを作成)
+        $buyer = User::factory()->create(); // 購入者は誰でも良い
+        Purchase::create([
+            'item_id' => $itemSoldAndLiked->id,
+            'user_id' => $buyer->id,
+            // setUp()で作成された PaymentMethod の実際のIDを使用する
+            'payment_method_id' => $this->paymentMethod->id,
+        ]);
+
+        // 4. いいねを登録
+        Like::create([
+            'user_id' => $loggedInUser->id,
+            'item_id' => $itemSoldAndLiked->id,
+        ]);
+
+        // 実行: ログインし、マイリストタブにアクセス
+        $response = $this->actingAs($loggedInUser)->get('/?tab=mylist');
+
+        // 検証:
+        // 1. 商品名が表示されていることを確認
+        $response->assertSeeText('Soldが表示される購入済み商品');
+        // 2. 「Sold」ラベルが表示されていることを確認
+        $response->assertSee('Sold');
+    }
+
+    /**
+     * 【テストケース３】マイリスト: いいねした商品がない場合、何も表示されない
+     *
+     * @return void
+     */
+    public function test_mylist_shows_no_items_when_not_liked()
+    {
+        // 1. ログインユーザーを作成
+        $loggedInUser = User::factory()->create();
+
+        // 2. 他のユーザーが出品した商品 (いいねしない)
+        $this->createItem([
+            'user_id' => User::factory()->create()->id,
+            'name' => 'いいねしていない商品',
+        ]);
+
+        // 実行: ログインし、マイリストタブにアクセス
+        $response = $this->actingAs($loggedInUser)->get('/?tab=mylist');
+
+        // 検証:
+        // 1. 商品グリッド内に商品名が表示されていないことを確認
+        $response->assertDontSeeText('いいねしていない商品');
+        // 2. 「いいねした商品はありません」のメッセージが表示されていることを確認
+        $response->assertSeeText('いいねした商品はありません');
+    }
 }
