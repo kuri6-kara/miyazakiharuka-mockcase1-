@@ -57,58 +57,58 @@ class ItemIndexTest extends TestCase
         return $item;
     }
 
-    // /**
-    //  * 【テストケース１】全ての商品を取得できる
-    //  *
-    //  * @return void
-    //  */
-    // public function test_all_items_can_be_retrieved()
-    // {
-    //     // 1. テスト用の商品を3つ作成（ヘルパー関数を使用）
-    //     $item1 = $this->createItem(['name' => 'テスト商品A']);
-    //     $item2 = $this->createItem(['name' => 'テスト商品B']);
-    //     $item3 = $this->createItem(['name' => 'テスト商品C']);
+    /**
+     * 【テストケース１】全ての商品を取得できる
+     *
+     * @return void
+     */
+    public function test_all_items_can_be_retrieved()
+    {
+        // 1. テスト用の商品を3つ作成（ヘルパー関数を使用）
+        $item1 = $this->createItem(['name' => 'テスト商品A']);
+        $item2 = $this->createItem(['name' => 'テスト商品B']);
+        $item3 = $this->createItem(['name' => 'テスト商品C']);
 
-    //     $items = [$item1, $item2, $item3];
+        $items = [$item1, $item2, $item3];
 
-    //     // 2. 商品一覧ページ（/）にアクセス
-    //     $response = $this->get('/');
+        // 2. 商品一覧ページ（/）にアクセス
+        $response = $this->get('/');
 
-    //     // 3. レスポンスのHTTPステータスコードが200であることを確認
-    //     $response->assertStatus(200);
+        // 3. レスポンスのHTTPステータスコードが200であることを確認
+        $response->assertStatus(200);
 
-    //     // 4. 作成した3つの商品すべてが表示されていることを確認
-    //     foreach ($items as $item) {
-    //         $response->assertSeeText($item->name);
-    //     }
-    // }
+        // 4. 作成した3つの商品すべてが表示されていることを確認
+        foreach ($items as $item) {
+            $response->assertSeeText($item->name);
+        }
+    }
 
 
-    // /**
-    //  * 【テストケース２】購入済み商品は "Sold" と表示される
-    //  *
-    //  * @return void
-    //  */
-    // public function test_sold_label_is_displayed_for_purchased_items()
-    // {
-    //     // 1. テスト用の商品を2つ作成（ヘルパー関数を使用）
-    //     $itemA = $this->createItem(['name' => '購入済み商品']);
-    //     $itemB = $this->createItem(['name' => '未購入商品']);
+    /**
+     * 【テストケース２】購入済み商品は "Sold" と表示される
+     *
+     * @return void
+     */
+    public function test_sold_label_is_displayed_for_purchased_items()
+    {
+        // 1. テスト用の商品を2つ作成（ヘルパー関数を使用）
+        $itemA = $this->createItem(['name' => '購入済み商品']);
+        $itemB = $this->createItem(['name' => '未購入商品']);
 
-    //     // 2. 商品Aを購入済みとする (Purchaseレコードを作成)
-    //     $buyer = User::factory()->create();
-    //     Purchase::factory()->create([
-    //         'item_id' => $itemA->id,
-    //         'user_id' => $buyer->id,
-    //     ]);
+        // 2. 商品Aを購入済みとする (Purchaseレコードを作成)
+        $buyer = User::factory()->create();
+        Purchase::factory()->create([
+            'item_id' => $itemA->id,
+            'user_id' => $buyer->id,
+        ]);
 
-    //     // 3. 商品一覧ページ（/）にアクセス
-    //     $response = $this->get('/');
+        // 3. 商品一覧ページ（/）にアクセス
+        $response = $this->get('/');
 
-    //     // 4. 商品Aの近くに「Sold」というテキストが表示されていることを確認
-    //     $response->assertSee('Sold');
-    //     $response->assertSeeText($itemA->name);
-    // }
+        // 4. 商品Aの近くに「Sold」というテキストが表示されていることを確認
+        $response->assertSee('Sold');
+        $response->assertSeeText($itemA->name);
+    }
 
     /**
      * 【テストケース３】自分の出品した商品はデフォルトで表示されないことをテスト (おすすめタブ)
