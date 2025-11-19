@@ -5,12 +5,11 @@ namespace Tests\Feature;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Category;
-use App\Models\Like;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * 商品検索機能の機能テスト (ID: 6)
+ * 商品検索機能の機能テスト
  */
 class ItemSearchTest extends TestCase
 {
@@ -29,20 +28,16 @@ class ItemSearchTest extends TestCase
     }
 
     /**
-     * ヘルパー関数: Itemを作成し、Categoryリレーションをアタッチ
-     *
      * @param array $attributes
      * @return \App\Models\Item
      */
     private function createItem(array $attributes = [])
     {
-        // is_sold: false を設定して、商品が一覧に表示されるようにする
         $default = [
             'condition' => '新品、未使用',
             'name' => 'デフォルト商品',
             'price' => 100,
             'description' => '説明',
-            // 商品の所有者はログインユーザーで問題ない
             'user_id' => $this->loggedInUser->id,
             'item_image_path' => 'public/items/test_image.jpg',
             'is_sold' => false,
@@ -65,7 +60,6 @@ class ItemSearchTest extends TestCase
         $searchKeyword = '限定品';
 
         // 2. 検索実行: ログインし、検索キーワード付きでホームページにアクセス
-        // 全商品カタログでの検索をシミュレートするため tab=recommend を指定
         $this->actingAs($this->loggedInUser)->get('/', [
             'keyword' => $searchKeyword,
             'tab' => 'recommend',
