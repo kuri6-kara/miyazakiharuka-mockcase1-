@@ -52,69 +52,69 @@ class PurchaseTest extends TestCase
         ]);
     }
 
-    /**
-     * 【テストケース１】「購入する」ボタンを押下すると購入が完了すること
-     * Purchaseレコードが作成され、Itemのis_soldフラグがtrueになることを検証する。
-     *
-     * @return void
-     */
-    public function test_case_1_purchase_is_completed_on_button_press()
-    {
-        // 事前確認: purchasesテーブルにレコードがないこと
-        $this->assertDatabaseCount('purchases', 0);
-        // 事前確認: 商品が未購入状態であること
-        $this->assertFalse($this->item->is_sold);
-
-        // 実行: ログインユーザーとして購入処理のエンドポイントにPOSTリクエストを送信
-        // ★コントローラがセッションの配送先情報とPaymentMethodIDを要求するため、ダミーデータを準備
-        // ユーザーの初期情報がセッションにない場合は使われるため、ここではセッション操作は省略し、
-        // 必須のpayment_method_idのみを送信。
-        $response = $this->actingAs($this->buyer)->post(route('purchase.store', ['item_id' => $this->item->id]), [
-            'payment_method_id' => $this->paymentMethod->id,
-            // PurchaseRequestでバリデーションされている配送先情報（postcode, address）は
-            // セッションかAuth::user()から取得されるため、Userファクトリで設定済み
-        ]);
-
-        // 1. レスポンスの検証: 購入完了後、商品一覧ページ（ルート /）にリダイレクトされること
-        // コントローラ: return redirect()->route('item.index') に合わせる
-        $response->assertRedirect(route('item.index'));
-
-        // 2. 期待挙動の検証: purchasesテーブルにレコードが登録されたこと (購入が完了)
-        $this->assertDatabaseHas('purchases', [
-            'item_id' => $this->item->id,
-            'user_id' => $this->buyer->id,
-            'payment_method_id' => $this->paymentMethod->id,
-        ]);
-
-        // 3. 期待挙動の検証: Itemのis_soldフラグがtrueに更新されたこと
-        $this->assertTrue($this->item->fresh()->is_sold);
-    }
-
     // /**
-    //  * 【テストケース２】購入した商品は商品詳細で「SOLD」と表示されること
-    //  * is_soldフラグがtrueになった後、商品詳細ページで「SOLD OUT」ボタンが表示されることを検証する。
+    //  * 【テストケース１】「購入する」ボタンを押下すると購入が完了すること
+    //  * Purchaseレコードが作成され、Itemのis_soldフラグがtrueになることを検証する。
     //  *
     //  * @return void
     //  */
-    // public function test_case_2_purchased_item_shows_sold_out_on_detail_page()
+    // public function test_case_1_purchase_is_completed_on_button_press()
     // {
-    //     // 事前準備: ユーザーに購入させる
-    //     // Purchase::create と Item::update が実行され、is_soldがtrueになる
-    //     $this->actingAs($this->buyer)->post(route('purchase.store', ['item_id' => $this->item->id]), [
+    //     // 事前確認: purchasesテーブルにレコードがないこと
+    //     $this->assertDatabaseCount('purchases', 0);
+    //     // 事前確認: 商品が未購入状態であること
+    //     $this->assertFalse($this->item->is_sold);
+
+    //     // 実行: ログインユーザーとして購入処理のエンドポイントにPOSTリクエストを送信
+    //     // ★コントローラがセッションの配送先情報とPaymentMethodIDを要求するため、ダミーデータを準備
+    //     // ユーザーの初期情報がセッションにない場合は使われるため、ここではセッション操作は省略し、
+    //     // 必須のpayment_method_idのみを送信。
+    //     $response = $this->actingAs($this->buyer)->post(route('purchase.store', ['item_id' => $this->item->id]), [
+    //         'payment_method_id' => $this->paymentMethod->id,
+    //         // PurchaseRequestでバリデーションされている配送先情報（postcode, address）は
+    //         // セッションかAuth::user()から取得されるため、Userファクトリで設定済み
+    //     ]);
+
+    //     // 1. レスポンスの検証: 購入完了後、商品一覧ページ（ルート /）にリダイレクトされること
+    //     // コントローラ: return redirect()->route('item.index') に合わせる
+    //     $response->assertRedirect(route('item.index'));
+
+    //     // 2. 期待挙動の検証: purchasesテーブルにレコードが登録されたこと (購入が完了)
+    //     $this->assertDatabaseHas('purchases', [
+    //         'item_id' => $this->item->id,
+    //         'user_id' => $this->buyer->id,
     //         'payment_method_id' => $this->paymentMethod->id,
     //     ]);
 
-    //     // 1. 実行: 商品詳細ページを開く
-    //     $response = $this->get(route('item.show', ['item_id' => $this->item->id]));
-
-    //     // 2. 期待挙動の検証: ページ上に「SOLD OUT」に関連するテキストが表示されていること
-    //     // 実際の実装に合わせて「SOLD OUT」または「SOLD」の表示を確認
-    //     $response->assertSee('SOLD'); // 画像のテスト内容「sold」と表示される に合わせる
-
-    //     // 3. 期待挙動の検証: 「購入手続きへ」ボタンなどが表示されていないこと
-    //     $response->assertDontSee('購入手続きへ');
-    //     $response->assertDontSee('購入する');
+    //     // 3. 期待挙動の検証: Itemのis_soldフラグがtrueに更新されたこと
+    //     $this->assertTrue($this->item->fresh()->is_sold);
     // }
+
+    /**
+     * 【テストケース２】購入した商品は商品詳細で「SOLD」と表示されること
+     * is_soldフラグがtrueになった後、商品詳細ページで「SOLD OUT」ボタンが表示されることを検証する。
+     *
+     * @return void
+     */
+    public function test_case_2_purchased_item_shows_sold_out_on_detail_page()
+    {
+        // 事前準備: ユーザーに購入させる
+        // Purchase::create と Item::update が実行され、is_soldがtrueになる
+        $this->actingAs($this->buyer)->post(route('purchase.store', ['item_id' => $this->item->id]), [
+            'payment_method_id' => $this->paymentMethod->id,
+        ]);
+
+        // 1. 実行: 商品詳細ページを開く
+        $response = $this->get(route('item.show', ['item_id' => $this->item->id]));
+
+        // 2. 期待挙動の検証: ページ上に「SOLD OUT」に関連するテキストが表示されていること
+        // 実際の実装に合わせて「SOLD OUT」または「SOLD」の表示を確認
+        $response->assertSee('SOLD'); // 画像のテスト内容「sold」と表示される に合わせる
+
+        // 3. 期待挙動の検証: 「購入手続きへ」ボタンなどが表示されていないこと
+        $response->assertDontSee('購入手続きへ');
+        $response->assertDontSee('購入する');
+    }
 
     // /**
     //  * 【テストケース３】購入した商品が「プロフィール（購入した商品一覧）」に追加されていること
@@ -131,7 +131,7 @@ class PurchaseTest extends TestCase
 
     //     // 1. 実行: 購入者（$this->buyer）としてプロフィールページ（購入履歴）を開く
     //     // ※ここではプロフィールページのルートを 'profile.purchases' と仮定します。
-    //     $response = $this->actingAs($this->buyer)->get(route('profile.purchases'));
+    //     $response = $this->actingAs($this->buyer)->get(route('user.mypage'));
 
     //     // 2. 期待挙動の検証: ページ上に購入した商品の名前が表示されていること
     //     $response->assertSee($this->item->name);
