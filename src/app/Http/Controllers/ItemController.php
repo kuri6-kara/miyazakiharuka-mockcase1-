@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
-use App\Models\Like;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\ItemRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 
 class ItemController extends Controller
 {

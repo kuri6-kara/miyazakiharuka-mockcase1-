@@ -6,7 +6,6 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Category;
-use App\Models\Item;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 

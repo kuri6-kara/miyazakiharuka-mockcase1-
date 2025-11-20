@@ -93,7 +93,7 @@ $is_liked = Auth::check() ? $item->likes->contains('user_id', Auth::id()) : fals
                             @if ($comment->user->profile_image_path)
                             <img src="{{ Storage::url($comment->user->profile_image_path) }}" alt="{{ $comment->user->name }}のプロフィール画像" class="profile-icon">
                             @else
-                            <div class="profile-placeholder">👤</div>
+                            <img src="{{ Storage::url('icon/人物アイコン.png') }}" alt="デフォルト画像" class="profile-icon">
                             @endif
                         </div>
                         <p class="comment-user">{{ $comment->user->name }}</p>
