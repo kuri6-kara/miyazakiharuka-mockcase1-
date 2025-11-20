@@ -6,11 +6,9 @@
 
 @section('content')
 <div class="purchase-container">
-    <h1 class="purchase-title">送付先住所変更画面</h1>
+    <h1 class="purchase-title">住所の変更</h1>
 
     <div class="address-change-card">
-        <h2 class="section-heading mb-6 text-center">住所の変更</h2>
-
         <form method="POST" action="{{ route('purchase.update', ['item_id' => $item->id]) }}">
             @csrf
 

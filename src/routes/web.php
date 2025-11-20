@@ -1,13 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
-use App\Models\Purchase;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +22,11 @@ Route::get('/', [ItemController::class, 'index'])->name('item.index');
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
 
 Route::middleware('auth')->group(function () {
+    Route::prefix('register')->group(function () {
+        Route::get('/profile', [UserController::class, 'editFormRegister'])->name('register.profile.edit');
+        Route::post('/profile', [UserController::class, 'updateFormRegister'])->name('register.profile.update');
+    });
+
     Route::get('/mypage', [UserController::class, 'show'])->name('user.mypage');
 
     Route::get('/mypage/profile', [UserController::class, 'edit'])->name('profile.edit');
@@ -33,7 +36,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'edit'])->name('purchase.edit');
     Route::post('/purchase/address/{item_id}', [PurchaseController::class, 'update'])->name('purchase.update');
     Route::post('/purchase/{item_id}', [PurchaseController::class, 'store'])->name('purchase.store');
-
 
     Route::post('/items/{item_id}/like', [LikeController::class, 'store'])->name('like.store');
 

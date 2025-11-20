@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
 
 class ItemSeeder extends Seeder
 {
@@ -18,6 +17,8 @@ class ItemSeeder extends Seeder
      */
     public function run()
     {
+        Storage::disk('public')->deleteDirectory('item_images');
+
         $user = User::first();
         if (!$user) {
             $user = User::create([
@@ -113,12 +114,14 @@ class ItemSeeder extends Seeder
             ],
         ];
 
+        $dummy_image_data = base64_decode('R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
+
+
         foreach ($items_data as $data) {
-            $contents = File::get(public_path('image/' . $data['item_image_path']));
-            $filename = basename($data['item_image_path']);
+            $filename = $data['item_image_path'];
             $path = 'item_images/' . $filename;
 
-            Storage::disk('public')->put($path, $contents);
+            Storage::disk('public')->put($path, $dummy_image_data);
 
             $item_data = [
                 'user_id' => $user->id,

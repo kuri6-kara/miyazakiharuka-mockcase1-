@@ -19,6 +19,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/';
 
+    public const REGISTER_REDIRECT = '/register/profile';
+
     /**
      * The controller namespace for the application.
      *
