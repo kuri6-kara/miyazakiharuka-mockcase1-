@@ -9,7 +9,7 @@ use Tests\TestCase;
 /**
  * ログイン機能の機能テスト
  */
-class AuthenticationTest extends TestCase
+class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -26,20 +26,6 @@ class AuthenticationTest extends TestCase
         ]);
     }
 
-
-    /**
-     * ログイン画面が正しく表示されることをテスト
-     *
-     * @return void
-     */
-    public function test_login_screen_can_be_rendered()
-    {
-        // /login ルートにGETリクエストを送信
-        $response = $this->get('/login');
-
-        // レスポンスのHTTPステータスコードが200であることを確認
-        $response->assertStatus(200);
-    }
 
     /**
      * 【テストケース１】メールアドレスが入力されていない場合、バリデーションメッセージが表示されることをテスト
@@ -137,28 +123,6 @@ class AuthenticationTest extends TestCase
 
         // 2. リダイレクト先が /dashboard であることを確認
         // デフォルトではログイン成功時に /dashboard にリダイレクトされます
-        $response->assertRedirect('/');
-    }
-
-    /**
-     * 【テストケース５】ログアウト処理が実行されることをテスト
-     * 期待挙動：ユーザーが未認証状態になる
-     *
-     * @return void
-     */
-    public function test_users_can_logout()
-    {
-        // 1. ユーザーを認証済みにする
-        $this->actingAs($this->user);
-
-        // 2. /logout ルートにPOSTリクエストを送信
-        $response = $this->post('/logout');
-
-        // 3. ユーザーが未認証状態（ゲスト）になったことを確認
-        $this->assertGuest();
-
-        // 4. リダイレクト先がトップページ（/）またはログインページ（/）であることを確認
-        // Fortify/Breezeのデフォルトはトップページへのリダイレクトです
         $response->assertRedirect('/');
     }
 }

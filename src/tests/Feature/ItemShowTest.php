@@ -128,7 +128,7 @@ class ItemShowTest extends TestCase
         // カテゴリの検証
         $response->assertSee('カテゴリー');
         foreach ($this->categories as $category) {
-            $response->assertSee($category->category); // 各カテゴリ名が表示されているか
+            $response->assertSee($category->category);
         }
         // カテゴリ数が適切かを確認するため、意図的にカテゴリ以外の文字列がないかチェック
         $this->assertEquals(3, $this->item->categories->count());
