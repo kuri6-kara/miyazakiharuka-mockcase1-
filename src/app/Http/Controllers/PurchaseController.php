@@ -126,6 +126,7 @@ class PurchaseController extends Controller
                 'building' => $address_data['building'] ?? Auth::user()->building,
             ]);
 
+            $item->is_sold = true;
             $item->update();
 
             $request->session()->forget('shipping_address');

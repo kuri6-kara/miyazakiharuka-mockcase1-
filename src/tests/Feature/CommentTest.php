@@ -9,8 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * コメント機能の機能テスト (ID: 9)
- * - ログイン状態によるコメントの登録、バリデーションを検証します。
+ * コメント機能の機能テスト
  */
 class CommentTest extends TestCase
 {
@@ -31,7 +30,7 @@ class CommentTest extends TestCase
 
         // テスト用の商品を作成
         $this->item = Item::factory()->create([
-            'user_id' => $this->user->id, // 出品者はこのユーザーとは別でも可
+            'user_id' => $this->user->id,
             'name' => 'テスト商品',
             'price' => 1000,
         ]);
@@ -72,8 +71,8 @@ class CommentTest extends TestCase
 
         // 4. 商品詳細ページでコメントが表示されていることを確認
         $response = $this->get(route('item.show', ['item_id' => $this->item->id]));
-        $response->assertSee('コメント(1)'); // コメント数の表示
-        $response->assertSee($commentText);  // 投稿したコメント内容の表示
+        $response->assertSee('コメント(1)');
+        $response->assertSee($commentText);
     }
 
     /**
