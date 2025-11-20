@@ -5,17 +5,6 @@
 @endsection
 
 @section('content')
-@php
-// コントローラから渡された $selected_payment_method_id (変更後のID) を取得
-$current_payment_id = (int)old('payment_method_id', $selected_payment_method_id);
-
-// $current_payment_id に一致する支払い方法オブジェクトを $payment_methods から検索
-$selected_method = $payment_methods->firstWhere('id', $current_payment_id);
-
-// 概要エリアに表示する初期値を設定
-$default_payment_name = $selected_method ? $selected_method->payment_method : '---';
-@endphp
-
 <form action="{{ route('purchase.store', ['item_id' => $item->id]) }}" method="post">
     @csrf
 
@@ -99,8 +88,7 @@ $default_payment_name = $selected_method ? $selected_method->payment_method : '-
 
                     <div class="summary-row">
                         <span>支払い方法</span>
-                        {{-- 修正箇所: 常に最新の支払い方法名を表示するよう変更 --}}
-                        <span id="selected-payment-name">{{ $default_payment_name }}</span>
+                        <span id="selected-payment-name">{{ $payment_methods->first()->payment_method ?? '---' }}</span>
                     </div>
                 </div>
 
