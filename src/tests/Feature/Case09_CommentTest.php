@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use App\Models\Item;
-use App\Models\Comment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -37,8 +36,8 @@ class CommentTest extends TestCase
     }
 
     /**
-     * 【テストケース１】ログイン済みユーザーはコメントを送信できること
-     * コメントが保存され、商品詳細ページでコメント数が更新されることを検証する。
+     * 【テスト内容１】ログイン済みユーザーはコメントを送信できる
+     * コメントが保存され、商品詳細ページでコメント数が更新されることを検証
      *
      * @return void
      */
@@ -76,7 +75,7 @@ class CommentTest extends TestCase
     }
 
     /**
-     * 【テストケース２】ログイン前のユーザーはコメントを送信できないこと
+     * 【テスト内容２】ログイン前のユーザーはコメントを送信できないこと
      * コメントが保存されず、ログインページへリダイレクトされることを検証する。
      *
      * @return void
@@ -101,7 +100,7 @@ class CommentTest extends TestCase
     }
 
     /**
-     * 【テストケース３】コメントが入力されていない場合、バリデーションメッセージが表示されること
+     * 【テスト内容３】コメントが入力されていない場合、バリデーションメッセージが表示されること
      *
      * @return void
      */
@@ -121,8 +120,8 @@ class CommentTest extends TestCase
     }
 
     /**
-     * 【テストケース４】コメントが255文字を超えた場合、バリデーションメッセージが表示されること
-     * 256文字以上で検証します。
+     * 【テスト内容４】コメントが255文字を超えた場合、バリデーションメッセージが表示されること
+     * 256文字以上で検証
      *
      * @return void
      */
@@ -138,7 +137,7 @@ class CommentTest extends TestCase
 
         // 1. レスポンスの検証: バリデーションエラーで戻り、エラーメッセージが含まれていること
         $response->assertSessionHasErrors(['comment' => 'コメントは255文字以内で入力してください。']);
-        $response->assertRedirect(); // 前のページに戻る（リダイレクト）
+        $response->assertRedirect();
 
         // 2. 期待挙動の検証: データベースにコメントレコードが登録されないこと
         $this->assertDatabaseCount('comments', 0);

@@ -11,8 +11,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * 商品詳細情報取得機能の機能テスト (ID: 7)
- * - 未認証ユーザーによる商品詳細情報の取得を検証します。
+ * 商品詳細情報取得機能の機能テスト
+ * - 未認証ユーザーによる商品詳細情報の取得を検証
  */
 class ItemShowTest extends TestCase
 {
@@ -77,7 +77,7 @@ class ItemShowTest extends TestCase
     }
 
     /**
-     * 【機能要件のテスト内容１に対応】未認証ユーザーとして、必要な全情報が表示されること
+     * 【テスト内容１】未認証ユーザーとして、必要な全情報が表示されること
      * (検証項目：商品画像、商品名、ブランド名、価格、いいね数、コメント数、商品説明、商品の状態、コメントしたユーザー情報、コメント内容)
      *
      * @return void
@@ -91,15 +91,15 @@ class ItemShowTest extends TestCase
         $response->assertStatus(200);
 
         // 1. 必須情報の検証 (商品名、価格、ブランド名、商品説明、画像パス)
-        $response->assertSee($this->item->name); // 商品名
-        $response->assertSee($this->item->brand_name); // ブランド名
-        $response->assertSee('¥' . number_format($this->item->price)); // 価格（表示形式も考慮）
-        $response->assertSee($this->item->description); // 商品説明
-        $response->assertSee($this->item->item_image_path); // 商品画像パス
+        $response->assertSee($this->item->name);
+        $response->assertSee($this->item->brand_name);
+        $response->assertSee('¥' . number_format($this->item->price));
+        $response->assertSee($this->item->description);
+        $response->assertSee($this->item->item_image_path);
 
         // 2. 商品情報の検証 (商品の状態)
         $response->assertSee('商品の状態');
-        $response->assertSee($this->item->condition); // 商品の状態
+        $response->assertSee($this->item->condition);
 
         // 3. いいね数とコメント数の検証 (集計値の確認)
         $response->assertSee((string) $this->item->likes->count()); // いいね数 (1件)
@@ -107,12 +107,12 @@ class ItemShowTest extends TestCase
 
         // 4. コメントとユーザー情報の検証
         $response->assertSee('コメント');
-        $response->assertSee($this->comment->comment); // コメント内容
-        $response->assertSee($this->commenter->name); // コメントしたユーザー名
+        $response->assertSee($this->comment->comment);
+        $response->assertSee($this->commenter->name);
     }
 
     /**
-     * 【機能要件のテスト内容２に対応】複数選択されたカテゴリが商品詳細ページに表示されていること
+     * 【テスト内容２】複数選択されたカテゴリが商品詳細ページに表示されている
      * (検証項目：商品に設定された全てのカテゴリが表示されるか)
      *
      * @return void

@@ -53,7 +53,7 @@ class MylistTest extends TestCase
     }
 
     /**
-     * 【テストケース１】マイリスト: いいねした他人の商品のみが表示される
+     * 【テスト内容１】マイリスト: いいねした他人の商品のみが表示される
      *
      * @return void
      */
@@ -62,7 +62,7 @@ class MylistTest extends TestCase
         // 1. ログインユーザーを作成
         $loggedInUser = User::factory()->create();
 
-        // 2. 他のユーザーが出品した商品 (いいねして表示されるべき)
+        // 2. 他のユーザーが出品した商品 (いいねして表示される)
         $otherItemLiked = $this->createItem([
             'user_id' => User::factory()->create()->id,
             'name' => 'マイリストに表示される商品',
@@ -73,13 +73,13 @@ class MylistTest extends TestCase
             'item_id' => $otherItemLiked->id,
         ]);
 
-        // 3. 他のユーザーが出品した商品 (いいねしていないので表示されないべき)
+        // 3. 他のユーザーが出品した商品 (いいねしていないので表示されない)
         $otherItemNotLiked = $this->createItem([
             'user_id' => User::factory()->create()->id,
             'name' => '表示されない他の商品',
         ]);
 
-        // 4. 自分の出品した商品 (いいねしていても表示されないべき)
+        // 4. 自分の出品した商品 (いいねしていても表示されない)
         $userItemLiked = $this->createItem([
             'user_id' => $loggedInUser->id,
             'name' => '自分の商品で表示されない',
@@ -106,7 +106,7 @@ class MylistTest extends TestCase
     }
 
     /**
-     * 【テストケース２】マイリスト: 購入済み商品に "Sold" ラベルが表示される
+     * 【テスト内容２】マイリスト: 購入済み商品に "Sold" ラベルが表示される
      *
      * @return void
      */
@@ -116,7 +116,7 @@ class MylistTest extends TestCase
         $loggedInUser = User::factory()->create();
         $otherUser = User::factory()->create();
 
-        // 2. 他のユーザーが出品した商品 (購入済み、かついいね済み)
+        // 2. 他のユーザーが出品した商品 (購入済み＋いいね済み)
         $itemSoldAndLiked = $this->createItem([
             'user_id' => $otherUser->id,
             'name' => 'Soldが表示される購入済み商品',
@@ -147,7 +147,7 @@ class MylistTest extends TestCase
     }
 
     /**
-     * 【テストケース３】マイリスト: いいねした商品がない場合、何も表示されない
+     * 【テスト内容３】マイリスト: いいねした商品がない場合、何も表示されない
      *
      * @return void
      */

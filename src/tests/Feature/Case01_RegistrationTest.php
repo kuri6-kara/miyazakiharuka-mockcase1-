@@ -4,15 +4,17 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\User;
 
+/**
+ * 会員登録機能の機能テスト
+ */
 class Case01_RegistrationTest extends TestCase
 {
     // テストごとにデータベースをリフレッシュし、マイグレーションを実行
     use RefreshDatabase;
 
     /**
-     * 【テストケース１】名前が入力されていない場合、バリデーションメッセージが表示されることをテスト
+     * 【テスト内容１】名前が入力されていない場合、バリデーションメッセージが表示されることをテスト
      * 期待挙動：「お名前を入力してください」というバリデーションメッセージが表示される
      *
      * @return void
@@ -43,7 +45,7 @@ class Case01_RegistrationTest extends TestCase
     }
 
     /**
-     * 【テストケース１】メールアドレスが入力されていない場合、バリデーションメッセージが表示されることをテスト
+     * 【テスト内容２】メールアドレスが入力されていない場合、バリデーションメッセージが表示されることをテスト
      * 期待挙動：「メールアドレスを入力してください」というバリデーションメッセージが表示される
      *
      * @return void
@@ -75,7 +77,7 @@ class Case01_RegistrationTest extends TestCase
     }
 
     /**
-     * 【テストケース３】パスワードが入力されていない場合、バリデーションメッセージが表示されることをテスト
+     * 【テスト内容３】パスワードが入力されていない場合、バリデーションメッセージが表示されることをテスト
      * 期待挙動：「パスワードを入力してください」というバリデーションメッセージが表示される
      *
      * @return void
@@ -106,7 +108,7 @@ class Case01_RegistrationTest extends TestCase
     }
 
     /**
-     * 【テストケース４】パスワードが７文字以下の場合、バリデーションメッセージが表示されることをテスト
+     * 【テスト内容４】パスワードが７文字以下の場合、バリデーションメッセージが表示されることをテスト
      * 期待挙動：「パスワードは８文字以上で入力してください」というバリデーションメッセージが表示される
      *
      * @return void
@@ -125,7 +127,6 @@ class Case01_RegistrationTest extends TestCase
         $response = $this->post('/register', $userData);
 
         // 1. レスポンスがバリデーションエラーを含んでいることを確認
-        // Laravelのデフォルトでは、この時 'password' フィールドにエラーが発生します
         $response->assertSessionHasErrors('password');
 
         // 2. データベースにユーザーが作成されていないことを確認
@@ -138,7 +139,7 @@ class Case01_RegistrationTest extends TestCase
     }
 
     /**
-     * 【テストケース５】パスワードが確認用パスワードと一致しない場合、バリデーションエラーが表示されることをテスト
+     * 【テスト内容５】パスワードが確認用パスワードと一致しない場合、バリデーションエラーが表示されることをテスト
      * 期待挙動：「パスワードと一致しません」というバリデーションメッセージが表示される
      *
      * @return void
@@ -149,15 +150,14 @@ class Case01_RegistrationTest extends TestCase
         $userData = [
             'name' => 'User With Mismatch Password',
             'email' => 'mismatch@example.com',
-            'password' => 'correctpassword', // 正しいパスワード
-            'password_confirmation' => 'wrongpassword', // 間違った確認用パスワード
+            'password' => 'correctpassword',
+            'password_confirmation' => 'wrongpassword',
         ];
 
         // /register ルートにPOSTリクエストを送信
         $response = $this->post('/register', $userData);
 
         // 1. レスポンスがバリデーションエラーを含んでいることを確認
-        // confirmed ルールは 'password' フィールドに対してエラーを返します
         $response->assertSessionHasErrors('password');
 
         // 2. データベースにユーザーが作成されていないことを確認
@@ -170,7 +170,7 @@ class Case01_RegistrationTest extends TestCase
     }
 
     /**
-     * 【最終テストケース】全ての項目が入力されている場合、会員情報が登録され、プロフィール設定画面に遷移されることをテスト
+     * 【テスト内容６】全ての項目が入力されている場合、会員情報が登録され、プロフィール設定画面に遷移されることをテスト
      *
      * @return void
      */
@@ -181,7 +181,7 @@ class Case01_RegistrationTest extends TestCase
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password123',
-            'password_confirmation' => 'password123', // 確認用パスワード
+            'password_confirmation' => 'password123',
         ];
 
         // /register ルートにPOSTリクエストを送信

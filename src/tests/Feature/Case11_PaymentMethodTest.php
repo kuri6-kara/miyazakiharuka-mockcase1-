@@ -7,8 +7,10 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\PaymentMethod;
-use App\Models\Purchase;
 
+/**
+ * 支払い方法選択機能の機能テスト
+ */
 class PaymentMethodTest extends TestCase
 {
     use RefreshDatabase;
@@ -45,21 +47,18 @@ class PaymentMethodTest extends TestCase
     }
 
     /**
-     * 【テストケース１１】支払い方法が変更され、決済画面に反映されること
-     * * 手順: 1. 支払い方法画面を開き、2. プルダウンメニューから支払い方法を選択し更新
+     * 【テスト内容】支払い方法が変更され、決済画面に反映されること
      * 期待挙動: 選択した支払い方法が購入確認画面に反映される
      * * @test
      */
     public function case_11_payment_method_is_changed_and_reflected()
     {
         // 1. 実行: ログインユーザーとして、支払い方法変更/配送先更新処理を実行
-        // 購入確認画面（purchase.create）でデフォルトの支払い方法が使われていることを前提とします。
+        // 購入確認画面（purchase.create）でデフォルトの支払い方法が使われていることを前提とする
 
         // POSTリクエストで支払い方法を $this->paymentMethodChanged (銀行振込) に変更
         $response = $this->actingAs($this->buyer)->post(route('purchase.update', ['item_id' => $this->item->id]), [
-            'payment_method_id' => $this->paymentMethodChanged->id, // 変更後の支払い方法ID
-
-            // purchase.updateルートは配送先情報も同時に更新する前提で、必須フィールドを含めます
+            'payment_method_id' => $this->paymentMethodChanged->id,
             'postcode' => $this->buyer->postcode,
             'address' => $this->buyer->address,
             'building' => $this->buyer->building,
@@ -73,9 +72,9 @@ class PaymentMethodTest extends TestCase
         $confirmation_response = $this->actingAs($this->buyer)->get(route('purchase.create', ['item_id' => $this->item->id]));
 
         // 期待挙動の検証: ページ上に、変更後の支払い方法の名前が表示されていること
-        $confirmation_response->assertSee($this->paymentMethodChanged->payment_method); // 「銀行振込」が表示されることを確認
+        $confirmation_response->assertSee($this->paymentMethodChanged->payment_method);
 
-        // 念のため、変更前の支払い方法が表示されていないことを確認
-        $confirmation_response->assertDontSee($this->paymentMethodDefault->payment_method); // 「カード払い」が表示されないことを確認
+        // 変更前の支払い方法が表示されていないことを確認
+        $confirmation_response->assertDontSee($this->paymentMethodDefault->payment_method);
     }
 }

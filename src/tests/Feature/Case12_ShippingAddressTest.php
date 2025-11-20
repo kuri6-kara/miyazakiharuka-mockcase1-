@@ -7,8 +7,10 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\PaymentMethod;
-use App\Models\Purchase;
 
+/**
+ * 配送先変更機能の機能テスト
+ */
 class ShippingAddressTest extends TestCase
 {
     use RefreshDatabase;
@@ -50,15 +52,13 @@ class ShippingAddressTest extends TestCase
     }
 
     /**
-     * 【テストケース１２−１】配送先変更画面で登録した住所が画面に反映されている
-     * * 手順: 1. ログイン 2. 配送先変更画面で住所を登録 3. 購入確認画面を再度開く
+     * 【テスト内容１】配送先変更画面で登録した住所が画面に反映されている
      * 期待挙動: 登録した配送先情報が購入確認画面に正しく反映される
      * @test
      */
     public function case_12_1_new_shipping_address_is_reflected_on_purchase_screen()
     {
         // 1. 実行: ログインユーザーとして、新しい配送先情報で更新処理を実行
-        // purchase.updateルートは payment_method_id も必要とする前提
         $response = $this->actingAs($this->buyer)->post(route('purchase.update', ['item_id' => $this->item->id]), [
             'postcode' => $this->newAddress['postcode'],
             'address' => $this->newAddress['address'],
@@ -78,13 +78,12 @@ class ShippingAddressTest extends TestCase
         $confirmation_response->assertSee($this->newAddress['address']);
         $confirmation_response->assertSee('(' . $this->newAddress['building'] . ')');
 
-        // 念のため、変更前の住所が表示されていないことを確認
+        // 変更前の住所が表示されていないことを確認
         $confirmation_response->assertDontSee($this->buyer->address);
     }
 
     /**
-     * 【テストケース１２−２】購入した際、配送先が紐づいて登録される
-     * * 手順: 1. ログイン 2. 配送先変更画面で住所を登録 3. 商品を購入する
+     * 【テスト内容２】購入した際、配送先が紐づいて登録される
      * 期待挙動: Purchaseレコードに正しい配送先が紐づいて登録される
      * @test
      */
@@ -104,7 +103,7 @@ class ShippingAddressTest extends TestCase
         ]);
 
         // 3. 期待挙動の検証: 正常にリダイレクトされたこと（購入完了）
-        $response->assertRedirect(); // 成功したリダイレクト（例: 商品一覧や完了画面）
+        $response->assertRedirect();
 
         // 4. 期待挙動の検証: PurchaseレコードがDBに作成され、新しい配送先情報が紐づいていること
         $this->assertDatabaseHas('purchases', [

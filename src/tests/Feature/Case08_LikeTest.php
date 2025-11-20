@@ -38,7 +38,7 @@ class LikeTest extends TestCase
     }
 
     /**
-     * 【テストケース１】いいねを登録できることと、いいね合計値が増加すること
+     * 【テスト内容１】いいねを登録できることと、いいね合計値が増加すること
      *
      * @return void
      */
@@ -48,15 +48,15 @@ class LikeTest extends TestCase
         $initialLikeCount = $this->item->likes()->count();
         $this->assertEquals(0, $initialLikeCount);
 
-        // 実行: ログインユーザーとして、いいね登録のエンドポイント（APIなど）にPOSTリクエストを送信
+        // 実行: ログインユーザーとして、いいね登録のエンドポイントにPOSTリクエストを送信
         $response = $this->actingAs($this->user)->postJson(route('like.store', ['item_id' => $this->item->id]));
 
         // 1. レスポンスの検証
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'success',
-            'action' => 'attached', // いいね登録（attached）を確認
-            'like_count' => 1      // いいね数（1）を確認
+            'action' => 'attached',
+            'like_count' => 1
         ]);
 
         // 2. 期待挙動の検証: データベースにレコードが登録されたこと
@@ -71,7 +71,7 @@ class LikeTest extends TestCase
     }
 
     /**
-     * 【テストケース２】いいねアイコンを押下後、商品詳細ページでアイコンが変化した状態で表示されること
+     * 【テスト内容２】いいねアイコンを押下後、商品詳細ページでアイコンが変化した状態で表示されること
      *
      * @return void
      */
@@ -88,14 +88,11 @@ class LikeTest extends TestCase
 
         // 3. 検証: 押下された状態を示すHTML要素またはCSSクラスが存在すること
         $response->assertStatus(200);
-
-        // ★★★ 修正点: alt属性が「いいね済みアイコン」になっていることを確認する ★★★
-        // これは、HTML内の空白の変動に影響されにくい、より堅牢な検証方法です。
         $response->assertSee('alt="いいね済みアイコン"', false);
     }
 
     /**
-     * 【テストケース３】いいねを解除できることと、いいね合計値が減少表示されること
+     * 【テスト内容３】いいねを解除できることと、いいね合計値が減少表示されること
      *
      * @return void
      */
@@ -118,8 +115,8 @@ class LikeTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'status' => 'success',
-            'action' => 'detached', // いいね解除（detached）を確認
-            'like_count' => 0      // いいね数（0）を確認
+            'action' => 'detached',
+            'like_count' => 0
         ]);
 
         // 2. 期待挙動の検証: データベースからレコードが削除されたこと

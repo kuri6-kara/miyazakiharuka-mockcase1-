@@ -28,7 +28,7 @@ class LoginTest extends TestCase
 
 
     /**
-     * 【テストケース１】メールアドレスが入力されていない場合、バリデーションメッセージが表示されることをテスト
+     * 【テスト内容１】メールアドレスが入力されていない場合、バリデーションメッセージが表示されることをテスト
      * 期待挙動：「メールアドレスを入力してください」というバリデーションメッセージが表示される
      *
      * @return void
@@ -37,7 +37,7 @@ class LoginTest extends TestCase
     {
         // メールアドレスを空にしたデータ
         $credentials = [
-            'email' => '', // テスト対象: メールアドレス未入力
+            'email' => '',
             'password' => 'password123',
         ];
 
@@ -52,7 +52,7 @@ class LoginTest extends TestCase
     }
 
     /**
-     * 【テストケース２】パスワードが入力されていない場合、バリデーションメッセージが表示されることをテスト
+     * 【テスト内容２】パスワードが入力されていない場合、バリデーションメッセージが表示されることをテスト
      * 期待挙動：「パスワードを入力してください」というバリデーションメッセージが表示される
      *
      * @return void
@@ -62,7 +62,7 @@ class LoginTest extends TestCase
         // パスワードを空にしたデータ
         $credentials = [
             'email' => 'login@example.com',
-            'password' => '', // テスト対象: パスワード未入力
+            'password' => '',
         ];
 
         // /login ルートにPOSTリクエストを送信
@@ -76,7 +76,7 @@ class LoginTest extends TestCase
     }
 
     /**
-     * 【テストケース3】無効な認証情報ではログインに失敗することをテスト
+     * 【テスト内容3】無効な認証情報ではログインに失敗することをテスト
      * 期待挙動：エラーメッセージが表示され、認証されない
      *
      * @return void
@@ -96,12 +96,11 @@ class LoginTest extends TestCase
         $this->assertGuest();
 
         // 2. エラーメッセージがセッションにあることを確認
-        // Laravel Breeze/Fortifyのデフォルト設定では、'email'フィールドに認証エラーが紐づけられます
         $response->assertSessionHasErrors('email');
     }
 
     /**
-     * 【テストケース4】有効な認証情報でログインできることをテスト
+     * 【テスト内容4】有効な認証情報でログインできることをテスト
      * 期待挙動：ログイン成功後、ダッシュボードにリダイレクトされ、認証済みとなる
      *
      * @return void
@@ -118,11 +117,9 @@ class LoginTest extends TestCase
         $response = $this->post('/login', $credentials);
 
         // 1. ユーザーが認証済みであることを確認
-        // assertAuthenticated() は、現在のリクエストが認証されたユーザーを持っていることを確認
         $this->assertAuthenticated();
 
-        // 2. リダイレクト先が /dashboard であることを確認
-        // デフォルトではログイン成功時に /dashboard にリダイレクトされます
+        // 2. リダイレクト先が / であることを確認
         $response->assertRedirect('/');
     }
 }

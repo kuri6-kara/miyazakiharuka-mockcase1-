@@ -4,21 +4,19 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use App\Models\Item;
-use App\Models\Category; // Categoryモデルのインポートを追加
+use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * 商品一覧機能の機能テスト (ID: 4)
- * - 必須カラム 'condition' の文字列値をテストデータに含めるよう修正
- * - Category の多対多リレーションに対応するため attach を追加
+ * 商品一覧機能の機能テスト
  */
 class ItemIndexTest extends TestCase
 {
     use RefreshDatabase;
 
     private $user;
-    private $category; // Categoryモデルのプロパティ
+    private $category;
 
     protected function setUp(): void
     {
@@ -27,38 +25,31 @@ class ItemIndexTest extends TestCase
         $this->user = User::factory()->create();
 
         // テストに必要な Category データを作成 (多対多リレーションのテストに必須)
-        // Itemの作成前にCategoryレコードが存在することを保証
         $this->category = Category::create(['category' => 'テストカテゴリ']);
     }
 
     /**
-     * ヘルパー関数: Itemを作成し、Categoryリレーションをアタッチ
-     *
      * @param array $attributes
      * @return \App\Models\Item
      */
     private function createItem(array $attributes = [])
     {
-        // conditionカラムが必須なので、デフォルト値を設定
-        // user_idは上書きされなければUser::factory()によって生成される
         $default = [
-            'condition' => '新品、未使用', // NOT NULLである 'condition' に文字列値を設定
+            'condition' => '新品、未使用',
             'name' => 'デフォルト商品',
             'price' => 100,
             'description' => '説明',
         ];
 
-        // Item::factory()を使用してItemレコードを作成
         $item = Item::factory()->create(array_merge($default, $attributes));
 
-        // Categoryの多対多リレーションをアタッチ
         $item->categories()->attach($this->category->id);
 
         return $item;
     }
 
     /**
-     * 【テストケース１】全ての商品を取得できる
+     * 【テスト内容１】全ての商品を取得できる
      *
      * @return void
      */
@@ -85,7 +76,7 @@ class ItemIndexTest extends TestCase
 
 
     /**
-     * 【テストケース２】購入済み商品は "Sold" と表示される
+     * 【テスト内容２】購入済み商品は "Sold" と表示される
      *
      * @return void
      */
@@ -111,7 +102,7 @@ class ItemIndexTest extends TestCase
     }
 
     /**
-     * 【テストケース３】自分の出品した商品はデフォルトで表示されないことをテスト (おすすめタブ)
+     * 【テスト内容３】自分の出品した商品はデフォルトで表示されないことをテスト (おすすめタブ)
      *
      * @return void
      */
