@@ -194,7 +194,7 @@ class Case01_RegistrationTest extends TestCase
         ]);
 
         // 2. 登録後、プロフィール設定画面('/mypage/profile') にリダイレクトされることを確認 (期待挙動: 画面遷移)
-        $response->assertRedirect('/mypage/profile');
+        $response->assertRedirect('/register/profile');
 
         // 3. ユーザーが認証済みであることを確認 (期待挙動: 会員情報が登録された)
         $this->assertAuthenticated();

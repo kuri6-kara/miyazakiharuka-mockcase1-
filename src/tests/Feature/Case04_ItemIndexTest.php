@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Category;
+use App\Models\Purchase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
