@@ -82,7 +82,8 @@ class Case10_PurchaseTest extends TestCase
         ]);
 
         // 3. 期待挙動の検証: Itemのis_soldフラグがtrueに更新されたこと
-        $this->assertTrue($this->item->fresh()->is_sold);
+        $this->item = $this->item->fresh(); // テストクラスのプロパティを最新の状態に上書き
+        $this->assertTrue($this->item->is_sold);
     }
 
     /**
