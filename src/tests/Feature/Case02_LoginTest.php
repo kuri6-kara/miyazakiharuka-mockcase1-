@@ -9,7 +9,7 @@ use Tests\TestCase;
 /**
  * ログイン機能の機能テスト
  */
-class LoginTest extends TestCase
+class Case02_LoginTest extends TestCase
 {
     use RefreshDatabase;
 

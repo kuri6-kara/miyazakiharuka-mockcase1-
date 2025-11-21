@@ -10,7 +10,7 @@ use Tests\TestCase;
 /**
  * コメント機能の機能テスト
  */
-class CommentTest extends TestCase
+class Case09_CommentTest extends TestCase
 {
     use RefreshDatabase;
 

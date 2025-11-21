@@ -14,7 +14,7 @@ use Tests\TestCase;
 /**
  * マイリスト機能の機能テスト
  */
-class MylistTest extends TestCase
+class Case05_MylistTest extends TestCase
 {
     use RefreshDatabase;
 

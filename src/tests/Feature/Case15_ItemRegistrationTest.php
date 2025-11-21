@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * 出品商品情報登録機能の機能テスト
  */
-class ItemRegistrationTest extends TestCase
+class Case15_ItemRegistrationTest extends TestCase
 {
     use RefreshDatabase;
 

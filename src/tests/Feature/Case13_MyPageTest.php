@@ -12,7 +12,7 @@ use App\Models\PaymentMethod;
 /**
  * ユーザー情報取得機能の機能テスト
  */
-class MyPageTest extends TestCase
+class Case13_MyPageTest extends TestCase
 {
     use RefreshDatabase;
 

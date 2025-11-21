@@ -12,7 +12,7 @@ use Tests\TestCase;
  * 商品購入機能の機能テスト
  * - ログインユーザーによる商品の購入と、それに伴う状態の変化を検証します。
  */
-class PurchaseTest extends TestCase
+class Case10_PurchaseTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -11,7 +11,7 @@ use App\Models\PaymentMethod;
 /**
  * 配送先変更機能の機能テスト
  */
-class ShippingAddressTest extends TestCase
+class Case12_ShippingAddressTest extends TestCase
 {
     use RefreshDatabase;
 

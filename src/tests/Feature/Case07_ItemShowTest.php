@@ -14,7 +14,7 @@ use Tests\TestCase;
  * 商品詳細情報取得機能の機能テスト
  * - 未認証ユーザーによる商品詳細情報の取得を検証
  */
-class ItemShowTest extends TestCase
+class Case07_ItemShowTest extends TestCase
 {
     use RefreshDatabase;
 

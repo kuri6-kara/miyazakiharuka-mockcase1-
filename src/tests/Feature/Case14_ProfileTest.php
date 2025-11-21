@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 /**
  * ユーザー情報変更機能の機能テスト
  */
-class ProfileTest extends TestCase
+class Case14_ProfileTest extends TestCase
 {
     use RefreshDatabase;
 

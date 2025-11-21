@@ -11,7 +11,7 @@ use Tests\TestCase;
 /**
  * 商品検索機能の機能テスト
  */
-class ItemSearchTest extends TestCase
+class Case06_ItemSearchTest extends TestCase
 {
     use RefreshDatabase;
 

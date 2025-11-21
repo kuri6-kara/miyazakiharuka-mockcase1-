@@ -12,7 +12,7 @@ use Tests\TestCase;
  * いいね機能の機能テスト (ID: 8)
  * - ログインユーザーによるいいねの登録・解除および数の検証を行います。
  */
-class LikeTest extends TestCase
+class Case08_LikeTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -11,7 +11,7 @@ use App\Models\PaymentMethod;
 /**
  * 支払い方法選択機能の機能テスト
  */
-class PaymentMethodTest extends TestCase
+class Case11_PaymentMethodTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -9,7 +9,7 @@ use Tests\TestCase;
 /**
  * ログアウト機能の機能テスト
  */
-class LogoutTest extends TestCase
+class Case03_LogoutTest extends TestCase
 {
     use RefreshDatabase;
 
