@@ -64,16 +64,16 @@ class Case06_ItemSearchTest extends TestCase
         $searchKeyword = 'Tシャツ';
 
         // 2. 実行: 未認証ユーザーとして、検索キーワード付きでアクセス
-        // 未認証ユーザーはデフォルトで「おすすめ」タブ（全商品カタログ）になる
-        $response = $this->get('/', [
+        $response = $this->get(route('item.index', [
             'keyword' => $searchKeyword,
             'tab' => 'recommend'
-        ]);
+        ]));
 
         // 3. 検証:
         $response->assertStatus(200);
         $response->assertSeeText($hitItem1->name);
         $response->assertSeeText($hitItem2->name);
+        // パラメータが正しく渡され、検索が機能している場合、'ジーンズ' は表示されない
         $response->assertDontSeeText($missItem->name);
     }
 
@@ -88,18 +88,22 @@ class Case06_ItemSearchTest extends TestCase
         $searchKeyword = '限定品';
 
         // 2. 検索実行: ログインし、検索キーワード付きでホームページにアクセス
-        $this->actingAs($this->loggedInUser)->get('/', [
+        $this->actingAs($this->loggedInUser)->get(route('item.index', [
             'keyword' => $searchKeyword,
-            'tab' => 'recommend',
-        ]);
+            'tab' => 'recommend'
+        ]));
 
         // 3. マイリストタブへの遷移を実行 (クエリパラメータを保持したままタブ切り替え)
-        $response = $this->actingAs($this->loggedInUser)->get('/?keyword=' . $searchKeyword . '&tab=mylist');
+        $response = $this->actingAs($this->loggedInUser)->get(route('item.index', [
+            'keyword' => $searchKeyword,
+            'tab' => 'mylist'
+        ]));
 
         // 4. 検証:
         $response->assertStatus(200);
 
         // - 検索キーワードが入力フィールドに保持されていることを確認
+        // 'name="keyword"' の後の 'value="' + $searchKeyword + '"' をチェック
         $response->assertSeeInOrder([
             'name="keyword"',
             'value="' . $searchKeyword . '"'
