@@ -19,20 +19,24 @@ class ItemSeeder extends Seeder
     {
         Storage::disk('public')->deleteDirectory('item_images');
 
-        $user = User::first();
-        if (!$user) {
-            $user = User::create([
-                'name' => 'Test User',
-                'email' => 'test@example.com',
-                'password' => bcrypt('password'),
-                'profile_updated' => true,
-            ]);
-        }
+        $user = User::create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => bcrypt('password'),
+            'profile_updated' => true,
+        ]);
+        $user2 = User::create([
+            'name' => 'Test2 User',
+            'email' => 'test2@example.com',
+            'password' => bcrypt('password'),
+            'profile_updated' => true,
+        ]);
 
         $categories = Category::all();
 
         $items_data = [
             [
+                'user_id' => $user->id,
                 'name' => '腕時計',
                 'price' => 15000,
                 'brand_name' => 'Rolex',
@@ -41,6 +45,7 @@ class ItemSeeder extends Seeder
                 'condition' => '良好',
             ],
             [
+                'user_id' => $user2->id,
                 'name' => 'HDD',
                 'price' => 5000,
                 'brand_name' => '東芝',
@@ -49,6 +54,7 @@ class ItemSeeder extends Seeder
                 'condition' => '目立った傷や汚れなし',
             ],
             [
+                'user_id' => $user->id,
                 'name' => '玉ねぎ3束',
                 'price' => 300,
                 'brand_name' => 'なし',
@@ -57,6 +63,7 @@ class ItemSeeder extends Seeder
                 'condition' => 'やや傷や汚れあり',
             ],
             [
+                'user_id' => $user2->id,
                 'name' => '革靴',
                 'price' => 4000,
                 'brand_name' => 'なし',
@@ -65,6 +72,7 @@ class ItemSeeder extends Seeder
                 'condition' => '状態が悪い',
             ],
             [
+                'user_id' => $user->id,
                 'name' => 'ノートPC',
                 'price' => 45000,
                 'brand_name' => '高性能なノートパソコン',
@@ -73,6 +81,7 @@ class ItemSeeder extends Seeder
                 'condition' => '良好',
             ],
             [
+                'user_id' => $user2->id,
                 'name' => 'マイク',
                 'price' => 8000,
                 'brand_name' => 'なし',
@@ -81,6 +90,7 @@ class ItemSeeder extends Seeder
                 'condition' => '目立った傷や汚れなし',
             ],
             [
+                'user_id' => $user->id,
                 'name' => 'ショルダーバッグ',
                 'price' => 3500,
                 'brand_name' => 'おしゃれなショルダーバッグ',
@@ -89,6 +99,7 @@ class ItemSeeder extends Seeder
                 'condition' => 'やや傷や汚れあり',
             ],
             [
+                'user_id' => $user2->id,
                 'name' => 'タンブラー',
                 'price' => 500,
                 'brand_name' => 'なし',
@@ -97,6 +108,7 @@ class ItemSeeder extends Seeder
                 'condition' => '状態が悪い',
             ],
             [
+                'user_id' => $user->id,
                 'name' => 'コーヒーミル',
                 'price' => 4000,
                 'brand_name' => 'Starbucks',
@@ -105,6 +117,7 @@ class ItemSeeder extends Seeder
                 'condition' => '良好',
             ],
             [
+                'user_id' => $user2->id,
                 'name' => 'メイクセット',
                 'price' => 2500,
                 'brand_name' => '便利なメイクアップセット',
@@ -124,7 +137,7 @@ class ItemSeeder extends Seeder
             Storage::disk('public')->put($path, $dummy_image_data);
 
             $item_data = [
-                'user_id' => $user->id,
+                'user_id' => $data['user_id'],
                 'name' => $data['name'],
                 'price' => $data['price'],
                 'brand_name' => $data['brand_name'],
