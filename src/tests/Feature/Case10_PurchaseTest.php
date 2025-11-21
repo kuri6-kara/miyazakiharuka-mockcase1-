@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 /**
  * 商品購入機能の機能テスト
- * - ログインユーザーによる商品の購入と、それに伴う状態の変化を検証します。
+ * - ログインユーザーによる商品の購入と、それに伴う状態の変化を検証
  */
 class Case10_PurchaseTest extends TestCase
 {
@@ -120,8 +120,10 @@ class Case10_PurchaseTest extends TestCase
             'payment_method_id' => $this->paymentMethod->id,
         ]);
 
-        // 1. 実行: 購入者（$this->buyer）としてプロフィールページ（購入履歴）を開く
-        $response = $this->actingAs($this->buyer)->get(route('user.mypage'));
+        // 1. 実行: 購入者（$this->buyer）としてプロフィールページを開く
+        $response = $this->actingAs($this->buyer)->get(route('user.mypage', [
+            'page' => 'buy'
+        ]));
 
         // 2. 期待挙動の検証: ページ上に購入した商品の名前が表示されていること
         $response->assertSee($this->item->name);
