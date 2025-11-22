@@ -91,9 +91,13 @@ class Case13_MyPageTest extends TestCase
         // ログインユーザーが出品した商品名が表示されていることを確認
         $response->assertSeeText($this->itemSold->name);
 
-        // 5. 期待挙動の検証: 購入した商品一覧が表示されていること
+        // --- 購入した商品一覧の検証 ---
 
+        // 5. 実行: クエリパラメータ 'page=buy' を付けて購入一覧のタブにアクセス
+        $response_buy = $this->actingAs($this->buyer)->get(route('user.mypage', ['page' => 'buy']));
+
+        // 6. 期待挙動の検証: 購入した商品名が表示されていることを確認
         // ログインユーザーが購入した商品名が表示されていることを確認
-        $response->assertSeeText($this->itemBought->name);
+        $response_buy->assertSeeText($this->itemBought->name);
     }
 }
