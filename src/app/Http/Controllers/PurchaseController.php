@@ -127,7 +127,7 @@ class PurchaseController extends Controller
             ]);
 
             $item->is_sold = true;
-            $item->update();
+            $item->save();
 
             $request->session()->forget('shipping_address');
             $request->session()->forget('selected_payment_method_id');
