@@ -19,6 +19,11 @@ class Item extends Model
         'is_sold',
     ];
 
+    protected $casts = [
+    'is_sold' => 'boolean',
+];
+
+
     public function user()
     {
         return $this->belongsTo(User::class);
