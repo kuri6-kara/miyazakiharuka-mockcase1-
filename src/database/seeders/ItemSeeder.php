@@ -122,7 +122,7 @@ class ItemSeeder extends Seeder
                 'price' => 2500,
                 'brand_name' => '便利なメイクアップセット',
                 'description' => '目立った傷や汚れなし',
-                'item_image_path' => '外出メイクアップセット.jpg',
+                'item_image_path' => 'makeup_set.jpg',
                 'condition' => '目立った傷や汚れなし',
             ],
         ];
