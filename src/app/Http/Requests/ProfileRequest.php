@@ -26,10 +26,10 @@ class ProfileRequest extends FormRequest
     {
         return [
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'name' => 'required|string|max:255',
-            'postcode' => 'required|string|max:8',
-            'address' => 'required|string|max:255',
-            'building' => 'nullable|string|max:255',
+            'name' => 'required|max:255',
+            'postcode' => 'required|max:8',
+            'address' => 'required|max:255',
+            'building' => 'nullable|max:255',
         ];
     }
 
@@ -46,18 +46,14 @@ class ProfileRequest extends FormRequest
             'profile_image.max' => 'プロフィール画像としてアップロードできるファイルのサイズは2MBまでです。',
 
             'name.required' => 'ユーザー名は必ず入力してください。',
-            'name.string' => 'ユーザー名は文字列で入力してください。',
             'name.max' => 'ユーザー名は255文字以内で入力してください。',
 
             'postcode.required' => '郵便番号は必ず入力してください。',
-            'postcode.string' => '郵便番号は文字列で入力してください。',
             'postcode.max' => '郵便番号は8文字以内で入力してください。',
 
             'address.required' => '住所は必ず入力してください。',
-            'address.string' => '住所は文字列で入力してください。',
             'address.max' => '住所は255文字以内で入力してください。',
 
-            'building.string' => '建物名は文字列で入力してください。',
             'building.max' => '建物名は255文字以内で入力してください。',
         ];
     }
