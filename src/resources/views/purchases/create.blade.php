@@ -39,8 +39,9 @@
                             @endforeach
                         </select>
 
+                        {{-- エラーメッセージのクラスを修正 --}}
                         @if ($errors->has('payment_method_id'))
-                        <p class="mt-1 text-red-500 text-sm">{{ $errors->first('payment_method_id') }}</p>
+                        <p class="error-message">{{ $errors->first('payment_method_id') }}</p>
                         @endif
                     </div>
                 </div>
@@ -48,8 +49,9 @@
                 <div class="shipping-info">
                     <h2 class="section-heading">配送先</h2>
 
+                    {{-- エラーメッセージのクラスを修正 --}}
                     @if ($errors->has('shipping_address_set'))
-                    <p class="mt-1 text-red-500 text-sm">{{ $errors->first('shipping_address_set') }}</p>
+                    <p class="error-message">{{ $errors->first('shipping_address_set') }}</p>
                     @endif
 
                     <div class="shipping-actions">

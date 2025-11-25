@@ -152,6 +152,14 @@
     background-color: #e63900;
 }
 
+.error-message {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+
 @media (max-width: 1000px) {
     .purchase-container {
         padding-left: 20px;
