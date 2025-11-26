@@ -17,8 +17,6 @@ class ItemSeeder extends Seeder
      */
     public function run()
     {
-        Storage::disk('public')->deleteDirectory('item_images');
-
         $user = User::create([
             'name' => 'Test User',
             'email' => 'test@example.com',
@@ -127,14 +125,9 @@ class ItemSeeder extends Seeder
             ],
         ];
 
-        $dummy_image_data = base64_decode('R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
-
-
         foreach ($items_data as $data) {
             $filename = $data['item_image_path'];
             $path = 'item_images/' . $filename;
-
-            Storage::disk('public')->put($path, $dummy_image_data);
 
             $item_data = [
                 'user_id' => $data['user_id'],
